@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is the main layout(vertical view) it makes all the buttons, calls the color off the xml file, then calls the title off the String.xml.-->
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:padding="30dip"
+		android:orientation="horizontal" >
+		
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:layout_gravity="center" >
+	<TextView
+		android:text="@string/happysad_name"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginBottom="25dip"
+		android:textSize="24.5sp" />
+	<Button
+		android:id="@+id/happy_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/happy_prompt" />
+	<Button
+		android:id="@+id/sad_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/sad_prompt" />
+
+	</LinearLayout>
+</LinearLayout>
