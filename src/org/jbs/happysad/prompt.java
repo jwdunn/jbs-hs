@@ -24,20 +24,28 @@ public class prompt extends Activity implements OnClickListener{
       
       View happyButton = findViewById(R.id.happy_button);
   	  happyButton.setOnClickListener(this);
+  	  View sadButton = findViewById(R.id.sad_button);
+  	  sadButton.setOnClickListener(this);
   }
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
+		
 			Log.d(TAG, "clicked" + v.getId());
 			System.out.println(TAG + "clicked" + v.getId());
 			switch(v.getId()) {
 			case R.id.happy_button:
 				Log.d(TAG, "case" + v.getId()); 
 				Intent i = new Intent(this, More.class);
+				i.putExtra("Clicked", "Happy");
 				startActivity(i);
 				break;
-			
+			case R.id.sad_button:
+				Log.d(TAG, "case" + v.getId());
+				Intent j = new Intent(this, More.class);
+				j.putExtra("Clicked", "Sad");
+				startActivity(j);
+				break;
 			
 			}
 		}

@@ -16,7 +16,8 @@ public final class R {
     }
     public static final class id {
         public static final int happy_button=0x7f050000;
-        public static final int more_to_dash=0x7f050002;
+        public static final int more_text=0x7f050002;
+        public static final int more_to_dash=0x7f050003;
         public static final int sad_button=0x7f050001;
     }
     public static final class layout {
