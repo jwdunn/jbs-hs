@@ -29,6 +29,7 @@ public final class R {
         public static final int happy_prompt=0x7f040002;
         public static final int happysad_name=0x7f040004;
         public static final int hello=0x7f040000;
+        public static final int more_hint_text=0x7f040008;
         public static final int more_name=0x7f040007;
         public static final int more_question=0x7f040005;
         public static final int sad_prompt=0x7f040003;
