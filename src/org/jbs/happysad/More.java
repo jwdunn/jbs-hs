@@ -37,7 +37,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener{
 		System.out.println(TAG + "clicked" + v.getId());
 		switch(v.getId()) {
 		case R.id.more_to_dash:
-			Intent i = new Intent(this, Prompt.class);
+			Intent i = new Intent(this, Dashboard.class);
 			
 			String userstring = 
 				(

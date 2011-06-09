@@ -1,14 +1,11 @@
 package org.jbs.happysad;
 
-
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
+//import android.widget.TextView;
 import android.util.Log;
 
 
@@ -29,9 +26,9 @@ public class Prompt extends Activity implements OnClickListener{
   	  sadButton.setOnClickListener(this);
   	  
   	  Intent sender = getIntent();
-  	  TextView t = (TextView)findViewById(R.id.welcome_title);
+  //	  TextView t = (TextView)findViewById(R.id.welcome_title);
   	  
-  	  String extradata = "\nwelcome!";
+  	//  String extradata = "\nwelcome!";
   	  
 
   	  try {
@@ -39,7 +36,7 @@ public class Prompt extends Activity implements OnClickListener{
   	  	Bundle b = sender.getExtras();
   	  	Log.d(TAG, "getting data from previous intent: extradata");
   	  	Log.d(TAG, b.getString("textboxmessage"));
-  	  	extradata = b.getString("textboxmessage");
+  	  //	extradata = b.getString("textboxmessage");
   	  	
   	  	
   	  	
@@ -52,7 +49,7 @@ public class Prompt extends Activity implements OnClickListener{
   	  		Log.d(TAG, e.toString());
   	  }
   	  finally{
-  	  	t.append("\n"+ extradata);
+  	  	//t.append("\n"+ extradata);
   	  }
   	  
   }
