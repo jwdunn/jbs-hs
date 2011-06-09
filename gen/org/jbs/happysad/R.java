@@ -15,12 +15,11 @@ public final class R {
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int exit_button=0x7f050002;
-        public static final int happy_button=0x7f050003;
-        public static final int more_text=0x7f050005;
-        public static final int more_textbox=0x7f050006;
-        public static final int more_to_dash=0x7f050007;
-        public static final int sad_button=0x7f050004;
+        public static final int happy_button=0x7f050002;
+        public static final int more_text=0x7f050004;
+        public static final int more_textbox=0x7f050005;
+        public static final int more_to_dash=0x7f050006;
+        public static final int sad_button=0x7f050003;
         public static final int update_button=0x7f050001;
         public static final int welcome_title=0x7f050000;
     }
@@ -32,7 +31,6 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f040001;
         public static final int dashboard_name=0x7f040009;
-        public static final int exit_prompt=0x7f04000b;
         public static final int happy_prompt=0x7f040002;
         public static final int happysad_name=0x7f040004;
         public static final int hello=0x7f040000;

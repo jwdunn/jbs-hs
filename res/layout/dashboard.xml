@@ -25,11 +25,5 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/update_prompt" />
-	<Button
-		android:id="@+id/exit_button"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/exit_prompt" />
-
 	</LinearLayout>
 </LinearLayout>

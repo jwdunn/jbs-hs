@@ -10,7 +10,5 @@
 		<string name="more_name">More!</string>
 		<string name="more_hint_text">Why?</string>
 	<string name ="dashboard_name">Dashboard</string>
-		<string name="update_prompt">Update</string>
-		<string name="exit_prompt">Exit</string>
-	
+		<string name="update_prompt">Update</string>	
 </resources>
