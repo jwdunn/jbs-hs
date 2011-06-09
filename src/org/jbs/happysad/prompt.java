@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.util.Log;
 
 
@@ -26,6 +27,34 @@ public class prompt extends Activity implements OnClickListener{
   	  happyButton.setOnClickListener(this);
   	  View sadButton = findViewById(R.id.sad_button);
   	  sadButton.setOnClickListener(this);
+  	  
+  	  Intent sender = getIntent();
+  	  TextView t = (TextView)findViewById(R.id.welcome_title);
+  	  
+  	  String extradata = "\nwelcome!";
+  	  
+
+  	  try {
+  	  	Log.d(TAG, "getting data from previous intent: bundle");
+  	  	Bundle b = sender.getExtras();
+  	  	Log.d(TAG, "getting data from previous intent: extradata");
+  	  	Log.d(TAG, b.getString("textboxmessage"));
+  	  	extradata = b.getString("textboxmessage");
+  	  	
+  	  	
+  	  	
+  	  	
+  	  }
+  	  catch (Exception e) {
+  	  		//do nothing
+  	  		Log.d(TAG, "no worries - the first time you run this activity of course you will have no extra data.");
+  	  		//no worries - the first time you run this activity of course you will have no extra data.
+  	  		Log.d(TAG, e.toString());
+  	  }
+  	  finally{
+  	  	t.append("\n"+ extradata);
+  	  }
+  	  
   }
 
 		@Override

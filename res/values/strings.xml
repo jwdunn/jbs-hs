@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, prompt!</string>
-    <string name="app_name">Happy Sad\new and improved</string>
+    <string name="app_name">Happy Sad\nnew and improved</string>
     <string name="happy_prompt">Happier</string>
     <string name="sad_prompt">Unhappiest</string>
     <string name="happysad_name">Welcome to Happy Sad</string>

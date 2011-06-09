@@ -13,6 +13,7 @@
 		android:layout_width="fill_parent"
 		android:layout_gravity="center" >
 	<TextView
+		android:id="@+id/welcome_title"
 		android:text="@string/happysad_name"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
