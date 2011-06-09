@@ -11,10 +11,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.os.Bundle;
 
-
-
 public class More extends Activity implements OnKeyListener, OnClickListener{
 	private static final String TAG = "there's more screen";
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
@@ -31,48 +30,44 @@ public class More extends Activity implements OnKeyListener, OnClickListener{
 		
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
- }
+	}
  
-		@Override
-		public void onClick(View v) {
-			Log.d(TAG, "clicked" + v.getId());
-			System.out.println(TAG + "clicked" + v.getId());
-			switch(v.getId()) {
-			case R.id.more_to_dash:
-				Intent i = new Intent(this, prompt.class);
-				
-				String userstring = 
-					(
-							(TextView)
-							findViewById(R.id.more_textbox)
-					).getText().toString();
-				
-				i.putExtra("textboxmessage", userstring);
-				Log.d(TAG, "adding " + userstring +	" to intent");
-
-				startActivity(i);		
-				break;
-		}
-	 }
-		
-		//got following code from :http://stackoverflow.com/questions/2004344/android-edittext-imeoptions-done-track-finish-typing
-		@Override
-		public boolean onKey(View v, int keyCode, KeyEvent event)
-		{
+	public void onClick(View v) {
+		Log.d(TAG, "clicked" + v.getId());
+		System.out.println(TAG + "clicked" + v.getId());
+		switch(v.getId()) {
+		case R.id.more_to_dash:
+			Intent i = new Intent(this, Prompt.class);
 			
-		    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-		        (keyCode == KeyEvent.KEYCODE_ENTER))
-		    {
-		        // Done pressed!  Do something here.
-		    	EditText t = (EditText) v;
-		    	Log.d(TAG, "text entered: " + t.getText() );
-		    	this.onClick(findViewById(R.id.more_to_dash));
-		    	//Intent i = new Intent(this, prompt.class);
-					//startActivity(i);
-		    	
-		    	
-		    }
-		    // Returning false allows other listeners to react to the press.
-		    return false;
+			String userstring = 
+				(
+						(TextView)
+						findViewById(R.id.more_textbox)
+				).getText().toString();
+			
+			i.putExtra("textboxmessage", userstring);
+			Log.d(TAG, "adding " + userstring +	" to intent");
+			startActivity(i);		
+			break;
 		}
+	}
+		
+	//got following code from :http://stackoverflow.com/questions/2004344/android-edittext-imeoptions-done-track-finish-typing
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+		
+	    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+	        (keyCode == KeyEvent.KEYCODE_ENTER))
+	    {
+	       // Done pressed!  Do something here.
+	    	EditText t = (EditText) v;
+	    	Log.d(TAG, "text entered: " + t.getText() );
+	    	this.onClick(findViewById(R.id.more_to_dash));
+	    	//Intent i = new Intent(this, prompt.class);
+			//startActivity(i);
+	    	
+	    	
+	    }
+	    // Returning false allows other listeners to react to the press.
+	    return false;
+	}
 }
