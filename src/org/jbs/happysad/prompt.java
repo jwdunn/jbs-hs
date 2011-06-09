@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.util.Log;
 
 
-public class prompt extends Activity implements OnClickListener{
+public class Prompt extends Activity implements OnClickListener{
 	private static final String TAG = "happy sad prompt";
 	
 	/** Called when the activity is first created. */
@@ -56,8 +56,6 @@ public class prompt extends Activity implements OnClickListener{
   	  }
   	  
   }
-
-		@Override
 		public void onClick(View v) {
 		
 			Log.d(TAG, "clicked" + v.getId());

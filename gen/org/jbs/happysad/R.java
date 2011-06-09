@@ -28,6 +28,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040001;
+        public static final int dashboard_name=0x7f040009;
         public static final int happy_prompt=0x7f040002;
         public static final int happysad_name=0x7f040004;
         public static final int hello=0x7f040000;

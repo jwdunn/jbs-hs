@@ -6,13 +6,17 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <application android:icon="@drawable/happysad" android:label="@string/app_name">
-      
+     
+      <activity android:name=".Dashboard"
+        					android:label="@string/dashboard_name">
+        				
+        </activity>
       
        <activity android:name=".More"
         					android:label="@string/more_name">
         				
         </activity>
-        <activity android:name=".prompt"
+        <activity android:name=".Prompt"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
