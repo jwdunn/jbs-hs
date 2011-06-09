@@ -25,8 +25,6 @@ public class Dashboard extends Activity implements OnClickListener{
       
       View updateButton = findViewById(R.id.update_button);
   	  updateButton.setOnClickListener(this);
-  	  View exitButton = findViewById(R.id.exit_button);
-  	  exitButton.setOnClickListener(this);
   	  
   	  Intent sender = getIntent();
   	  TextView t = (TextView)findViewById(R.id.welcome_title);
@@ -67,9 +65,6 @@ public class Dashboard extends Activity implements OnClickListener{
 				Intent i = new Intent(this, Prompt.class);
 				i.putExtra("Clicked", "Happy");
 				startActivity(i);
-				break;
-			case R.id.exit_button:
-				finish();
 				break;
 			}
 		}
