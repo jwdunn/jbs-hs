@@ -62,7 +62,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener{
 	    	EditText t = (EditText) v;
 	    	Log.d(TAG, "text entered: " + t.getText() );
 	    	this.onClick(findViewById(R.id.more_to_dash));
-	    	//Intent i = new Intent(this, prompt.class);
+	    	//Intent i = new Intent(this, Prompt.class);
 			//startActivity(i);
 	    	
 	    	
