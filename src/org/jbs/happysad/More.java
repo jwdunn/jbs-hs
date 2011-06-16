@@ -1,5 +1,5 @@
 package org.jbs.happysad;
-
+//joseph is my names
 import android.app.Activity;
 import android.content.Intent;
 import android.widget.EditText;
