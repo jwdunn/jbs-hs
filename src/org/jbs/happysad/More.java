@@ -35,33 +35,30 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	String extradata;
 	
 	public void onCreate(Bundle savedInstanceState) {
+		//basic stuff
 		Log.d(TAG, "entering oncreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
-
+		//figure out whether they clicked happy or sad
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
-
+		//emotion is an int, Clicked gets you a string
+		emotion = sender.getExtras().getInt("Emotion");
+		
+		//for now, we're showing "happy" or "sad" depending on what the previous click was.
 		TextView t = (TextView) findViewById(R.id.more_text);
 		t.setText(extradata);
 
-		emotion = sender.getExtras().getInt("Emotion");
-		
-		
-		
-		
+		//Setting up the layout etc
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
 		textField.setOnKeyListener(this);
-
-
 		TextView locationView = (TextView) findViewById(R.id.location);
 		locationView.setText("unknown");
 
-
+		//now we're getting a handle on the database
 		updates = new HappyData(this);
 		
-		
-
+		//setting up buttons
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 
