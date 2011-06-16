@@ -22,6 +22,11 @@
 		android:id="@+id/update_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/update_prompt" android:layout_gravity="top"/>
+		android:text="@string/update_prompt" />
+	<Button
+		android:id="@+id/history_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/history_prompt" />
 	</LinearLayout>
 </LinearLayout>

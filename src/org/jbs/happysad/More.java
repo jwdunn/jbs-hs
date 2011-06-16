@@ -1,8 +1,18 @@
 package org.jbs.happysad;
 
+import static android.provider.BaseColumns._ID;
+import static org.jbs.happysad.Constants.EMO;
+import static org.jbs.happysad.Constants.LAT;
+import static org.jbs.happysad.Constants.LONG;
+import static org.jbs.happysad.Constants.MSG;
+import static org.jbs.happysad.Constants.TABLE_NAME;
+import static org.jbs.happysad.Constants.TIME;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
@@ -17,8 +27,13 @@ import android.os.Bundle;
 
 public class More extends Activity implements OnKeyListener, OnClickListener {
 	private static final String TAG = "there's more screen";
-	String extradata;
 
+	private static String[] FROM = { _ID, LAT, LONG, EMO, MSG, TIME, };
+	private static String ORDER_BY = TIME + " DESC";
+	private HappyData updates;
+	int emotion = -1;
+	String extradata;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "entering oncreate");
 		super.onCreate(savedInstanceState);
@@ -30,11 +45,22 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		TextView t = (TextView) findViewById(R.id.more_text);
 		t.setText(extradata);
 
-		EditText textField = (EditText) findViewById(R.id.more_textbox);
+		emotion = sender.getExtras().getInt("Emotion");
+		
+		
+		
+		
+		EditText textField = (EditText)findViewById(R.id.more_textbox);
 		textField.setOnKeyListener(this);
+
 
 		TextView locationView = (TextView) findViewById(R.id.location);
 		locationView.setText("unknown");
+
+
+		updates = new HappyData(this);
+		
+		
 
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
@@ -98,15 +124,30 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		case R.id.more_to_dash:
 			Intent i = new Intent(this, Dashboard.class);
 
-			String userstring = ((TextView) findViewById(R.id.more_textbox))
-					.getText().toString();
 
+			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+			try {
+				saveUpdate(userstring); 
+			    
+			} finally {
+				updates.close(); 
+			}
 			i.putExtra("textboxmessage", userstring);
 			i.putExtra("happysaddata", extradata);
 			Log.d(TAG, "adding " + userstring + " to intent");
 			startActivity(i);
+
 			break;
 		}
+	}
+	
+	private void saveUpdate(String msg){
+		SQLiteDatabase db = updates.getWritableDatabase();
+		ContentValues values = basicValues(emotion);
+		values.put(MSG, msg);
+		db.insertOrThrow(TABLE_NAME, null, values);
+		Log.d(TAG, "saved update to db");
+		updates.close();
 	}
 
 	// got following code from
@@ -126,5 +167,18 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		// Returning false allows other listeners to react to the press.
 		return false;
 	}
+
+	
+	private ContentValues basicValues(int emo){
+		//for basic updates	
+			
+			ContentValues values = new ContentValues();
+		    values.put(TIME, System.currentTimeMillis());
+		    //values.put(LAT, <latitude>);
+		    //values.put(LONG, <longitude>);
+		    values.put(EMO, emo);
+		    return values;
+		 
+		}
 
 }
