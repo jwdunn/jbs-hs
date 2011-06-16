@@ -11,8 +11,8 @@ import android.util.Log;
 
 public class Prompt extends Activity implements OnClickListener{
 	private static final String TAG = "happy sad prompt";
-	
-	
+
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class Prompt extends Activity implements OnClickListener{
   	  
   }
 		public void onClick(View v) {
-		
+
 			Log.d(TAG, "clicked" + v.getId());
 			System.out.println(TAG + "clicked" + v.getId());
 			switch(v.getId()) {
@@ -72,7 +72,7 @@ public class Prompt extends Activity implements OnClickListener{
 				j.putExtra("Clicked", "Sad");
 				startActivity(j);
 				break;
-			
+
 			}
 		}
 }
