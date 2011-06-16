@@ -121,8 +121,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		int x = 0;
 		System.out.println(x);
 		//redundant V
-		//double longitude = location.getLongitude();
-		//double latitude = location.getLatitude();
+		double longitude = location.getLongitude();
+		double latitude = location.getLatitude();
 		TextView locationView = (TextView) findViewById(R.id.location);
 		locationView.setText("unknown");
 		locationView.setText("lat = " + latitude + " long = " + longitude);
