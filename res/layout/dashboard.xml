@@ -10,20 +10,23 @@
 	<LinearLayout
 		android:orientation="vertical"
 		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:layout_gravity="center" >
+		android:layout_width="fill_parent" android:layout_gravity="top">
 	<TextView
 		android:id="@+id/welcome_title"
 		android:text="@string/dashboard_name"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_gravity="center"
 		android:layout_marginBottom="25dip"
-		android:textSize="24.5sp" />
+		android:textSize="24.5sp" android:layout_gravity="center_horizontal"/>
 	<Button
 		android:id="@+id/update_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/update_prompt" />
+	<Button
+		android:id="@+id/history_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/history_prompt" />
 	</LinearLayout>
 </LinearLayout>

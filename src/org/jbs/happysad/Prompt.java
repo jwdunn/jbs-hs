@@ -13,7 +13,8 @@ import android.util.Log;
 
 public class Prompt extends Activity implements OnClickListener{
 	private static final String TAG = "happy sad prompt";
-	
+
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class Prompt extends Activity implements OnClickListener{
   	  
   }
 		public void onClick(View v) {
-		
+
 			Log.d(TAG, "clicked" + v.getId());
 			System.out.println(TAG + "clicked" + v.getId());
 			switch(v.getId()) {
@@ -37,15 +38,17 @@ public class Prompt extends Activity implements OnClickListener{
 				Log.d(TAG, "case" + v.getId()); 
 				Intent i = new Intent(this, More.class);
 				i.putExtra("Clicked", "Happy");
+				i.putExtra("Emotion", 1);
 				startActivity(i);
 				break;
 			case R.id.sad_button:
 				Log.d(TAG, "case" + v.getId());
 				Intent j = new Intent(this, More.class);
 				j.putExtra("Clicked", "Sad");
+				j.putExtra("Emotion", 0);
 				startActivity(j);
 				break;
-			
+
 			}
 		}
 		

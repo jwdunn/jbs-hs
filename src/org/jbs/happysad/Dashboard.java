@@ -26,6 +26,9 @@ public class Dashboard extends Activity implements OnClickListener{
       View updateButton = findViewById(R.id.update_button);
   	  updateButton.setOnClickListener(this);
   	  
+  	  View histButton = findViewById(R.id.history_button);
+ 	  histButton.setOnClickListener(this);
+ 	 
   	  Intent sender = getIntent();
   	  TextView t = (TextView)findViewById(R.id.welcome_title);
   	  
@@ -38,8 +41,6 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	Log.d(TAG, "getting data from previous intent: extradata");
   	  	Log.d(TAG, b.getString("textboxmessage"));
   	  	extradata = b.getString("textboxmessage");
-  	  	
-  	  	
   	  	
   	  	
   	  }
@@ -66,9 +67,15 @@ public class Dashboard extends Activity implements OnClickListener{
 			i.putExtra("Clicked", "Happy");
 			startActivity(i);
 			break;
+		
+		case R.id.history_button:
+			Log.d(TAG, "case" + v.getId());
+			Intent j = new Intent(this, Updates.class);
+			startActivity(j);
+			break;
 		}
 	}
-		
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -76,7 +83,7 @@ public class Dashboard extends Activity implements OnClickListener{
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-		
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -88,3 +95,4 @@ public class Dashboard extends Activity implements OnClickListener{
 	return false;
 	}
 }
+
