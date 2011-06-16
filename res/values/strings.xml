@@ -11,4 +11,6 @@
 		<string name="more_hint_text">Why?</string>
 	<string name ="dashboard_name">Dashboard</string>
 		<string name="update_prompt">Update</string>	
+		<string name="im_happy">Im Happy</string>
+		<string name="im_sad">Im Sad</string>
 </resources>
