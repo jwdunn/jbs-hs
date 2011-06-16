@@ -188,7 +188,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
-	// More items go here (if any) ...
+			// More items go here (if any) ...
 		}
 	return false;
 	}
