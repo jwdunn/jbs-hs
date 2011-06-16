@@ -15,18 +15,22 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int happysad=0x7f020000;
-        public static final int icon=0x7f020001;
+        public static final int frown=0x7f020000;
+        public static final int happysad=0x7f020001;
+        public static final int icon=0x7f020002;
+        public static final int smile=0x7f020003;
     }
     public static final class id {
-        public static final int happy_button=0x7f080004;
+        public static final int happy_button=0x7f080007;
         public static final int history_button=0x7f080002;
-        public static final int location=0x7f080007;
-        public static final int more_text=0x7f080006;
-        public static final int more_textbox=0x7f080008;
-        public static final int more_to_dash=0x7f080009;
-        public static final int sad_button=0x7f080005;
-        public static final int settings=0x7f08000a;
+        public static final int linearLayout1=0x7f080004;
+        public static final int location=0x7f080009;
+        public static final int more_text=0x7f080008;
+        public static final int more_textbox=0x7f08000a;
+        public static final int more_to_dash=0x7f08000b;
+        public static final int relativeLayout1=0x7f080005;
+        public static final int sad_button=0x7f080006;
+        public static final int settings=0x7f08000c;
         public static final int text=0x7f080003;
         public static final int update_button=0x7f080001;
         public static final int welcome_title=0x7f080000;
@@ -46,6 +50,8 @@ public final class R {
         public static final int happy_prompt=0x7f060001;
         public static final int happysad_name=0x7f060003;
         public static final int history_prompt=0x7f06000a;
+        public static final int im_happy=0x7f06000d;
+        public static final int im_sad=0x7f06000e;
         public static final int more_hint_text=0x7f060007;
         public static final int more_name=0x7f060006;
         public static final int more_question=0x7f060004;
