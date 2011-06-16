@@ -36,7 +36,6 @@ public class Updates extends Activity{
 		setContentView(R.layout.history);
 		updates = new HappyData(this);
 		try {
-	         addUpdate(1); 
 	         Cursor cursor = getUpdates(); 
 	         showUpdates(cursor); 
 	      } finally {
@@ -77,14 +76,14 @@ public class Updates extends Activity{
 	       long latitude = cursor.getLong(1);
 	       long longitude = cursor.getLong(2);
 	       long emo = cursor.getLong(3);
-	       long msg = cursor.getLong(4);
+	       String msg = cursor.getString(4);
 	       
 	       builder.append(id).append(": "); 
 	       builder.append(latitude).append(": ");
 	       builder.append(longitude).append(": ");
 	       builder.append(emo).append(": ");
 	       builder.append(msg).append(": "); 
-	       builder.append(time).append(": ");
+	       builder.append(time).append("\n");
 
 	    }
 	    // Display on the screen

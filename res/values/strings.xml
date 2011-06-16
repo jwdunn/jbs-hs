@@ -11,4 +11,5 @@
 		<string name="more_hint_text">Why?</string>
 	<string name ="dashboard_name">Dashboard</string>
 		<string name="update_prompt">Update</string>	
+	<string name="history_prompt">HIstory</string>
 </resources>
