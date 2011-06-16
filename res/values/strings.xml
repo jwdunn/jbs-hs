@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, prompt!</string>
     <string name="app_name">Happy Sad</string>
     <string name="happy_prompt">Happy</string>
     <string name="sad_prompt">Sad</string>
@@ -10,5 +9,7 @@
 		<string name="more_name">More!</string>
 		<string name="more_hint_text">Why?</string>
 	<string name ="dashboard_name">Dashboard</string>
-		<string name="update_prompt">Update</string>	
+		<string name="update_prompt">Update</string>
+	<string name="settings_label">Settings</string>
+		<string name="settings_title">Happy Sad Settings</string>
 </resources>
