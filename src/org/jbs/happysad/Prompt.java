@@ -11,7 +11,8 @@ import android.util.Log;
 
 public class Prompt extends Activity implements OnClickListener{
 	private static final String TAG = "happy sad prompt";
-	
+
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,9 @@ public class Prompt extends Activity implements OnClickListener{
   	  try {
   	  	Log.d(TAG, "getting data from previous intent: bundle");
   	  	Bundle b = sender.getExtras();
-  	  	Log.d(TAG, "getting data from previous intent: extradata");
-  	  	Log.d(TAG, b.getString("textboxmessage"));
+  	  	Log.d(TAG, "getting data from previous intent: db");
+  
+  	
   	  //	extradata = b.getString("textboxmessage");
   	  	
   	  	
@@ -44,7 +46,7 @@ public class Prompt extends Activity implements OnClickListener{
   	  }
   	  catch (Exception e) {
   	  		//do nothing
-  	  		Log.d(TAG, "no worries - the first time you run this activity of course you will have no extra data.");
+  	  		Log.d(TAG, "no worries - the first time you run this activity of course you will have no DB to pull from");
   	  		//no worries - the first time you run this activity of course you will have no extra data.
   	  		Log.d(TAG, e.toString());
   	  }
@@ -54,7 +56,7 @@ public class Prompt extends Activity implements OnClickListener{
   	  
   }
 		public void onClick(View v) {
-		
+
 			Log.d(TAG, "clicked" + v.getId());
 			System.out.println(TAG + "clicked" + v.getId());
 			switch(v.getId()) {
@@ -70,7 +72,7 @@ public class Prompt extends Activity implements OnClickListener{
 				j.putExtra("Clicked", "Sad");
 				startActivity(j);
 				break;
-			
+
 			}
 		}
 }
