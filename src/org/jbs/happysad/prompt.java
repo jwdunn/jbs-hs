@@ -57,20 +57,20 @@ public class Prompt extends Activity implements OnClickListener{
 		
 			Log.d(TAG, "clicked" + v.getId());
 			System.out.println(TAG + "clicked" + v.getId());
+			Log.d(TAG, "case" + v.getId()); 
+			Intent i = new Intent(this, More.class);
 			switch(v.getId()) {
 			case R.id.happy_button:
-				Log.d(TAG, "case" + v.getId()); 
-				Intent i = new Intent(this, More.class);
+				
 				i.putExtra("Clicked", "Happy");
-				startActivity(i);
-				break;
+								break;
 			case R.id.sad_button:
-				Log.d(TAG, "case" + v.getId());
-				Intent j = new Intent(this, More.class);
-				j.putExtra("Clicked", "Sad");
-				startActivity(j);
+				
+				i.putExtra("Clicked", "Sad");
+				
 				break;
 			
 			}
+			startActivity(i);
 		}
 }

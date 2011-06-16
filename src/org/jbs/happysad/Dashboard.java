@@ -1,8 +1,5 @@
 package org.jbs.happysad;
 
-
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,8 +35,7 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	Log.d(TAG, "getting data from previous intent: extradata");
   	  	Log.d(TAG, b.getString("textboxmessage"));
   	  	extradata = b.getString("textboxmessage");
-  	  	
-  	  	
+  	  	String happysaddata = b.getString("promptmessage");
   	  	
   	  	
   	  }
