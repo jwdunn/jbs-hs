@@ -9,9 +9,13 @@ import android.app.Activity;
 import android.app.ListActivity;
 //...
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -36,7 +40,6 @@ public class Updates extends Activity{
 		setContentView(R.layout.history);
 		updates = new HappyData(this);
 		try {
-	         addUpdate(1); 
 	         Cursor cursor = getUpdates(); 
 	         showUpdates(cursor); 
 	      } finally {
@@ -77,18 +80,36 @@ public class Updates extends Activity{
 	       long latitude = cursor.getLong(1);
 	       long longitude = cursor.getLong(2);
 	       long emo = cursor.getLong(3);
-	       long msg = cursor.getLong(4);
+	       String msg = cursor.getString(4);
 	       
 	       builder.append(id).append(": "); 
 	       builder.append(latitude).append(": ");
 	       builder.append(longitude).append(": ");
 	       builder.append(emo).append(": ");
 	       builder.append(msg).append(": "); 
-	       builder.append(time).append(": ");
+	       builder.append(time).append("\n");
 
 	    }
 	    // Display on the screen
 	    TextView text = (TextView) findViewById(R.id.text); 
 	    text.setText(builder);
  }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+		
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.settings:
+			startActivity(new Intent(this, Prefs.class));
+			return true;
+			// More items go here (if any) ...
+		}
+	return false;
+	}
 }
