@@ -93,12 +93,18 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, locationListener);
 		
 		//SAHAR STORE FROM HERE!!
-		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		double longitude = location.getLongitude();
-		double latitude = location.getLatitude();
-		makeUseOfNewLocation(location);
 		
+		try {
+			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			double longitude = location.getLongitude();
+			double latitude = location.getLatitude();
+			makeUseOfNewLocation(location);
+		}
+		catch (Exception e){
 		// Remove the listener you previously added
+			Log.d(TAG, "Error");
+		
+		}
 		locationManager.removeUpdates(locationListener);
 	}
 
