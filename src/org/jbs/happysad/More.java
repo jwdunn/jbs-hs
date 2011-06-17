@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -59,6 +62,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		//Setting up the layout etc
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
 		textField.setOnKeyListener(this);
+
 		TextView locationView = (TextView) findViewById(R.id.location);
 		locationView.setText("unknown");
 
@@ -66,6 +70,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		updates = new HappyData(this);
 		
 		//setting up buttons
+
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 
@@ -174,6 +179,26 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		// Returning false allows other listeners to react to the press.
 		return false;
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+		
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.settings:
+			startActivity(new Intent(this, Prefs.class));
+			return true;
+			// More items go here (if any) ...
+		}
+	return false;
+	}
+
 
 	
 	private ContentValues basicValues(int emo, float latitude, float longitude){
