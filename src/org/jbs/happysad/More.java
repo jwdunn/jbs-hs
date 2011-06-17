@@ -30,38 +30,45 @@ import android.os.Bundle;
 
 public class More extends Activity implements OnKeyListener, OnClickListener {
 	private static final String TAG = "there's more screen";
-
+	private float latitude = 5;
+	private float longitude = 5;
 	private static String[] FROM = { _ID, LAT, LONG, EMO, MSG, TIME, };
 	private static String ORDER_BY = TIME + " DESC";
 	private HappyData updates;
 	int emotion = -1;
 	String extradata;
 	
+	
+
+	/**
+	 * Sets up the views and buttons, gets the location, displays the location.
+	 * 
+	 */
 	public void onCreate(Bundle savedInstanceState) {
+		//basic stuff
 		Log.d(TAG, "entering oncreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
-
+		//figure out whether they clicked happy or sad
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
-
+		//emotion is an int, Clicked gets you a string
+		emotion = sender.getExtras().getInt("Emotion");
+		
+		//for now, we're showing "happy" or "sad" depending on what the previous click was.
 		TextView t = (TextView) findViewById(R.id.more_text);
 		t.setText(extradata);
 
-		emotion = sender.getExtras().getInt("Emotion");
-		
-		
-		
-		
+		//Setting up the layout etc
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
 		textField.setOnKeyListener(this);
 
 		TextView locationView = (TextView) findViewById(R.id.location);
 		locationView.setText("unknown");
 
-
+		//now we're getting a handle on the database
 		updates = new HappyData(this);
-		
+		//setting up buttons
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 
@@ -75,19 +82,14 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
-				makeUseOfNewLocation(location);
-			}
+				makeUseOfNewLocation(location);}
 
 			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-			}
+					Bundle extras) {}
 
-			public void onProviderEnabled(String provider) {
-				
-			}
+			public void onProviderEnabled(String provider) {}
 
-			public void onProviderDisabled(String provider) {
-			}
+			public void onProviderDisabled(String provider) {}
 		};
 
 		// Register the listener with the Location Manager to receive location
@@ -98,23 +100,30 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		//SAHAR STORE FROM HERE!!
 		
 		try {
-			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			double longitude = location.getLongitude();
-			double latitude = location.getLatitude();
+			Location location = new Location(LocationManager.GPS_PROVIDER);
+			longitude = (float) location.getLongitude();
+			latitude =  (float) location.getLatitude();
 			makeUseOfNewLocation(location);
 		}
 		catch (Exception e){
 		// Remove the listener you previously added
 			Log.d(TAG, "Error");
-		
 		}
+		
 		locationManager.removeUpdates(locationListener);
 	}
-
+	
+	
+	/**
+	 * Taha wrote this so I'm not sure what it does.
+	 * Seems like it sets up the textview to show your lat/long
+	 * @param location
+	 */
 	private void makeUseOfNewLocation(Location location) {
 		Log.d(TAG, "entering makeuseofnewlocatoin");
 		int x = 0;
 		System.out.println(x);
+		//redundant V
 		double longitude = location.getLongitude();
 		double latitude = location.getLatitude();
 		TextView locationView = (TextView) findViewById(R.id.location);
@@ -129,12 +138,9 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		switch (v.getId()) {
 		case R.id.more_to_dash:
 			Intent i = new Intent(this, Dashboard.class);
-
-
 			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			try {
-				saveUpdate(userstring); 
-			    
+				saveUpdate(userstring); 			    
 			} finally {
 				updates.close(); 
 			}
@@ -142,14 +148,13 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			i.putExtra("happysaddata", extradata);
 			Log.d(TAG, "adding " + userstring + " to intent");
 			startActivity(i);
-
 			break;
 		}
 	}
 	
 	private void saveUpdate(String msg){
 		SQLiteDatabase db = updates.getWritableDatabase();
-		ContentValues values = basicValues(emotion);
+		ContentValues values = basicValues(emotion, latitude, longitude);
 		values.put(MSG, msg);
 		db.insertOrThrow(TABLE_NAME, null, values);
 		Log.d(TAG, "saved update to db");
@@ -168,7 +173,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			this.onClick(findViewById(R.id.more_to_dash));
 			// Intent i = new Intent(this, prompt.class);
 			// startActivity(i);
-
 		}
 		// Returning false allows other listeners to react to the press.
 		return false;
@@ -195,15 +199,16 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 
 
 	
-	private ContentValues basicValues(int emo){
+	private ContentValues basicValues(int emo, float latitude, float longitude){
 		//for basic updates	
-			
-			ContentValues values = new ContentValues();
-		    values.put(TIME, System.currentTimeMillis());
-		    //values.put(LAT, <latitude>);
-		    //values.put(LONG, <longitude>);
-		    values.put(EMO, emo);
-		    return values;
+		ContentValues values = new ContentValues();
+	    values.put(TIME, System.currentTimeMillis());
+	    values.put(LAT, latitude);
+	    values.put(LONG, longitude);
+	    //values.put(LAT, <latitude>);
+	    //values.put(LONG, <longitude>);
+	    values.put(EMO, emo);
+	    return values;
 		 
 		}
 
