@@ -61,5 +61,16 @@ public class HappyBottle {
 		values.put(UID, uid);
 		return values;
 	}
+	public String toString(){
+		String s = "";
+		s += "lat: " + lati + " ";
+		s += "long: " + longi + " ";
+		s += "emo: " + emo + " ";
+		s += "msg: " + msg + " ";
+		s += "time: " + time + " ";
+		s += "uid: " + uid + " ";
+		
+		return s;
+	}
 	
 }
