@@ -11,8 +11,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
@@ -32,11 +30,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	private static final String TAG = "there's more screen";
 	private float latitude = 5;
 	private float longitude = 5;
-	private static String[] FROM = { _ID, LAT, LONG, EMO, MSG, TIME, };
-	private static String ORDER_BY = TIME + " DESC";
-	private HappyData updates;
+	private HappyData dataHelper;
 	int emotion = -1;
 	String extradata;
+	long myID = 1;
 	
 	
 
@@ -56,8 +53,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		emotion = sender.getExtras().getInt("Emotion");
 		
 		//for now, we're showing "happy" or "sad" depending on what the previous click was.
-		TextView t = (TextView) findViewById(R.id.more_text);
-		t.setText(extradata);
+		TextView t = (TextView) findViewById(R.id.more_blank);
+		t.append(extradata);
 
 		//Setting up the layout etc
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
@@ -67,7 +64,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		locationView.setText("unknown");
 
 		//now we're getting a handle on the database
-		updates = new HappyData(this);
+		
 		
 		//setting up buttons
 
@@ -141,11 +138,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		case R.id.more_to_dash:
 			Intent i = new Intent(this, Dashboard.class);
 			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-			try {
-				saveUpdate(userstring); 			    
-			} finally {
-				updates.close(); 
-			}
+			saveUpdate(userstring); 			    
 			i.putExtra("textboxmessage", userstring);
 			i.putExtra("happysaddata", extradata);
 			Log.d(TAG, "adding " + userstring + " to intent");
@@ -155,12 +148,12 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	}
 	
 	private void saveUpdate(String msg){
-		SQLiteDatabase db = updates.getWritableDatabase();
-		ContentValues values = basicValues(emotion, latitude, longitude);
-		values.put(MSG, msg);
-		db.insertOrThrow(TABLE_NAME, null, values);
+		
+		HappyBottle b = new HappyBottle(myID, latitude, longitude, emotion, msg, System.currentTimeMillis());
+		dataHelper = new HappyData(this);
+		dataHelper.addBottle(b);
 		Log.d(TAG, "saved update to db");
-		updates.close();
+	
 	}
 
 	// got following code from
@@ -198,20 +191,5 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 	return false;
 	}
-
-
-	
-	private ContentValues basicValues(int emo, float latitude, float longitude){
-		//for basic updates	
-		ContentValues values = new ContentValues();
-	    values.put(TIME, System.currentTimeMillis());
-	    values.put(LAT, latitude);
-	    values.put(LONG, longitude);
-	    //values.put(LAT, <latitude>);
-	    //values.put(LONG, <longitude>);
-	    values.put(EMO, emo);
-	    return values;
-		 
-		}
 
 }

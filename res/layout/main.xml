@@ -15,8 +15,8 @@
 						android:layout_width="wrap_content" 
 						android:id="@+id/welcome_title" 
 						android:layout_height="match_parent" 
-						android:layout_gravity="top" 
 						android:textSize="24.5sp" 
+						android:layout_gravity="center_horizontal"
 						android:text="@string/happysad_name">
 			</TextView>
 		
@@ -31,11 +31,12 @@
 				android:id="@+id/sad_button" 
 				android:background="@drawable/frown">
 				</Button>
+				
 				<Button android:layout_height="wrap_content" 
 						android:layout_alignParentLeft="true" 
 						android:layout_width="wrap_content" 
 						android:id="@+id/happy_button" 
-						android:background="@drawable/smile"></Button>
+						android:background="@drawable/smile2"></Button>
 			</RelativeLayout>
 			</LinearLayout>
 		</LinearLayout>
