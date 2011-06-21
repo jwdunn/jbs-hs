@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This is the main layout(vertical view) it makes all the buttons, calls the color off the xml file, then calls the title off the String.xml.-->
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_height="fill_parent"
@@ -12,6 +11,12 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:layout_gravity="top">
+	<com.google.android.maps.MapView
+      android:id="@+id/map"
+      android:apiKey="0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ"
+      android:layout_width="fill_parent"
+      android:layout_height="80dp"
+      android:clickable="true" />
 	<TextView
 		android:id="@+id/welcome_title"
 		android:text="@string/dashboard_name"
@@ -31,11 +36,4 @@
 		android:layout_height="wrap_content"
 		android:text="@string/history_prompt" />
 	</LinearLayout>
-		<com.google.android.maps.MapView
-      android:id="@+id/map"
-      android:apiKey="0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ"
-      android:layout_width="fill_parent"
-      android:layout_height="80dp" 
-      android:layout_gravity="bottom"
-      android:clickable="true" />
 </LinearLayout>

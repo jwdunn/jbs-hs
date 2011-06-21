@@ -4,8 +4,6 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.MapActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +12,8 @@ import android.widget.TextView;
 import android.util.Log;
 
 
-public class Dashboard extends Activity implements OnClickListener{
-	private static final String TAG = "happy sad prompt";
+public class Dashboard extends MapActivity {//implements OnClickListener{
+	private static final String TAG = "dashboard";
 	private MapView map;
 	private MapController controller;
 	
@@ -23,12 +21,15 @@ public class Dashboard extends Activity implements OnClickListener{
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	Log.d(TAG, "created"); 
+    	
       super.onCreate(savedInstanceState);
-      System.out.println(TAG + "started");
+      Log.d(TAG, "created");
       setContentView(R.layout.dashboard);
       
-      View updateButton = findViewById(R.id.update_button);
+      initMapView();
+      initMyLocation();
+      
+      /**View updateButton = findViewById(R.id.update_button);
   	  updateButton.setOnClickListener(this);
   	  
   	  View histButton = findViewById(R.id.history_button);
@@ -59,13 +60,10 @@ public class Dashboard extends Activity implements OnClickListener{
   	  finally{
   	  	t.append("\n"+ extradata);
   	  }
-  	  
-
-
- 
+ 	*/
     }
       
-      
+      /**
       public void onClick(View v) {
 		
 			Log.d(TAG, "clicked" + v.getId());
@@ -84,39 +82,42 @@ public class Dashboard extends Activity implements OnClickListener{
 				startActivity(j);
 				break;
 			}
-      }
-      
-      
-      /** Find and initialize the map view. */
-      
-      /*
-      private void initMapView() {
-         map = (MapView) findViewById(R.id.map);
-         controller = map.getController();
-         map.setSatellite(true);
-         map.setBuiltInZoomControls(true);
+			
       }
       */
-
       
-      /** Start tracking the position on the map. */
-      private void initMyLocation() {
-         final MyLocationOverlay overlay = new MyLocationOverlay(this, map);
-         overlay.enableMyLocation();
-         //overlay.enableCompass(); // does not work in emulator
-         overlay.runOnFirstFix(new Runnable() {
-            public void run() {
-               // Zoom in to current location
-               controller.setZoom(8);
-               controller.animateTo(overlay.getMyLocation());
-            }
-         });
-         map.getOverlays().add(overlay);
-      }
-      	
+      /** Find and initialize the map view. */
+      private void initMapView() {
+          map = (MapView) findViewById(R.id.map);
+          controller = map.getController();
+          map.setSatellite(true);
+          map.setBuiltInZoomControls(true);
+       }
+       
 
-      protected boolean isRouteDisplayed() {
-         // Required by MapActivity
-         return false;
-      }
+       
+       /** Start tracking the position on the map. */
+       private void initMyLocation() {
+          final MyLocationOverlay overlay = new MyLocationOverlay(this, map);
+          overlay.enableMyLocation();
+          //overlay.enableCompass(); // does not work in emulator
+          overlay.runOnFirstFix(new Runnable() {
+             public void run() {
+                // Zoom in to current location
+                controller.setZoom(8);
+                controller.animateTo(overlay.getMyLocation());
+             }
+          });
+          map.getOverlays().add(overlay);
+       }
+       	
+
+       
+       @Override
+       protected boolean isRouteDisplayed() {
+          // Required by MapActivity
+          return false;
+       }
 }
+
+
