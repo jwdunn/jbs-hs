@@ -48,6 +48,7 @@ public class Updates extends Activity{
 	
 	private ArrayList<HappyBottle> getUpdates(){
 		return dataHelper.getMyHistory();
+		//this should CHANGE later
 	}
 	
 	

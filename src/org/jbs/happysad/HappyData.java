@@ -27,9 +27,9 @@ public class HappyData {
 
 	private HappyDB h;
 	private static final String TAG = "HappyData";
-	private static final int MyUserID = 1; 
+	private static final long MyUserID = 1; 
 	// ^ this should not be hardcoded to 1
-	private static String[] FROM = { _ID, LAT, LONG, EMO, MSG, TIME, UID };
+	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME,  };
 	private static String ORDER_BY = TIME + " DESC";
 	
 	
@@ -49,7 +49,8 @@ public class HappyData {
 		ContentValues values = b.getAll();
 		try {
 			db.insertOrThrow(TABLE_NAME, null, values);
-			Log.d(TAG, "saved update to db");
+			
+			Log.w(TAG, "update: " + b.toString());
 			toreturn = true;
 		}
 		catch(Exception e){
@@ -90,7 +91,7 @@ public class HappyData {
 		Cursor cursor = getCursor();
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
-			long id = cursor.getLong(0);
+			long id = cursor.getLong(1);
 			if (id == MyUserID) {
 				HappyBottle b = createBottle(cursor);
 				a.add(b);

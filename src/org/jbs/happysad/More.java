@@ -42,41 +42,38 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	 * 
 	 */
 	public void onCreate(Bundle savedInstanceState) {
-		//basic stuff
-		Log.d(TAG, "entering oncreate");
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
+		
 		//figure out whether they clicked happy or sad
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
 		//emotion is an int, Clicked gets you a string
 		emotion = sender.getExtras().getInt("Emotion");
 		
-		//for now, we're showing "happy" or "sad" depending on what the previous click was.
 		TextView t = (TextView) findViewById(R.id.more_blank);
-		t.append(extradata);
-
-		//Setting up the layout etc
-		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnKeyListener(this);
-
-		TextView locationView = (TextView) findViewById(R.id.location);
-		locationView.setText("unknown");
-
-		//now we're getting a handle on the database
-		
-		
-		//setting up buttons
-
 		View submitButton = findViewById(R.id.more_to_dash);
+		EditText textField = (EditText)findViewById(R.id.more_textbox);
+		TextView locationView = (TextView) findViewById(R.id.location);
+		//for now, we're showing "happy" or "sad" depending on what the previous click was.
+		
+		t.append(extradata);
+		textField.setOnKeyListener(this);
+		locationView.setText("unknown");
 		submitButton.setOnClickListener(this);
-
+		locationStuff();
+	}
+	
+	//There used to be a bunch of stuff in oncreate dealing with location. This moves the code to a helper method for more readability.
+	private void locationStuff(){
+		
 		// Acquire a reference to the system Location Manager
 		LocationManager locationManager = (LocationManager) this
 				.getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
-		Log.d(TAG, "creating a new location listner");
+		Log.d(TAG, "creating a new location listener");
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
@@ -106,11 +103,12 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 		catch (Exception e){
 		// Remove the listener you previously added
-			Log.d(TAG, "Error");
+			Log.d(TAG, "Error: " + e);
 		}
 		
 		locationManager.removeUpdates(locationListener);
 	}
+		
 	
 	
 	/**
@@ -119,9 +117,9 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	 * @param location
 	 */
 	private void makeUseOfNewLocation(Location location) {
-		Log.d(TAG, "entering makeuseofnewlocatoin");
+		Log.d(TAG, "entering makeuseofnewlocation");
 		int x = 0;
-		System.out.println(x);
+		
 		//redundant V
 		double longitude = location.getLongitude();
 		double latitude = location.getLatitude();
@@ -132,8 +130,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	}
 
 	public void onClick(View v) {
-		Log.d(TAG, "clicked" + v.getId());
-		System.out.println(TAG + "clicked" + v.getId());
+		//Log.d(TAG, "clicked" + v.getId());
+		
 		switch (v.getId()) {
 		case R.id.more_to_dash:
 			Intent i = new Intent(this, Dashboard.class);
@@ -141,7 +139,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			saveUpdate(userstring); 			    
 			i.putExtra("textboxmessage", userstring);
 			i.putExtra("happysaddata", extradata);
-			Log.d(TAG, "adding " + userstring + " to intent");
+			//Log.d(TAG, "adding " + userstring + " to intent");
 			startActivity(i);
 			break;
 		}
@@ -152,8 +150,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		HappyBottle b = new HappyBottle(myID, latitude, longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
-		Log.d(TAG, "saved update to db");
-	
 	}
 
 	// got following code from

@@ -38,6 +38,8 @@ public class HappyDB extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		
+		
 		db.execSQL("CREATE TABLE "+ TABLE_NAME + 
 				" (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
 				UID + " INTEGER, " + 

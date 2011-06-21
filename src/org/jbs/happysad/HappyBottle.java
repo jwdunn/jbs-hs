@@ -8,6 +8,8 @@ import static org.jbs.happysad.Constants.MSG;
 import static org.jbs.happysad.Constants.TABLE_NAME;
 import static org.jbs.happysad.Constants.TIME;
 import static org.jbs.happysad.Constants.UID;
+import java.sql.Timestamp;
+
 /**
  * Happy Bottle is the object used to express 1 row in the database, or 1 update.
  * @author sahar
@@ -63,12 +65,14 @@ public class HappyBottle {
 	}
 	public String toString(){
 		String s = "";
+		//s+= "bottle:: ";
+		s += "uid: " + uid + " ";
 		s += "lat: " + lati + " ";
 		s += "long: " + longi + " ";
 		s += "emo: " + emo + " ";
 		s += "msg: " + msg + " ";
-		s += "time: " + time + " ";
-		s += "uid: " + uid + " ";
+		s += "time: " + new Timestamp( time) + " ";
+		
 		
 		return s;
 	}
