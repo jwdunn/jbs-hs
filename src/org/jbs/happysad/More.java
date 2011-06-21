@@ -103,6 +103,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		
 		// Remove the listener you previously added
 		//locationManager.removeUpdates(locationListener);
+		
+		
 	}
 
 	private void makeUseOfNewLocation(Location location) {

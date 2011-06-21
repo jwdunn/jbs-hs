@@ -15,16 +15,18 @@ public final class R {
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int happy_button=0x7f050004;
-        public static final int history_button=0x7f050002;
-        public static final int location=0x7f050007;
-        public static final int more_text=0x7f050006;
-        public static final int more_textbox=0x7f050008;
-        public static final int more_to_dash=0x7f050009;
-        public static final int sad_button=0x7f050005;
-        public static final int text=0x7f050003;
-        public static final int update_button=0x7f050001;
-        public static final int welcome_title=0x7f050000;
+        public static final int frame=0x7f050000;
+        public static final int happy_button=0x7f050006;
+        public static final int history_button=0x7f050003;
+        public static final int location=0x7f050009;
+        public static final int map=0x7f050004;
+        public static final int more_text=0x7f050008;
+        public static final int more_textbox=0x7f05000a;
+        public static final int more_to_dash=0x7f05000b;
+        public static final int sad_button=0x7f050007;
+        public static final int text=0x7f050005;
+        public static final int update_button=0x7f050002;
+        public static final int welcome_title=0x7f050001;
     }
     public static final class layout {
         public static final int dashboard=0x7f030000;
