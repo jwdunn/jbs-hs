@@ -160,6 +160,9 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		dataHelper.addBottle(b);
 	}
 	
+	/**
+	 * Creates setting menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -167,8 +170,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-		
-	@Override
+	
+	/**
+	 * Invoked when a option is clicked
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:

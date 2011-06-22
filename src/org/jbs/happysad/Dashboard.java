@@ -54,9 +54,6 @@ public class Dashboard extends Activity implements OnClickListener{
 		}
 	}
 
-	/**
-	 * Creates setting menu
-	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
