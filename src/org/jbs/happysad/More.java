@@ -27,8 +27,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	//private static final String TAG = "there's more screen";
 	
 	//fields
-	private float latitude = 5;
-	private float longitude = 5;
+	private float GPS_latitude;
+	private float GPS_longitude;
+	private float Network_latitude;
+	private float Network_longitude;
 	private HappyData dataHelper;
 	int emotion = -1;
 	String extradata;
@@ -50,6 +52,9 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
 		textField.setOnKeyListener(this);
 		
+		//Updates location
+		locationStuff();			
+		
 		//Finds the more_text view
 		TextView t = (TextView) findViewById(R.id.more_text);
 		t.append(extradata);
@@ -58,10 +63,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 		
-		//Finds the location view
-		TextView locationView = (TextView) findViewById(R.id.location);
-		locationView.setText("unknown");
-		locationStuff();	
 	}
 	
 	/**
@@ -99,13 +100,15 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	private void locationStuff(){
 		
 		// Acquire a reference to the system Location Manager
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-		// Define a listener that responds to location updates
-		LocationListener locationListener = new LocationListener() {
+		LocationManager GPSlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager NetworklocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		
+		// Define a GPS listener that responds to location updates
+		LocationListener GPSlocationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
+				//updateNetworkLocation(location);
 				makeUseOfNewLocation(location);}
 
 			public void onStatusChanged(String provider, int status,
@@ -116,46 +119,73 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			public void onProviderDisabled(String provider) {}
 		};
 
-		// Register the listener with the Location Manager to receive location
-		// updates
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, locationListener);
-				
+		// Define a Network listener that responds to location updates
+		LocationListener networkLocationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				// Called when a new location is found by the network location
+				// provider.
+				updateNetworkLocation(location);
+				//makeUseOfNewLocation(location);
+				}
+
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {}
+
+			public void onProviderEnabled(String provider) {}
+
+			public void onProviderDisabled(String provider) {}
+		};
+		
+		//registers the location managers
+		GPSlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, GPSlocationListener);
+		NetworklocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,	0, networkLocationListener);
+		
 		try {
-			Location location = new Location(LocationManager.GPS_PROVIDER);
-			longitude = (float) location.getLongitude();
-			latitude =  (float) location.getLatitude();
-			makeUseOfNewLocation(location);
+			Location locationGPS = new Location(LocationManager.GPS_PROVIDER);
+			Location locationNetwork = new Location(LocationManager.NETWORK_PROVIDER);			
+			makeUseOfNewLocation(locationGPS);
+			updateNetworkLocation(locationNetwork);
+		
 		}
 		catch (Exception e){
-		// Remove the listener you previously added
 		}
 		
-		locationManager.removeUpdates(locationListener);
 	}
 		
 	
 	
 	/**
-	 * Sets up the textview to show your lat/long
+	 * Updates GPS location
 	 * @param location
 	 */
 	private void makeUseOfNewLocation(Location location) {		
-		//redundant V
-		double longitude = location.getLongitude();
-		double latitude = location.getLatitude();
-		TextView locationView = (TextView) findViewById(R.id.location);
-		locationView.setText("unknown");
-		locationView.setText("lat = " + latitude + " long = " + longitude);
-		locationView.invalidate();
+		
+		if(GPS_longitude == 0 && GPS_latitude == 0){
+			GPS_longitude = (float) location.getLongitude();
+			GPS_latitude = (float) location.getLatitude();
+		}
+		
 	}
 	
 	/**
-	 * Saves the update as a bottle and adds teh bottle to the DB
+	 * Updates Network location
+	 * @param location
+	 */
+	private void updateNetworkLocation(Location location) {
+		if(Network_longitude == 0 && Network_latitude == 0){
+			Network_longitude = (float) location.getLongitude();
+			Network_latitude = (float) location.getLatitude();
+		}
+	}
+	
+	
+	/**
+	 * Saves the update as a bottle and adds the bottle to the DB
 	 * @param msg
 	 */
 	private void saveUpdate(String msg){
 		
-		HappyBottle b = new HappyBottle(myID, latitude, longitude, emotion, msg, System.currentTimeMillis());
+		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, Network_latitude, Network_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
 	}

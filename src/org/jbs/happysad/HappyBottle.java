@@ -30,6 +30,29 @@ public class HappyBottle {
 		msg = t;
 		this.time = time;
 		uid = id;
+	}	
+	
+	public HappyBottle(long id, float GPS_la, float GPS_lo, float Network_la, float Network_lo, float e, String t, long time ){
+	
+		float la;
+		float lo;
+		
+		if (GPS_lo == 0 && GPS_la == 0){
+			la = Network_la;
+			lo = Network_lo;
+		}
+		
+		else{
+			la = GPS_la;
+			lo = GPS_lo;			
+		}
+		
+		lati = la;
+		longi = lo;
+		emo = e;
+		msg = t;
+		this.time = time;
+		uid = id;
 	}
 	/**
 	 * 

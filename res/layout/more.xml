@@ -31,14 +31,7 @@
 		android:layout_height="wrap_content"
 		android:text="@string/submit_to_dash" 
 		android:layout_marginBottom="25dip"  />
-		
-	<TextView
-		android:id="@+id/location"
-		android:text="@string/more_question"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center"
-		android:textSize="14.5sp" /> 
+	
 	<TextView
 		android:id="@+id/more_blank"
 		android:text=""
