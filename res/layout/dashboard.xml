@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- This is the main layout(vertical view) it makes all the buttons, calls the color off the xml file, then calls the title off the String.xml.-->
 <LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent"
-		android:padding="30dip"
-		android:orientation="horizontal" android:layout_height="wrap_content">
-		
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:padding="30dip"
+	android:orientation="horizontal" 
+	android:layout_height="wrap_content">	
 	<LinearLayout
-
 		android:orientation="vertical"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:layout_gravity="top">
@@ -18,16 +17,59 @@
 		android:layout_width="wrap_content"
 		android:layout_marginBottom="25dip"
 		android:textSize="24.5sp" android:layout_gravity="center_horizontal"/>
-	<Button
-		android:id="@+id/update_button"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/update_prompt" />
-	<Button
-		android:id="@+id/history_button"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/history_prompt" />
-
+	<TableLayout 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:layout_gravity="center" 
+		android:stretchColumns="*" > 
+		<TableRow>
+			<Button 
+				android:id="@+id/update_button" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginRight= "5dip"
+				android:text="@string/update_prompt" />
+			<Button 
+				android:id="@+id/history_button" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/history_prompt" />
+		</TableRow> 
+		<TableRow> 
+			<Button
+				android:id="@+id/mail_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginRight= "5dip"
+				android:text="@string/mail_prompt" /> 
+			<Button
+				android:id="@+id/button4_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/button4_prompt" />
+		</TableRow>
+		<TableRow> 
+			<Button
+				android:id="@+id/button5_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginRight= "5dip"
+				android:text="@string/button5_prompt" /> 
+			<Button
+				android:id="@+id/button6_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/button6_prompt" />
+		</TableRow> 
+	</TableLayout>
 	</LinearLayout>
 </LinearLayout>

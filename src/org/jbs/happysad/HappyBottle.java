@@ -5,17 +5,18 @@ import static org.jbs.happysad.Constants.EMO;
 import static org.jbs.happysad.Constants.LAT;
 import static org.jbs.happysad.Constants.LONG;
 import static org.jbs.happysad.Constants.MSG;
-import static org.jbs.happysad.Constants.TABLE_NAME;
 import static org.jbs.happysad.Constants.TIME;
 import static org.jbs.happysad.Constants.UID;
+
 import java.sql.Timestamp;
 
 /**
  * Happy Bottle is the object used to express 1 row in the database, or 1 update.
- * @author sahar
+ * @author HS
  * 
  */
 public class HappyBottle {
+	//fields
 	private float lati;
 	private float longi;
 	private float emo;
@@ -23,6 +24,15 @@ public class HappyBottle {
 	private long time;
 	private long uid;
 	
+	/**
+	 * Constructs a HappyBottle object
+	 * @param id
+	 * @param la
+	 * @param lo
+	 * @param e
+	 * @param t
+	 * @param time
+	 */
 	public HappyBottle(long id, float la, float lo, float e, String t, long time ){
 		lati = la;
 		longi = lo;
@@ -54,10 +64,22 @@ public class HappyBottle {
 		this.time = time;
 		uid = id;
 	}
+	
 	/**
-	 * 
-	 * @return longitude
+	 * Puts all the values into a ContentValues object
+	 * @return
 	 */
+	public ContentValues getAll(){
+		ContentValues values = new ContentValues();
+		values.put(TIME, this.time);
+		values.put(LAT, lati);
+		values.put(LONG, longi);
+		values.put(MSG, this.msg);
+		values.put(EMO, this.emo);
+		values.put(UID, uid);
+		return values;
+	}
+	
 	public float getLong(){
 		return longi;
 	}
@@ -76,16 +98,7 @@ public class HappyBottle {
 	public long getUID(){
 		return uid;
 	}
-	public ContentValues getAll(){
-		ContentValues values = new ContentValues();
-		values.put(TIME, this.time);
-		values.put(LAT, lati);
-		values.put(LONG, longi);
-		values.put(MSG, this.msg);
-		values.put(EMO, this.emo);
-		values.put(UID, uid);
-		return values;
-	}
+	
 	public String toString(){
 		String s = "";
 		//s+= "bottle:: ";
@@ -94,9 +107,7 @@ public class HappyBottle {
 		s += "long: " + longi + " ";
 		s += "emo: " + emo + " ";
 		s += "msg: " + msg + " ";
-		s += "time: " + new Timestamp( time) + " ";
-		
-		
+		s += "time: " + new Timestamp( time) + " ";	
 		return s;
 	}
 	
