@@ -1,20 +1,11 @@
 package org.jbs.happysad;
 
-//sahar is the greatest.
-/***
- * Modified code from Hello Android
-***/
-
 import android.provider.BaseColumns;
-import android.net.Uri;
 
 public interface Constants extends BaseColumns {
    public static final String TABLE_NAME = "localhistory";
 
-  
-	   
-   // Columns in the Events database
-
+   //columns in the events database
    public static final String LAT = "lat";
    public static final String LONG = "long";
    public static final String EMO = "emo";

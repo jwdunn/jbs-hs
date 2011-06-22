@@ -8,66 +8,58 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
-import android.util.Log;
+//import android.util.Log;
 
-
+/**
+ * Creates the Dashboard Activity
+ * @author HS
+ *
+ */
 public class Dashboard extends Activity implements OnClickListener{
-	private static final String TAG = "Dashboard";
+	//for debugging purposes, delete after debugging.
+	//private static final String TAG = "dashboard";
 	
-	/** Called when the activity is first created. */
+	/**
+	 * Initializes activity
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	Log.d(TAG, "created"); 
-    	super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
       
-    	setContentView(R.layout.dashboard);
+		//Sets dashboard content to dashboard.xml
+		setContentView(R.layout.dashboard);
       
-    	View updateButton = findViewById(R.id.update_button);
-    	View histButton = findViewById(R.id.history_button);
-    	TextView t = (TextView)findViewById(R.id.welcome_title);
-    	
-    	updateButton.setOnClickListener(this);
-    	histButton.setOnClickListener(this);
- 	  
-  	  	Intent sender = getIntent();
-  	  	String extradata = "\nwelcome!";
+		//Finds the update_button view
+		View updateButton = findViewById(R.id.update_button);
+		updateButton.setOnClickListener(this);
   	  
-
-  	  	try {
-			Log.d(TAG, "getting data from previous intent.");
-			Bundle b = sender.getExtras();
-			extradata = b.getString("textboxmessage");
-  	  	}
-  	  	catch (Exception e) {  
-  	  		Log.d(TAG, e.toString());
-  	  	}
-  	  	finally{
-  	  		t.append("\n"+ extradata);
-  	  	}
-  	  
-    }
+		//Finds the history_button view
+  	  	View histButton = findViewById(R.id.history_button);
+  	  	histButton.setOnClickListener(this);
+	}
+    
+    /**
+     * Invoked when a view is clicked
+     */
 	public void onClick(View v) {
-	
-		Log.d(TAG, "clicked" + v.getId());
-		System.out.println(TAG + "clicked" + v.getId());
 		switch(v.getId()) {
-		
+
 		case R.id.update_button:
-			Log.d(TAG, "case" + v.getId()); 
 			Intent i = new Intent(this, Prompt.class);
 			i.putExtra("Clicked", "Happy");
 			startActivity(i);
 			break;
-		
+
 		case R.id.history_button:
-			Log.d(TAG, "case" + v.getId());
 			Intent j = new Intent(this, Updates.class);
 			startActivity(j);
 			break;
 		}
 	}
 
+	/**
+	 * Creates setting menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -75,17 +67,16 @@ public class Dashboard extends Activity implements OnClickListener{
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-	
-	@Override
+
+	/**
+	 * Invoked when a option is clicked
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
-	// More items go here (if any) ...
 		}
-	return false;
+		return false;
 	}
-
 }
-
