@@ -8,51 +8,61 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.util.Log;
+//import android.util.Log;
 
 
+/**
+ * Creates Prompt Activity
+ * @author HS
+ */
 public class Prompt extends Activity implements OnClickListener{
-	private static final String TAG = "happy sad prompt";
+	//for debugging purposes, delete after debugging.
+	//private static final String TAG = "happy sad prompt";
 
-
-	/** Called when the activity is first created. */
+	/**
+	 * Initializes activity
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	Log.d(TAG, "created"); 
     	super.onCreate(savedInstanceState);
+    	
+		//Sets prompt content to main.xml
     	setContentView(R.layout.main);
     	
-    	View sadButton = findViewById(R.id.sad_button);
+    	//Finds the happy_button view
     	View happyButton = findViewById(R.id.happy_button);
-    	
     	happyButton.setOnClickListener(this);
+    	
+    	//Finds the sad_button view
+    	View sadButton = findViewById(R.id.sad_button);
     	sadButton.setOnClickListener(this);
   	  
     }
     
+    /**
+     * Invoked when a view is clicked
+     */
 	public void onClick(View v) {
+		Intent i = new Intent(this, More.class);
 
-		Log.d(TAG, "clicked" + v.getId());
-		System.out.println(TAG + "clicked" + v.getId());
-		switch(v.getId()) {
-		case R.id.happy_button:
-			
-			Intent i = new Intent(this, More.class);
+		switch(v.getId()) {		
+		case R.id.happy_button:	
 			i.putExtra("Clicked", "Happy");
 			i.putExtra("Emotion", 1);
 			startActivity(i);
 			break;
 		case R.id.sad_button:
-			
-			Intent j = new Intent(this, More.class);
-			j.putExtra("Clicked", "Sad");
-			j.putExtra("Emotion", 0);
-			startActivity(j);
+			i.putExtra("Clicked", "Sad");
+			i.putExtra("Emotion", 0);
+			startActivity(i);
 			break;
 
 		}
 	}
 		
+	/**
+	 * Creates setting menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -60,15 +70,16 @@ public class Prompt extends Activity implements OnClickListener{
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-		
-	@Override
+
+	/**
+	 * Invoked when a option is clicked
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
-			// More items go here (if any) ...
-			}
+		}
 		return false;
 	}
 }
