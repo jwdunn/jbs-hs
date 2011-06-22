@@ -1,5 +1,13 @@
 package org.jbs.happysad;
 
+import static android.provider.BaseColumns._ID;
+import static org.jbs.happysad.Constants.EMO;
+import static org.jbs.happysad.Constants.LAT;
+import static org.jbs.happysad.Constants.LONG;
+import static org.jbs.happysad.Constants.MSG;
+import static org.jbs.happysad.Constants.TABLE_NAME;
+import static org.jbs.happysad.Constants.TIME;
+import static org.jbs.happysad.Constants.UID;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +26,17 @@ public class Prompt extends Activity implements OnClickListener{
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
     	Log.d(TAG, "created"); 
+    	Log.v(TAG, "CREATE TABLE "+ TABLE_NAME + 
+				" (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+				UID + " INTEGER, " + 
+				LAT + " REAL, " +
+				LONG + " REAL, " + 
+				EMO + " REAL, " + 
+				MSG + " TEXT, " + 
+				TIME + " INTEGER");
+						
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
     	
