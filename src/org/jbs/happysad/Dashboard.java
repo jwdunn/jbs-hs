@@ -1,8 +1,5 @@
 package org.jbs.happysad;
 
-//my name is joseph
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +23,12 @@ public class Dashboard extends Activity implements OnClickListener{
       View updateButton = findViewById(R.id.update_button);
   	  updateButton.setOnClickListener(this);
   	  
+  	  View histButton = findViewById(R.id.history_button);
+ 	  histButton.setOnClickListener(this);
+ 	  
+ 	  View mailButton = findViewById(R.id.mail_button);
+	  mailButton.setOnClickListener(this);
+ 	 
   	  Intent sender = getIntent();
   	  TextView t = (TextView)findViewById(R.id.welcome_title);
   	  
@@ -38,8 +41,7 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	Log.d(TAG, "getting data from previous intent: extradata");
   	  	Log.d(TAG, b.getString("textboxmessage"));
   	  	extradata = b.getString("textboxmessage");
-  	  	
-  	  	
+  	  	String happysaddata = b.getString("promptmessage");
   	  	
   	  	
   	  }
@@ -66,6 +68,17 @@ public class Dashboard extends Activity implements OnClickListener{
 				i.putExtra("Clicked", "Happy");
 				startActivity(i);
 				break;
+			case R.id.history_button:
+				Log.d(TAG, "case" + v.getId());
+				Intent j = new Intent(this, Updates.class);
+				startActivity(j);
+				break;
+			/*case R.id.mail_button:
+				Log.d(TAG, "case" + v.getId());
+				//Intent k = new Intent(this, Updates.class);
+				startActivity(k);
+				break;
+			*/
 			}
 		}
 }
