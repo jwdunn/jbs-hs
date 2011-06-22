@@ -28,14 +28,6 @@ public class Prompt extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
 
     	Log.d(TAG, "created"); 
-    	Log.v(TAG, "CREATE TABLE "+ TABLE_NAME + 
-				" (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-				UID + " INTEGER, " + 
-				LAT + " REAL, " +
-				LONG + " REAL, " + 
-				EMO + " REAL, " + 
-				MSG + " TEXT, " + 
-				TIME + " INTEGER");
 						
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
