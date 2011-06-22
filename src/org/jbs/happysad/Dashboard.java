@@ -48,7 +48,7 @@ public class Dashboard extends Activity implements OnClickListener{
 			break;
 
 		case R.id.history_button:
-			Intent j = new Intent(this, Updates.class);
+			Intent j = new Intent(this, History.class);
 			startActivity(j);
 			break;
 		}
@@ -70,6 +70,7 @@ public class Dashboard extends Activity implements OnClickListener{
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
+			// More items go here (if any) ...
 		}
 		return false;
 	}
