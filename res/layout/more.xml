@@ -8,7 +8,7 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:layout_gravity="center" >
-<TextView
+	<TextView
 		android:id="@+id/more_text"
 		android:text="@string/more_question"
 		android:layout_height="wrap_content"
@@ -16,26 +16,37 @@
 		android:layout_gravity="center"
 		android:layout_marginBottom="25dip"
 		android:textSize="24.5sp" />
-<TextView
+	
+	<EditText
+	    android:id="@+id/more_textbox"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/more_hint_text"
+	    android:layout_marginBottom="5dip"
+	    />
+
+	<Button
+		android:id="@+id/more_to_dash"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/submit_to_dash" 
+		android:layout_marginBottom="25dip"  />
+		
+	<TextView
 		android:id="@+id/location"
 		android:text="@string/more_question"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_gravity="center"
-		android:layout_marginBottom="25dip"
-		android:textSize="24.5sp" />
-<EditText
-    android:id="@+id/more_textbox"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:hint="@string/more_hint_text"
-    />
-
-<Button
-		android:id="@+id/more_to_dash"
-		android:layout_width="fill_parent"
+		android:textSize="14.5sp" /> 
+	<TextView
+		android:id="@+id/more_blank"
+		android:text=""
 		android:layout_height="wrap_content"
-		android:text="@string/submit_to_dash" />
+		android:layout_width="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginTop="20dip"
+		android:textSize="10.5sp" /> 
 
 </LinearLayout>
 </LinearLayout>

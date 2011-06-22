@@ -1,8 +1,4 @@
-*.class
-
 *.apk
-
-*.ap_
-
 *.dex
-R.java
+*.ap_
+*.class

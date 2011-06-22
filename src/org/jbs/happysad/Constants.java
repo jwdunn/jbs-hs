@@ -1,5 +1,6 @@
 package org.jbs.happysad;
 
+//sahar is the greatest.
 /***
  * Modified code from Hello Android
 ***/
@@ -19,4 +20,5 @@ public interface Constants extends BaseColumns {
    public static final String EMO = "emo";
    public static final String MSG = "msg";
    public static final String TIME = "time";
+   public static final String UID = "uid";
 }
