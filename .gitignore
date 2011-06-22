@@ -1,7 +1,4 @@
-*.class
 *.apk
-*.ap_
 *.dex
-R.java
-/gen
-/bin
+*.ap_
+*.class

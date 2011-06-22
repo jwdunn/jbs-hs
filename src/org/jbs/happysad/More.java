@@ -52,17 +52,21 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		//emotion is an int, Clicked gets you a string
 		emotion = sender.getExtras().getInt("Emotion");
 		
-		TextView t = (TextView) findViewById(R.id.more_blank);
-		View submitButton = findViewById(R.id.more_to_dash);
+
+
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
+		TextView t = (TextView) findViewById(R.id.more_text);
 		TextView locationView = (TextView) findViewById(R.id.location);
-		//for now, we're showing "happy" or "sad" depending on what the previous click was.
+		View submitButton = findViewById(R.id.more_to_dash);
+		
 		
 		t.append(extradata);
 		textField.setOnKeyListener(this);
 		locationView.setText("unknown");
 		submitButton.setOnClickListener(this);
 		locationStuff();
+		
+		
 	}
 	
 	//There used to be a bunch of stuff in oncreate dealing with location. This moves the code to a helper method for more readability.
