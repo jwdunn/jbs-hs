@@ -11,8 +11,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
@@ -32,11 +30,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	private static final String TAG = "there's more screen";
 	private float latitude = 5;
 	private float longitude = 5;
-	private static String[] FROM = { _ID, LAT, LONG, EMO, MSG, TIME, };
-	private static String ORDER_BY = TIME + " DESC";
-	private HappyData updates;
+	private HappyData dataHelper;
 	int emotion = -1;
 	String extradata;
+	long myID = 1;
 	
 	
 
@@ -45,39 +42,42 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	 * 
 	 */
 	public void onCreate(Bundle savedInstanceState) {
-		//basic stuff
-		Log.d(TAG, "entering oncreate");
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
+		
 		//figure out whether they clicked happy or sad
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
 		//emotion is an int, Clicked gets you a string
 		emotion = sender.getExtras().getInt("Emotion");
 		
-		//for now, we're showing "happy" or "sad" depending on what the previous click was.
-		TextView t = (TextView) findViewById(R.id.more_text);
-		t.setText(extradata);
 
-		//Setting up the layout etc
+
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnKeyListener(this);
-
+		TextView t = (TextView) findViewById(R.id.more_text);
 		TextView locationView = (TextView) findViewById(R.id.location);
-		locationView.setText("unknown");
-
-		//now we're getting a handle on the database
-		updates = new HappyData(this);
-		//setting up buttons
 		View submitButton = findViewById(R.id.more_to_dash);
+		
+		
+		t.append(extradata);
+		textField.setOnKeyListener(this);
+		locationView.setText("unknown");
 		submitButton.setOnClickListener(this);
-
+		locationStuff();
+		
+		
+	}
+	
+	//There used to be a bunch of stuff in oncreate dealing with location. This moves the code to a helper method for more readability.
+	private void locationStuff(){
+		
 		// Acquire a reference to the system Location Manager
 		LocationManager locationManager = (LocationManager) this
 				.getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
-		Log.d(TAG, "creating a new location listner");
+		Log.d(TAG, "creating a new location listener");
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
@@ -107,11 +107,12 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 		catch (Exception e){
 		// Remove the listener you previously added
-			Log.d(TAG, "Error");
+			Log.d(TAG, "Error: " + e);
 		}
 		
 		locationManager.removeUpdates(locationListener);
 	}
+		
 	
 	
 	/**
@@ -120,9 +121,9 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	 * @param location
 	 */
 	private void makeUseOfNewLocation(Location location) {
-		Log.d(TAG, "entering makeuseofnewlocatoin");
+		Log.d(TAG, "entering makeuseofnewlocation");
 		int x = 0;
-		System.out.println(x);
+		
 		//redundant V
 		double longitude = location.getLongitude();
 		double latitude = location.getLatitude();
@@ -133,32 +134,26 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	}
 
 	public void onClick(View v) {
-		Log.d(TAG, "clicked" + v.getId());
-		System.out.println(TAG + "clicked" + v.getId());
+		//Log.d(TAG, "clicked" + v.getId());
+		
 		switch (v.getId()) {
 		case R.id.more_to_dash:
 			Intent i = new Intent(this, Dashboard.class);
 			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-			try {
-				saveUpdate(userstring); 			    
-			} finally {
-				updates.close(); 
-			}
+			saveUpdate(userstring); 			    
 			i.putExtra("textboxmessage", userstring);
 			i.putExtra("happysaddata", extradata);
-			Log.d(TAG, "adding " + userstring + " to intent");
+			//Log.d(TAG, "adding " + userstring + " to intent");
 			startActivity(i);
 			break;
 		}
 	}
 	
 	private void saveUpdate(String msg){
-		SQLiteDatabase db = updates.getWritableDatabase();
-		ContentValues values = basicValues(emotion, latitude, longitude);
-		values.put(MSG, msg);
-		db.insertOrThrow(TABLE_NAME, null, values);
-		Log.d(TAG, "saved update to db");
-		updates.close();
+		
+		HappyBottle b = new HappyBottle(myID, latitude, longitude, emotion, msg, System.currentTimeMillis());
+		dataHelper = new HappyData(this);
+		dataHelper.addBottle(b);
 	}
 
 	// got following code from
@@ -196,20 +191,5 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 	return false;
 	}
-
-
-	
-	private ContentValues basicValues(int emo, float latitude, float longitude){
-		//for basic updates	
-		ContentValues values = new ContentValues();
-	    values.put(TIME, System.currentTimeMillis());
-	    values.put(LAT, latitude);
-	    values.put(LONG, longitude);
-	    //values.put(LAT, <latitude>);
-	    //values.put(LONG, <longitude>);
-	    values.put(EMO, emo);
-	    return values;
-		 
-		}
 
 }

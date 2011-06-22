@@ -3,8 +3,8 @@
     <string name="app_name">Happy Sad</string>
     <string name="happy_prompt">Happy</string>
     <string name="sad_prompt">Sad</string>
-    <string name="happysad_name">Welcome to Happy Sad</string>
-		<string name="more_question">Why?</string>
+    <string name="happysad_name">How are you feeling?</string>
+		<string name="more_question">Why?\n</string>
     <string name="submit_to_dash">Submit</string>
 		<string name="more_name">More!</string>
 		<string name="more_hint_text">Why?</string>
