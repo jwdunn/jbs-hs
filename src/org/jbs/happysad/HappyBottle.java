@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 /**
  * Happy Bottle is the object used to express 1 row in the database, or 1 update.
- * @author sahar
+ * @author HS
  * 
  */
 public class HappyBottle {
