@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Updates"
+        <activity android:name=".History"
         	android:label="@string/app_name" >
         	
         	</activity>
