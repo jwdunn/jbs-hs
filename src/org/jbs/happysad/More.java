@@ -1,15 +1,8 @@
 package org.jbs.happysad;
 
 import static android.provider.BaseColumns._ID;
-import static org.jbs.happysad.Constants.EMO;
-import static org.jbs.happysad.Constants.LAT;
-import static org.jbs.happysad.Constants.LONG;
-import static org.jbs.happysad.Constants.MSG;
-import static org.jbs.happysad.Constants.TABLE_NAME;
-import static org.jbs.happysad.Constants.TIME;
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
