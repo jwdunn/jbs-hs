@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 /**
  * Creates the Dashboard Activity
  * @author HS
- *
  */
 public class Dashboard extends Activity implements OnClickListener{
 	//for debugging purposes, delete after debugging.
@@ -25,9 +24,7 @@ public class Dashboard extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-      
-		//Sets dashboard content to dashboard.xml
-		setContentView(R.layout.dashboard);
+      	setContentView(R.layout.dashboard);
       
 		//Finds the update_button view
 		View updateButton = findViewById(R.id.update_button);

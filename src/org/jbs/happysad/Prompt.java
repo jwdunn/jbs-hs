@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 //import android.util.Log;
 
-
 /**
  * Creates Prompt Activity
  * @author HS
@@ -25,8 +24,6 @@ public class Prompt extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	
-		//Sets prompt content to main.xml
     	setContentView(R.layout.main);
     	
     	//Finds the happy_button view
@@ -56,7 +53,6 @@ public class Prompt extends Activity implements OnClickListener{
 			i.putExtra("Emotion", 0);
 			startActivity(i);
 			break;
-
 		}
 	}
 		
