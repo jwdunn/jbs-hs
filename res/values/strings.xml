@@ -4,14 +4,14 @@
     <string name="happy_prompt">Happy</string>
     <string name="sad_prompt">Sad</string>
     <string name="happysad_name">How are you feeling?</string>
-		<string name="more_question">Why?\n</string>
+	<string name="more_question">Why?\n</string>
     <string name="submit_to_dash">Submit</string>
-		<string name="more_name">More!</string>
-		<string name="more_hint_text">Why?</string>
+	<string name="more_name">More!</string>
+	<string name="more_hint_text">Why?</string>
 	<string name ="dashboard_name">Dashboard</string>
 
 	<string name="update_prompt">Update</string>
-	<string name="history_prompt">HIstory</string>
+	<string name="history_prompt">History</string>
 	<string name="settings_label">Settings</string>
 	<string name="settings_title">Happy Sad Settings</string>	
 	<string name="im_happy">Im Happy</string>

@@ -52,20 +52,16 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		//emotion is an int, Clicked gets you a string
 		emotion = sender.getExtras().getInt("Emotion");
 		
-
-
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
 		TextView t = (TextView) findViewById(R.id.more_text);
 		TextView locationView = (TextView) findViewById(R.id.location);
 		View submitButton = findViewById(R.id.more_to_dash);
-		
 		
 		t.append(extradata);
 		textField.setOnKeyListener(this);
 		locationView.setText("unknown");
 		submitButton.setOnClickListener(this);
 		locationStuff();
-		
 		
 	}
 	
@@ -166,8 +162,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			EditText t = (EditText) v;
 			Log.d(TAG, "text entered: " + t.getText());
 			this.onClick(findViewById(R.id.more_to_dash));
-			// Intent i = new Intent(this, prompt.class);
-			// startActivity(i);
+			
 		}
 		// Returning false allows other listeners to react to the press.
 		return false;
