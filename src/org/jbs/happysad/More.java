@@ -1,19 +1,12 @@
 package org.jbs.happysad;
 
-import static android.provider.BaseColumns._ID;
-import static org.jbs.happysad.Constants.EMO;
-import static org.jbs.happysad.Constants.LAT;
-import static org.jbs.happysad.Constants.LONG;
-import static org.jbs.happysad.Constants.MSG;
-import static org.jbs.happysad.Constants.TABLE_NAME;
-import static org.jbs.happysad.Constants.TIME;
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.util.Log;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,59 +14,94 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
+//import android.util.Log;
 
+/**
+ * Creates the More activity
+ * @author HS
+ */
 public class More extends Activity implements OnKeyListener, OnClickListener {
-	private static final String TAG = "there's more screen";
+	//for debugging purposes, delete after debugging.
+	//private static final String TAG = "there's more screen";
+	
+	//fields
 	private float latitude = 5;
 	private float longitude = 5;
 	private HappyData dataHelper;
 	int emotion = -1;
 	String extradata;
 	long myID = 1;
-	
-	
 
 	/**
-	 * Sets up the views and buttons, gets the location, displays the location.
-	 * 
+	 * Initializes activity
 	 */
 	public void onCreate(Bundle savedInstanceState) {
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
 		
-		//figure out whether they clicked happy or sad
+		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
-		//emotion is an int, Clicked gets you a string
 		emotion = sender.getExtras().getInt("Emotion");
 		
+		//Finds the more_textbox view
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		TextView t = (TextView) findViewById(R.id.more_text);
-		TextView locationView = (TextView) findViewById(R.id.location);
-		View submitButton = findViewById(R.id.more_to_dash);
-		
-		t.append(extradata);
 		textField.setOnKeyListener(this);
-		locationView.setText("unknown");
-		submitButton.setOnClickListener(this);
-		locationStuff();
 		
+		//Finds the more_text view
+		TextView t = (TextView) findViewById(R.id.more_text);
+		t.append(extradata);
+		
+		//Finds the update_button view
+		View submitButton = findViewById(R.id.more_to_dash);
+		submitButton.setOnClickListener(this);
+		
+		//Finds the location view
+		TextView locationView = (TextView) findViewById(R.id.location);
+		locationView.setText("unknown");
+		locationStuff();	
 	}
 	
-	//There used to be a bunch of stuff in oncreate dealing with location. This moves the code to a helper method for more readability.
+	/**
+     * Invoked when a view is clicked
+     */
+	public void onClick(View v) {		
+		switch (v.getId()) {
+		case R.id.more_to_dash:
+			Intent i = new Intent(this, Dashboard.class);
+			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+			saveUpdate(userstring); 			    
+			startActivity(i);
+			break;
+		}
+	}
+	
+	/**
+	 * Called when a key is dispatched to a view.
+	 */
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+		if ((event.getAction() == KeyEvent.ACTION_DOWN)
+				&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
+			// Done pressed! Do something here.
+			this.onClick(findViewById(R.id.more_to_dash));
+			
+		}
+		// Returning false allows other listeners to react to the press.
+		return false;
+	}
+	
+	/**
+	 * Helper method to deal with location.
+	 */
 	private void locationStuff(){
 		
 		// Acquire a reference to the system Location Manager
-		LocationManager locationManager = (LocationManager) this
-				.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
-		Log.d(TAG, "creating a new location listener");
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
@@ -90,11 +118,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 
 		// Register the listener with the Location Manager to receive location
 		// updates
-		Log.d(TAG, "Registration  of listener");
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, locationListener);
-		
-		//SAHAR STORE FROM HERE!!
-		
+				
 		try {
 			Location location = new Location(LocationManager.GPS_PROVIDER);
 			longitude = (float) location.getLongitude();
@@ -103,7 +128,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 		catch (Exception e){
 		// Remove the listener you previously added
-			Log.d(TAG, "Error: " + e);
 		}
 		
 		locationManager.removeUpdates(locationListener);
@@ -112,14 +136,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	
 	
 	/**
-	 * Taha wrote this so I'm not sure what it does.
-	 * Seems like it sets up the textview to show your lat/long
+	 * Sets up the textview to show your lat/long
 	 * @param location
 	 */
-	private void makeUseOfNewLocation(Location location) {
-		Log.d(TAG, "entering makeuseofnewlocation");
-		int x = 0;
-		
+	private void makeUseOfNewLocation(Location location) {		
 		//redundant V
 		double longitude = location.getLongitude();
 		double latitude = location.getLatitude();
@@ -128,46 +148,21 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		locationView.setText("lat = " + latitude + " long = " + longitude);
 		locationView.invalidate();
 	}
-
-	public void onClick(View v) {
-		//Log.d(TAG, "clicked" + v.getId());
-		
-		switch (v.getId()) {
-		case R.id.more_to_dash:
-			Intent i = new Intent(this, Dashboard.class);
-			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-			saveUpdate(userstring); 			    
-			i.putExtra("textboxmessage", userstring);
-			i.putExtra("happysaddata", extradata);
-			//Log.d(TAG, "adding " + userstring + " to intent");
-			startActivity(i);
-			break;
-		}
-	}
 	
+	/**
+	 * Saves the update as a bottle and adds teh bottle to the DB
+	 * @param msg
+	 */
 	private void saveUpdate(String msg){
 		
 		HappyBottle b = new HappyBottle(myID, latitude, longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
 	}
-
-	// got following code from
-	// http://stackoverflow.com/questions/2004344/android-edittext-imeoptions-done-track-finish-typing
-	public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-		if ((event.getAction() == KeyEvent.ACTION_DOWN)
-				&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-			// Done pressed! Do something here.
-			EditText t = (EditText) v;
-			Log.d(TAG, "text entered: " + t.getText());
-			this.onClick(findViewById(R.id.more_to_dash));
-			
-		}
-		// Returning false allows other listeners to react to the press.
-		return false;
-	}
 	
+	/**
+	 * Creates setting menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -175,8 +170,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-		
-	@Override
+	
+	/**
+	 * Invoked when a option is clicked
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:

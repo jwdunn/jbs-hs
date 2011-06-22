@@ -2,3 +2,6 @@
 *.dex
 *.ap_
 *.class
+*.swp
+*~
+R.java
