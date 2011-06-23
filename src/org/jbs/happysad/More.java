@@ -151,8 +151,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 		
 	}
-		
-	
 	
 	/**
 	 * Updates GPS location
