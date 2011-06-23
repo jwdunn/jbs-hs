@@ -75,6 +75,7 @@ public class Prompt extends Activity implements OnClickListener{
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
+			// More items go here (if any) ...
 		}
 		return false;
 	}

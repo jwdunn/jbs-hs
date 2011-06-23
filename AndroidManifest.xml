@@ -8,36 +8,24 @@
 
 	<application android:icon="@drawable/happysad"
 		android:label="@string/app_name">
-
-		<activity 
-			android:name=".Dashboard" 
-			android:label="@string/dashboard_name">
-		</activity>
-		
-		<activity 
-			android:name=".More" 
-			android:label="@string/more_name">
-		</activity>
-		
-		<activity 
-			android:name=".Prompt" 
-			android:label="@string/app_name">
-			<intent-filter>
-				<action 
-					android:name="android.intent.action.MAIN" />
-				<category 
-					android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		
-		<activity 
-			android:name=".Updates" 
-			android:label="@string/app_name">
-		</activity>
-		
-		<activity 
-			android:name=".Prefs"
-        	android:label="@string/settings_title">
+        <activity android:name=".Prompt"
+                  android:label="@string/app_name">
+           <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".More"
+           		  android:label="@string/more_name">			
+        </activity>
+        <activity android:name=".Dashboard"
+        	      android:label="@string/dashboard_name" >
+        </activity>
+        <activity android:name=".History"
+        	      android:label="@string/history_prompt" >
+        </activity>
+        <activity android:name=".Prefs"
+        	      android:label="@string/settings_title">
         </activity>
         
         <activity 
