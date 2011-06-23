@@ -25,26 +25,7 @@ public class HappyBottle {
 	private long uid;
 	
 	/**
-	 * Constructs a HappyBottle object
-	 * @param id
-	 * @param la
-	 * @param lo
-	 * @param e
-	 * @param t
-	 * @param time
-	 */
-	public HappyBottle(long id, float la, float lo, float e, String t, long time ){
-		lati = la;
-		longi = lo;
-		emo = e;
-		msg = t;
-		this.time = time;
-		uid = id;
-	}	
-	
-	
-	/**
-	 * Constructs HappyBottle object
+	 * Constructs HappyBottle object to save update
 	 * @param id
 	 * @param GPS_la
 	 * @param GPS_lo
@@ -76,6 +57,24 @@ public class HappyBottle {
 		this.time = time;
 		uid = id;
 	}
+	
+	/**
+	 * Constructs a HappyBottle object to retrieve update
+	 * @param id
+	 * @param la
+	 * @param lo
+	 * @param e
+	 * @param t
+	 * @param time
+	 */
+	public HappyBottle(long id, float la, float lo, float e, String t, long time ){
+		lati = la;
+		longi = lo;
+		emo = e;
+		msg = t;
+		this.time = time;
+		uid = id;
+	}	
 	
 	/**
 	 * Puts all the values into a ContentValues object
