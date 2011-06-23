@@ -27,29 +27,16 @@ public final class R {
         public static final int button6_button=0x7f080006;
         public static final int happy_button=0x7f08000a;
         public static final int history_button=0x7f080002;
-<<<<<<< HEAD
-        public static final int linearLayout1=0x7f080004;
-        public static final int more_blank=0x7f08000b;
-        public static final int more_text=0x7f080008;
-        public static final int more_textbox=0x7f080009;
-        public static final int more_to_dash=0x7f08000a;
-        public static final int relativeLayout1=0x7f080005;
-        public static final int sad_button=0x7f080006;
-        public static final int settings=0x7f08000c;
-        public static final int text=0x7f080003;
-=======
         public static final int linearLayout1=0x7f080008;
-        public static final int location=0x7f08000f;
         public static final int mail_button=0x7f080003;
-        public static final int more_blank=0x7f080010;
+        public static final int more_blank=0x7f08000f;
         public static final int more_text=0x7f08000c;
         public static final int more_textbox=0x7f08000d;
         public static final int more_to_dash=0x7f08000e;
         public static final int relativeLayout1=0x7f080009;
         public static final int sad_button=0x7f08000b;
-        public static final int settings=0x7f080011;
+        public static final int settings=0x7f080010;
         public static final int text=0x7f080007;
->>>>>>> origin/master
         public static final int update_button=0x7f080001;
         public static final int welcome_title=0x7f080000;
     }
