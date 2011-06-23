@@ -56,8 +56,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		locationStuff();			
 		
 		//Finds the more_text view
-		TextView t = (TextView) findViewById(R.id.more_text);
-		t.append(extradata);
+		//TextView t = (TextView) findViewById(R.id.more_text);
+		//t.append(extradata);
 		
 		//Finds the update_button view
 		View submitButton = findViewById(R.id.more_to_dash);
@@ -78,6 +78,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			break;
 		}
 	}
+	
 	
 	/**
 	 * Called when a key is dispatched to a view.
