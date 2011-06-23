@@ -176,14 +176,17 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		}
 	}
 	
-	
 	/**
 	 * Saves the update as a bottle and adds the bottle to the DB
 	 * @param msg
 	 */
 	private void saveUpdate(String msg){
-		
-		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, Network_latitude, Network_longitude, emotion, msg, System.currentTimeMillis());
+		if (GPS_longitude == 0 && GPS_latitude == 0){
+			GPS_longitude = Network_longitude;
+			GPS_latitude = Network_latitude;
+		}
+
+		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
 	}
