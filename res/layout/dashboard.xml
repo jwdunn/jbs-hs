@@ -9,14 +9,16 @@
 	<LinearLayout
 		android:orientation="vertical"
 		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:layout_gravity="top">
+		android:layout_width="fill_parent" 
+		android:layout_gravity="top">
 	<TextView
 		android:id="@+id/welcome_title"
 		android:text="@string/dashboard_name"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_marginBottom="25dip"
-		android:textSize="24.5sp" android:layout_gravity="center_horizontal"/>
+		android:textSize="24.5sp" 
+		android:layout_gravity="center_horizontal"/>
 	<TableLayout 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
@@ -40,28 +42,28 @@
 		</TableRow> 
 		<TableRow> 
 			<Button
-				android:id="@+id/mail_button"
+				android:id="@+id/global_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginRight= "5dip"
-				android:text="@string/mail_prompt" /> 
+				android:text="@string/global_prompt" /> 
 			<Button
-				android:id="@+id/button4_button"
+				android:id="@+id/fmh_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/button4_prompt" />
+				android:text="@string/fmh_prompt" />
 		</TableRow>
 		<TableRow> 
 			<Button
-				android:id="@+id/button5_button"
+				android:id="@+id/exit_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginRight= "5dip"
-				android:text="@string/button5_prompt" /> 
+				android:text="@string/exit_prompt" /> 
 			<Button
 				android:id="@+id/button6_button"
 				android:layout_width="wrap_content"

@@ -34,6 +34,14 @@ public class Dashboard extends Activity implements OnClickListener{
 		//Finds the history_button view
   	  	View histButton = findViewById(R.id.history_button);
   	  	histButton.setOnClickListener(this);
+  	  	
+  	  	//Finds the exit_button view
+  	  	View exitButton = findViewById(R.id.exit_button);
+  	  	exitButton.setOnClickListener(this);
+  	  	
+  	  	//Finds the fmh_button view
+  	  	View fmhButton = findViewById(R.id.fmh_button);
+  	  	fmhButton.setOnClickListener(this);
 	}
     
     /**
@@ -52,6 +60,15 @@ public class Dashboard extends Activity implements OnClickListener{
 		case R.id.history_button:
 			Intent j = new Intent(this, Updates.class);
 			startActivity(j);
+			break;
+			
+		case R.id.exit_button: 
+    		finish();
+    		break;
+    		
+		case R.id.fmh_button:
+			Intent k = new Intent(this, FindMeHappiness.class);
+			startActivity(k);
 			break;
 		}
 	}

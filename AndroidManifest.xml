@@ -39,6 +39,11 @@
 			android:name=".Prefs"
         	android:label="@string/settings_title">
         </activity>
+        
+        <activity 
+			android:name=".FindMeHappiness" 
+			android:label="@string/fmh_name">
+		</activity>
 
 	</application>
 

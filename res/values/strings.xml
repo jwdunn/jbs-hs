@@ -15,8 +15,10 @@
 	<string name="settings_title">Happy Sad Settings</string>	
 	<string name="im_happy">Im Happy</string>
 	<string name="im_sad">Im Sad</string>
-	<string name="mail_prompt">Mail</string>
-	<string name="button4_prompt">Button4</string>
-	<string name="button5_prompt">Button5</string>
+	<string name="global_prompt">Global</string>
+	<string name="fmh_prompt">FMH</string>
+	<string name="exit_prompt">Exit</string>
 	<string name="button6_prompt">Button6</string>
+	<string name="fmh_name">Find Me Happiness</string>
+	<string name="history_name">History</string>
 </resources>
