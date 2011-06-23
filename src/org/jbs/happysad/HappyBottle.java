@@ -42,6 +42,18 @@ public class HappyBottle {
 		uid = id;
 	}	
 	
+	
+	/**
+	 * Constructs HappyBottle object
+	 * @param id
+	 * @param GPS_la
+	 * @param GPS_lo
+	 * @param Network_la
+	 * @param Network_lo
+	 * @param e
+	 * @param t
+	 * @param time
+	 */
 	public HappyBottle(long id, float GPS_la, float GPS_lo, float Network_la, float Network_lo, float e, String t, long time ){
 	
 		float la;
@@ -67,7 +79,7 @@ public class HappyBottle {
 	
 	/**
 	 * Puts all the values into a ContentValues object
-	 * @return
+	 * @return all values as a ContentValues object
 	 */
 	public ContentValues getAll(){
 		ContentValues values = new ContentValues();
