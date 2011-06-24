@@ -24,8 +24,9 @@ public class HappyBottle {
 	private long time;
 	private long uid;
 	
+	
 	/**
-	 * Constructs a HappyBottle object
+	 * Constructs a HappyBottle object to retrieve and save updates
 	 * @param id
 	 * @param la
 	 * @param lo
@@ -42,32 +43,9 @@ public class HappyBottle {
 		uid = id;
 	}	
 	
-	public HappyBottle(long id, float GPS_la, float GPS_lo, float Network_la, float Network_lo, float e, String t, long time ){
-	
-		float la;
-		float lo;
-		
-		if (GPS_lo == 0 && GPS_la == 0){
-			la = Network_la;
-			lo = Network_lo;
-		}
-		
-		else{
-			la = GPS_la;
-			lo = GPS_lo;			
-		}
-		
-		lati = la;
-		longi = lo;
-		emo = e;
-		msg = t;
-		this.time = time;
-		uid = id;
-	}
-	
 	/**
 	 * Puts all the values into a ContentValues object
-	 * @return
+	 * @return all values as a ContentValues object
 	 */
 	public ContentValues getAll(){
 		ContentValues values = new ContentValues();
