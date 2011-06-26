@@ -10,7 +10,7 @@
 		android:layout_gravity="center" >
 	<TextView
 		android:id="@+id/more_text"
-		android:text="@string/more_question"
+		android:text="@string/more_name"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_gravity="center"
