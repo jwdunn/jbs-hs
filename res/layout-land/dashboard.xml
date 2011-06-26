@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is the main layout(vertical view) it makes all the buttons, calls the color off the xml file, then calls the title off the String.xml.-->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:padding="30dip"
+	android:orientation="horizontal" 
+	android:layout_height="wrap_content">	
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:layout_gravity="top">
+	<TextView
+		android:id="@+id/welcome_title"
+		android:text="@string/dashboard_name"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_marginBottom="25dip"
+		android:textSize="24.5sp" 
+		android:layout_gravity="center_horizontal"/>
+	<TableLayout 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:layout_gravity="center" 
+		android:stretchColumns="*" > 
+		<TableRow>
+			<Button 
+				android:id="@+id/update_button" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginRight= "5dip"
+				android:text="@string/update_prompt" />
+			<Button 
+				android:id="@+id/history_button" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:text="@string/history_prompt" />
+			<Button
+				android:id="@+id/global_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/global_prompt" />
+		</TableRow> 
+		<TableRow> 
+			<Button
+				android:id="@+id/fmh_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginRight= "5dip"
+				android:text="@string/fmh_prompt" />
+			<Button
+				android:id="@+id/exit_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:text="@string/exit_prompt" /> 
+			<Button
+				android:id="@+id/button6_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/button6_prompt" />
+		</TableRow>
+	</TableLayout>
+	</LinearLayout>
+</LinearLayout>
