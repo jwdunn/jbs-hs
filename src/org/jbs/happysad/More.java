@@ -126,8 +126,7 @@ private static final String TAG = "Touch" ;
 		case R.id.camera_button:
 			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 			startActivityForResult(intent, 0);
-			break;
-			
+			break;	
 		}
 	}  
 	
