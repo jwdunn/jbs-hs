@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -70,5 +73,28 @@ public class History extends Activity implements OnClickListener{
 	    // Display on the screen
 	    TextView text = (TextView) findViewById(R.id.text); 
 	    text.setText(builder);
+	}
+	
+	/**
+	 * Creates setting menu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.history, menu);
+		return true;
+	}
+
+	/**
+	 * Invoked when a option is clicked
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.dashboard:
+			startActivity(new Intent(this, Dashboard.class));
+			return true;
+		}
+		return false;
 	}
 }
