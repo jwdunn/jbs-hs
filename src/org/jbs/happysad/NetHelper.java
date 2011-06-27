@@ -49,7 +49,7 @@ public class NetHelper {
 		try {
 	    	  URL url3 = new URL ("http://popper.cs-i.brandeis.edu:8088/tim/jbs2011/hsdb.servlet?action=getMine&user="+myid);
 	          URL url1 = new URL ("http://popper.cs-i.brandeis.edu:8088/tim/jbs2011/hsdb.servlet?action=getAll");
-	          Log.d("http://popper.cs-i.brandeis.edu:8088/tim/jbs2011/hsdb.servlet?action=getMine&user="+myid);
+	          Log.e(TAG, "http://popper.cs-i.brandeis.edu:8088/tim/jbs2011/hsdb.servlet?action=getMine&user="+myid);
 	          URL url = url1;
 	    	  // Check if task has been interrupted
 	    	  if (Thread.interrupted())
