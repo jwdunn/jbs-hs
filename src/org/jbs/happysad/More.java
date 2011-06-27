@@ -49,20 +49,20 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		extradata = sender.getExtras().getString("Clicked");
 		emotion = sender.getExtras().getInt("Emotion");
 		
-
+		//Finds the more_textbox view
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		TextView t = (TextView) findViewById(R.id.more_text);
-		TextView locationView = (TextView) findViewById(R.id.location);
-		View submitButton = findViewById(R.id.more_to_dash);
-		
-		
-		t.append(extradata);
-
 		textField.setOnKeyListener(this);
 		
 		//Updates location
 		locationStuff();			
-	
+		
+		//Finds the more_text view
+		TextView t = (TextView) findViewById(R.id.more_text);
+		t.append(extradata);
+		
+		//Finds the update_button view
+		View submitButton = findViewById(R.id.more_to_dash);
+		submitButton.setOnClickListener(this);
 		
 	}
 	
