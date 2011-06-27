@@ -27,6 +27,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	//private static final String TAG = "there's more screen";
 	
 	//fields
+	private LocationManager gpsLocationManager;
+	private LocationManager networkLocationManager;
+	private LocationListener networkLocationListener;
+	private LocationListener gpsLocationListener;
 	private float GPS_latitude;
 	private float GPS_longitude;
 	private float Network_latitude;
@@ -73,7 +77,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		case R.id.more_to_dash:
 			Intent i = new Intent(this, Dashboard.class);
 			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-			saveUpdate(userstring); 			    
+			saveUpdate(userstring); 
 			startActivity(i);
 			break;
 		}
@@ -100,11 +104,11 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 	private void locationStuff(){
 		
 		// Acquire a reference to the system Location Manager
-		LocationManager GPSlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		LocationManager NetworklocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		gpsLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		networkLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		
 		// Define a GPS listener that responds to location updates
-		LocationListener GPSlocationListener = new LocationListener() {
+		gpsLocationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
@@ -120,7 +124,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		};
 
 		// Define a Network listener that responds to location updates
-		LocationListener networkLocationListener = new LocationListener() {
+		networkLocationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
@@ -137,8 +141,8 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 		};
 		
 		//registers the location managers
-		GPSlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, GPSlocationListener);
-		NetworklocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,	0, networkLocationListener);
+		gpsLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, gpsLocationListener);
+		networkLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,	0, networkLocationListener);
 		
 		try {
 			Location locationGPS = new Location(LocationManager.GPS_PROVIDER);
@@ -213,6 +217,14 @@ public class More extends Activity implements OnKeyListener, OnClickListener {
 			// More items go here (if any) ...
 		}
 	return false;
+	}
+	
+	protected void onPause() {
+		super.onPause();
+		gpsLocationManager.removeUpdates(gpsLocationListener);
+		networkLocationManager.removeUpdates(networkLocationListener);
+		gpsLocationManager = null;
+		networkLocationManager = null;
 	}
 
 }
