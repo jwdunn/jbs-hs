@@ -38,12 +38,11 @@ public class History extends ListActivity implements OnClickListener{
 	public void onClick(View v) {
 		switch(v.getId()) {		
 		case R.id.refresh_button:	
-			dataHelper = new HappyData(this);
 		    showUpdatesCursor(dataHelper.getMyHistoryCursor());
 			dataHelper.syncDown();
 			break;
-
-		}}
+		}
+	}
 	
 	private void showUpdatesCursor(Cursor cursor){
 		startManagingCursor(cursor);
