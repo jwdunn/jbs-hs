@@ -15,5 +15,6 @@
 			<string name="exit_name">Exit</string>
 			<string name="button6_name">Button6</string>
 		<string name="settings_label">Settings</string>
-			<string name="settings_title">Happy Sad Settings</string>	
+			<string name="settings_title">Happy Sad Settings</string>
+		<string name="exit_label">Exit</string>	
 </resources>
