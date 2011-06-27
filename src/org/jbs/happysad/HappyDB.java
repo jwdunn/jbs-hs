@@ -4,13 +4,16 @@ import static android.provider.BaseColumns._ID;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import static org.jbs.happysad.Constants.TABLE_NAME;
 import static org.jbs.happysad.Constants.TIME;
+import static org.jbs.happysad.Constants.SYNC;
 import static org.jbs.happysad.Constants.LAT;
 import static org.jbs.happysad.Constants.LONG;
 import static org.jbs.happysad.Constants.EMO;
 import static org.jbs.happysad.Constants.MSG;
 import static org.jbs.happysad.Constants.UID;
+
 
 /**
  * Creates the Database
@@ -19,7 +22,7 @@ import static org.jbs.happysad.Constants.UID;
  */
 public class HappyDB extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "happy.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 	private static final String TAG = "HappyDB"; 
 
 	
@@ -43,7 +46,8 @@ public class HappyDB extends SQLiteOpenHelper {
 			LONG + " REAL, " + 
 			EMO + " REAL, " + 
 			MSG + " TEXT, " + 
-			TIME + " INTEGER);");
+			TIME + " INTEGER," + 
+			SYNC + " INTEGER);");
 	}
 
 	/**
@@ -51,7 +55,10 @@ public class HappyDB extends SQLiteOpenHelper {
 	 * destroy the old table and create a new one.
 	 */
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		Log.v(TAG, "upgrading");
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 	    onCreate(db);
 	}	
+	
+	
 }
