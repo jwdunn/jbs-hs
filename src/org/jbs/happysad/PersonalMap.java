@@ -28,9 +28,9 @@ public class PersonalMap extends MapActivity {
       initMapView();
       
       List<Overlay> mapOverlays = map.getOverlays();
-      Drawable drawable = this.getResources().getDrawable(R.drawable.smile2);
+      Drawable drawable = this.getResources().getDrawable(R.drawable.mapsmile);
       HelloItemizedOverlay itemizedoverlay = new HelloItemizedOverlay(drawable, this);
-      Drawable drawable2 = this.getResources().getDrawable(R.drawable.frown);
+      Drawable drawable2 = this.getResources().getDrawable(R.drawable.mapfrown);
       HelloItemizedOverlay itemizedoverlay2 = new HelloItemizedOverlay(drawable2, this);
       
 
@@ -67,14 +67,10 @@ public class PersonalMap extends MapActivity {
 	        S = S + new Timestamp((long)time);
 	        itemizedoverlay2.addOverlay(new OverlayItem(point, S, element.getMsg()));
 	     }
-      } 
-     
-      
+      }  
       mapOverlays.add(itemizedoverlay);
       mapOverlays.add(itemizedoverlay2);
    }
-   
-
    
    /** Find and initialize the map view. */
    private void initMapView() {
@@ -83,8 +79,6 @@ public class PersonalMap extends MapActivity {
       map.setSatellite(true);
       map.setBuiltInZoomControls(true);
    }
-   
-
    
    /** Start tracking the position on the map. */
    private void initMyLocation() {
