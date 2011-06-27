@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:label="@string/more_name">			
+           		  android:label="@string/more_name"	
+           		  android:noHistory="true" >		
         </activity>
         <activity android:name=".Dashboard"
         	      android:label="@string/dashboard_name" >
