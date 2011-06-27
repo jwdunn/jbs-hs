@@ -78,7 +78,9 @@ public class HappyData {
 	}
 	//for each entry that isn't synced, send to database.
 	private void syncUp(){
-		Cursor cursor = getCursor();
+		Log.w(TAG, "SYNCUP");
+		SQLiteDatabase db = h.getReadableDatabase();
+		Cursor cursor = getCursor(db);
 		while (cursor.moveToNext() ){
 			long id = cursor.getLong(1);
 			int synced = cursor.getInt(7);
@@ -92,12 +94,19 @@ public class HappyData {
 			}
 			
 		}
+		db.close();
 	}
 	
 	//temporary method for testing uses only.
 	public void syncDown(){
+		String j = " [   { user:8, lat:20, lon:48, emo:.1, msg:\"Shalom Salaam Peace\", t:333}  ,   { user:8, lat:211, lon:33, emo:.8, msg:\"Hadag Nachash\", t:339}  ] ";
+		ArrayList<HappyBottle> b = net.parse(j);
+		for (HappyBottle bottle: b){
+			Log.e(TAG, "PARSED:" + bottle.toString());	
+		}
 		
-		syncAllDown();
+		//so far so good.
+		//syncAllDown();
 	
 	}
 	
@@ -129,7 +138,7 @@ public class HappyData {
 			long t = b.getTime();
 			long u = b.getUID();
 			
-			String[] columns = {_ID};
+			String[] columns = {_ID, MSG};
 			Cursor c = db.query(TABLE_NAME, columns, UID+"=\'"+u+"\' AND "+TIME+"="+t, null, null, null, null);
 			if (c.getCount() == 0){
 				//ie if there are no rows in the local table that match the uid and time of the bottle
@@ -147,19 +156,21 @@ public class HappyData {
 	 * @return the ArrayList of HappyBottles
 	 */
 	public ArrayList<HappyBottle> getMyHistory(){
-		//temporary, for debugging only.
-		syncAllDown();
 		
 		
-		Cursor cursor = getCursor();
+		SQLiteDatabase db = h.getReadableDatabase();
+		Cursor cursor = getCursor(db);
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
 			long id = cursor.getLong(1);
 			if (id == MyUserID) {
+				//infinite loop here?????
 				HappyBottle b = createBottle(cursor);
 				a.add(b);
 				}
 		}
+	
+		db.close();
 		return a;
 	}
 	
@@ -168,12 +179,14 @@ public class HappyData {
 	 * @return an ArrayList of HappyBottles
 	 */
 	public ArrayList<HappyBottle> getAllHistory(){
-		Cursor cursor = getCursor();
+		SQLiteDatabase db = h.getReadableDatabase();
+		Cursor cursor = getCursor(db);
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
 			HappyBottle b = createBottle(cursor);
 			a.add(b);
 		}
+		db.close();
 		return a;
 	}
 	
@@ -199,8 +212,7 @@ public class HappyData {
 	 * Provides random read-write access to the result set returned by a database query.
 	 * @return Cursor object
 	 */
-	private Cursor getCursor(){
-		SQLiteDatabase db = h.getReadableDatabase();
+	private Cursor getCursor(SQLiteDatabase db){
 		Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
 		           null, ORDER_BY);
 		return cursor;

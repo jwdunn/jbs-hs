@@ -162,7 +162,10 @@ public class NetHelper {
 	public ArrayList<HappyBottle> parse(String in){
 		   ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		   try {
-			   JSONArray jarray = new JSONArray(in);  
+//error is here somehow
+			   Log.w(TAG, "Trying to add the new jsonarray");
+			   JSONArray jarray = new JSONArray(in);
+			   Log.w(TAG, "added new jarray");
 			   for (int i = 0; i<jarray.length(); i++){
 				   JSONObject o = jarray.getJSONObject(i);
 				   HappyBottle b = parseone(o);
