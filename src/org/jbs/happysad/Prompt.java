@@ -9,16 +9,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-//import android.util.Log;
 
 /**
  * Creates Prompt Activity
  * @author HS
  */
 public class Prompt extends Activity implements OnClickListener{
-	//for debugging purposes, delete after debugging.
-	//private static final String TAG = "happy sad prompt";
-
 	/**
 	 * Initializes activity
 	 */
@@ -34,7 +30,6 @@ public class Prompt extends Activity implements OnClickListener{
     	//Finds the sad_button view
     	View sadButton = findViewById(R.id.sad_button);
     	sadButton.setOnClickListener(this);
-  	  
     }
     
     /**

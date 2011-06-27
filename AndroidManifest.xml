@@ -18,17 +18,23 @@
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:label="@string/more_name">			
+           		  android:label="@string/more_name"	
+           		  android:noHistory="true" >		
         </activity>
         <activity android:name=".Dashboard"
         	      android:label="@string/dashboard_name" >
         </activity>
         <activity android:name=".History"
-        	      android:label="@string/history_prompt" >
+        	      android:label="@string/history_name" >
         </activity>
         <activity android:name=".Prefs"
         	      android:label="@string/settings_title">
         </activity>
+        
+        <activity 
+			android:name=".FindMeHappiness" 
+			android:label="@string/fmh_name">
+		</activity>
 
 	</application>
 

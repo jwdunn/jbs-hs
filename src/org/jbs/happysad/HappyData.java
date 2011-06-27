@@ -15,16 +15,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+//import android.util.Log;
 
 /**
  * Creates a HappyData object
  * @author HS
  */
 public class HappyData {
+	//for debugging purposes, delete when no longer needed
+	//private static final String TAG = "HappyData";
+	
 	//fields
 	private HappyDB h;
-	private static final String TAG = "HappyData";
 	private static final long MyUserID = 1; //should not be hardcoded to 1
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME,  };
 	private static String ORDER_BY = TIME + " DESC";
@@ -44,13 +46,10 @@ public class HappyData {
 		ContentValues values = b.getAll();
 		try {
 			db.insertOrThrow(TABLE_NAME, null, values);
-			
-			Log.w(TAG, "update: " + b.toString());
 			toreturn = true;
 		}
 		catch(Exception e){
 			toreturn = false;
-			Log.d(TAG, "failed to save update");
 		}
 		finally{
 			h.close();
