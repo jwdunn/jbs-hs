@@ -10,7 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class Updates extends Activity{
+public class History extends Activity{
 	
 	private HappyData dataHelper;
 	
@@ -18,19 +18,27 @@ public class Updates extends Activity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
+		
 		dataHelper = new HappyData(this);
 		ArrayList<HappyBottle> updates = getUpdates(); 
 		showUpdates(updates); 
 	    
 	}
 	
+	/**
+	 * Returns an ArrayList of HappyBottles of MyHistory
+	 * @return
+	 */
 	private ArrayList<HappyBottle> getUpdates(){
 		return dataHelper.getMyHistory();
-		//this should CHANGE later
 	}
 	
+	/**
+	 * Shows the ArrayList of HappyBottles on the Screen via a big string
+	 * @param a
+	 */
 	private void showUpdates(ArrayList<HappyBottle> a){
-	 // Stuff them all into a big string
+		// Stuff them all into a big string
     	StringBuilder builder = new StringBuilder( 
           "Saved updates:\n");
 	    for (HappyBottle b : a) { 
@@ -44,6 +52,9 @@ public class Updates extends Activity{
 	    text.setText(builder);
 	}
 	
+	/**
+	 * Creates setting menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -51,8 +62,10 @@ public class Updates extends Activity{
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-		
-	@Override
+	
+	/**
+	 * Invoked when a option is clicked
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:

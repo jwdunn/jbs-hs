@@ -1,10 +1,4 @@
-/**
- * 
- * Pattered off of the EventsData (v3) class in Hello Android.
- */
-
 package org.jbs.happysad;
-
 
 import static android.provider.BaseColumns._ID;
 import static org.jbs.happysad.Constants.EMO;
@@ -21,22 +15,25 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+//import android.util.Log;
 
+/**
+ * Creates a HappyData object
+ * @author HS
+ */
 public class HappyData {
-
+	//for debugging purposes, delete when no longer needed
+	//private static final String TAG = "HappyData";
+	
+	//fields
 	private HappyDB h;
-	private static final String TAG = "HappyData";
-	private static final long MyUserID = 1; 
-	// ^ this should not be hardcoded to 1
+	private static final long MyUserID = 1; //should not be hardcoded to 1
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME,  };
 	private static String ORDER_BY = TIME + " DESC";
-	
 	
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
 	}
-	
 	
 	/**
 	 * Tries to add a bottle to the local db. Return true/false if it was successful or not.
@@ -49,44 +46,21 @@ public class HappyData {
 		ContentValues values = b.getAll();
 		try {
 			db.insertOrThrow(TABLE_NAME, null, values);
-			
-			Log.w(TAG, "update: " + b.toString());
 			toreturn = true;
 		}
 		catch(Exception e){
 			toreturn = false;
-			Log.d(TAG, "failed to save update");
 		}
 		finally{
 			h.close();
-			return toreturn;
-		}
-				
+		}	
+		return toreturn;
 	}
 	
-	public ArrayList<HappyBottle> getAllHistory(){
-		Cursor cursor = getCursor();
-		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
-		while (cursor.moveToNext() ){
-			HappyBottle b = createBottle(cursor);
-			a.add(b);
-		}
-		return a;
-	}
-	
-	private HappyBottle createBottle(Cursor cursor){
-		
-		long uid = cursor.getLong(1);
-		float latitude = cursor.getFloat(2);
-		float longitude = cursor.getFloat(3);
-		float emo = cursor.getFloat(4);
-		String msg = cursor.getString(5);
-		long time = cursor.getLong(6);
-		
-		HappyBottle b = new HappyBottle(uid, latitude, longitude, emo, msg, time);
-		return b;
-	}
-	
+	/**
+	 * This method creates an ArrayList of HappyBottles that id == MyUserID
+	 * @return the ArrayList of HappyBottles
+	 */
 	public ArrayList<HappyBottle> getMyHistory(){
 		Cursor cursor = getCursor();
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
@@ -100,13 +74,46 @@ public class HappyData {
 		return a;
 	}
 	
+	/**
+	 * This method creates an ArrayList of HappyBottles to create AllHistory
+	 * @return an ArrayList of HappyBottles
+	 */
+	public ArrayList<HappyBottle> getAllHistory(){
+		Cursor cursor = getCursor();
+		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
+		while (cursor.moveToNext() ){
+			HappyBottle b = createBottle(cursor);
+			a.add(b);
+		}
+		return a;
+	}
+	
+	/**
+	 * Creates a Bottle
+	 * @param cursor
+	 * @return return the created bottle
+	 */
+	private HappyBottle createBottle(Cursor cursor){
+		
+		long uid = cursor.getLong(1);
+		float latitude = cursor.getFloat(2);
+		float longitude = cursor.getFloat(3);
+		float emo = cursor.getFloat(4);
+		String msg = cursor.getString(5);
+		long time = cursor.getLong(6);
+		
+		HappyBottle b = new HappyBottle(uid, latitude, longitude, emo, msg, time);
+		return b;
+	}
+	
+	/**
+	 * Provides random read-write access to the result set returned by a database query.
+	 * @return Cursor object
+	 */
 	private Cursor getCursor(){
 		SQLiteDatabase db = h.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
 		           null, ORDER_BY);
 		return cursor;
-		
 	}
-
-	
 }
