@@ -19,8 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:label="@string/more_name"	
-           		  android:noHistory="true" >		
+           		  android:label="@string/more_name"	>
         </activity>
         <activity android:name=".PersonalMap"
         	      android:label="@string/personalMapTitle">
