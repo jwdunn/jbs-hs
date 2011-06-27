@@ -114,14 +114,15 @@ public class NetHelper {
 		   surl += c.getAsFloat(LAT);
 		   surl += "&lon=";
 		   surl += c.getAsFloat(LONG);
+		   surl += "&t=";
+		   surl += c.getAsLong(TIME);
 		   surl += "&user=";
 		   surl += c.getAsString(UID);
 		   surl += "&emo=";
 		   surl += c.getAsFloat(EMO);
 		   surl += "&msg=";
 		   surl += c.getAsString(MSG);
-		   surl += "&t=";
-		   surl += c.getAsLong(TIME);
+		   
 		   Log.v(TAG, "surl = " + surl);
 		try{
 			   URL url = new URL (surl);
@@ -172,7 +173,7 @@ public class NetHelper {
 				   a.add(b);
 			   }  
 		   } catch (JSONException e) {
-			   Log.v(TAG + "array error", e.toString());
+			   Log.e(TAG + "array error", e.toString());
 			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(float) 1, "JSONARRAYERROR",1) );
 		   }
 		   return a;

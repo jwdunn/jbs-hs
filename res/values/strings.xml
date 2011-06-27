@@ -13,12 +13,14 @@
 	<string name="history_name">History</string>
 	<string name="global_name">Global</string>
 	<string name="fmh_name">Find Me Happiness</string>
-	<string name="map_name">Map</string>
+	<string name="exit_name">Exit</string>
+	<string name="button6_name">Button6</string>
 	<string name="settings_label">Settings</string>
 	<string name="settings_title">Happy Sad Settings</string>
+	<string name="exit_label">Exit</string>	
+	<string name="empty">No events!</string>
+	<string name="map_name">Map</string>
 	<string name="personalMapTitle">Map:</string>
-	<string name="exit_name">Exit</string>
-	<string name="empty">Empty</string>
 
 
 </resources>

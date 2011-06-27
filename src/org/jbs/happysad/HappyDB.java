@@ -22,7 +22,7 @@ import static org.jbs.happysad.Constants.UID;
  */
 public class HappyDB extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "happy.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 5;
 	private static final String TAG = "HappyDB"; 
 	
 	/**
