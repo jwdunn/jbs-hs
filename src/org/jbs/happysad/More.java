@@ -30,7 +30,7 @@ import android.widget.TextView;
  * Creates the More activity
  * @author HS
  */
-public class More extends Activity implements OnKeyListener, OnClickListener, OnTouchListener {
+public class More extends Activity implements OnClickListener, OnTouchListener {
 	//for debugging purposes, delete after debugging.
 	//private static final String TAG = "there's more screen";
 	
@@ -79,10 +79,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener, On
 			setContentView(R.layout.moresad);
 		}
 		
-		//Finds the more_textbox view
-		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnKeyListener(this);
-		
 		//Updates location
 		locationStuff();			
 		
@@ -124,20 +120,7 @@ public class More extends Activity implements OnKeyListener, OnClickListener, On
 		}
 	}  
 	
-	/**
-	 * Called when a key is dispatched to a view.
-	 */
-	public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-		if ((event.getAction() == KeyEvent.ACTION_DOWN)
-				&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-			// Done pressed! Do something here.
-			this.onClick(findViewById(R.id.more_to_dash));
-			
-		}
-		// Returning false allows other listeners to react to the press.
-		return false;
-	}
+	
 	
 	/**
 	 * Helper method to deal with location.
