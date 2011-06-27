@@ -110,6 +110,10 @@ public class More extends Activity implements OnKeyListener, OnClickListener, On
 			Intent i = new Intent(this, Dashboard.class);
 			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			saveUpdate(userstring); 
+			gpsLocationManager.removeUpdates(gpsLocationListener);
+			networkLocationManager.removeUpdates(networkLocationListener);
+			gpsLocationManager = null;
+			networkLocationManager = null;
 			finish();
 			startActivity(i);
 			break;
@@ -325,10 +329,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener, On
 
 	protected void onPause() {
 		super.onPause();
-		gpsLocationManager.removeUpdates(gpsLocationListener);
-		networkLocationManager.removeUpdates(networkLocationListener);
-		gpsLocationManager = null;
-		networkLocationManager = null;
 	}
 }
 
