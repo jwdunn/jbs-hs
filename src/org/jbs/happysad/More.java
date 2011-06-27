@@ -241,6 +241,7 @@ private static final String TAG = "Touch" ;
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
 	}
+
 	
 	/**
 	 * Creates setting menu
