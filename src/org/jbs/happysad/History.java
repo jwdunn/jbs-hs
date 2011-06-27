@@ -1,6 +1,5 @@
 package org.jbs.happysad;
 
-
 import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
