@@ -92,7 +92,12 @@ public class Dashboard extends Activity implements OnClickListener{
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
-			// More items go here (if any) ...
+		case R.id.exit:
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			finish();
+			startActivity(intent);
+		
 		}
 		return false;
 	}
