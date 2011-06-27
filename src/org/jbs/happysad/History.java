@@ -13,21 +13,25 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 public class History extends Activity implements OnClickListener{
+
 	private HappyData dataHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
-		
+
 		View refreshButton = findViewById(R.id.refresh);
     	refreshButton.setOnClickListener(this);
-		
+
 		dataHelper = new HappyData(this);
 		ArrayList<HappyBottle> updates = getUpdates(); 
 		showUpdates(updates); 
 
 	}
+
+
+
 
 	public void onClick(View v) {
 		Intent i = new Intent(this, History.class);
@@ -38,8 +42,13 @@ public class History extends Activity implements OnClickListener{
 			startActivity(i);
 			break;
 
-		}
-	
+		}}
+
+
+
+
+
+
 	/**
 	 * Returns an ArrayList of HappyBottles of MyHistory
 	 * @return
