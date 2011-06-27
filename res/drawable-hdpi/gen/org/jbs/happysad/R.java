@@ -15,41 +15,34 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int frown=0x7f020000;
-        public static final int happysad=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int smile=0x7f020003;
-        public static final int smile2=0x7f020004;
+        public static final int camera=0x7f020000;
+        public static final int frown=0x7f020001;
+        public static final int happysad=0x7f020002;
+        public static final int icon=0x7f020003;
+        public static final int promptfrown=0x7f020004;
+        public static final int promptsmile=0x7f020005;
+        public static final int smile2=0x7f020006;
     }
     public static final class id {
         public static final int button4_button=0x7f080004;
         public static final int button5_button=0x7f080005;
         public static final int button6_button=0x7f080006;
+        public static final int camera_button=0x7f080012;
+        public static final int frameLayout1=0x7f080010;
         public static final int happy_button=0x7f08000a;
         public static final int history_button=0x7f080002;
-<<<<<<< HEAD
-        public static final int linearLayout1=0x7f080004;
-        public static final int more_blank=0x7f08000b;
-        public static final int more_text=0x7f080008;
-        public static final int more_textbox=0x7f080009;
-        public static final int more_to_dash=0x7f08000a;
-        public static final int relativeLayout1=0x7f080005;
-        public static final int sad_button=0x7f080006;
-        public static final int settings=0x7f08000c;
-        public static final int text=0x7f080003;
-=======
+        public static final int imageView=0x7f080011;
         public static final int linearLayout1=0x7f080008;
-        public static final int location=0x7f08000f;
         public static final int mail_button=0x7f080003;
-        public static final int more_blank=0x7f080010;
-        public static final int more_text=0x7f08000c;
-        public static final int more_textbox=0x7f08000d;
-        public static final int more_to_dash=0x7f08000e;
+        public static final int more_textbox=0x7f08000f;
+        public static final int more_to_dash=0x7f080013;
         public static final int relativeLayout1=0x7f080009;
         public static final int sad_button=0x7f08000b;
-        public static final int settings=0x7f080011;
+        public static final int settings=0x7f080014;
+        public static final int tableLayout1=0x7f08000c;
+        public static final int tableLayout2=0x7f08000e;
         public static final int text=0x7f080007;
->>>>>>> origin/master
+        public static final int textView1=0x7f08000d;
         public static final int update_button=0x7f080001;
         public static final int welcome_title=0x7f080000;
     }
@@ -58,6 +51,7 @@ public final class R {
         public static final int history=0x7f030001;
         public static final int main=0x7f030002;
         public static final int more=0x7f030003;
+        public static final int moresad=0x7f030004;
     }
     public static final class menu {
         public static final int menu=0x7f070000;
