@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -79,12 +80,11 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 			setContentView(R.layout.moresad);
 		}
 		
+		//prevent text edit from being focused onCreate
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		
 		//Updates location
 		locationStuff();
-		
-		//Finds the more_textbox view
-		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnKeyListener(this);
 		
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
@@ -97,6 +97,10 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		//this creates the on touch listenter for the photo button
 		View buttonImageCapture = (View) findViewById(R.id.camera_button);
 		buttonImageCapture.setOnClickListener(this);
+		
+		//Finds the more_textbox view
+		EditText textField = (EditText)findViewById(R.id.more_textbox);
+		textField.setOnKeyListener(this);
 	}
 	
 	/**
