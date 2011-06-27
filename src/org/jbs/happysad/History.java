@@ -8,23 +8,47 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-public class History extends Activity{
-	
+public class History extends Activity implements OnClickListener{
+
 	private HappyData dataHelper;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
-		
+
+		View refreshButton = findViewById(R.id.refresh);
+    	refreshButton.setOnClickListener(this);
+
 		dataHelper = new HappyData(this);
 		ArrayList<HappyBottle> updates = getUpdates(); 
 		showUpdates(updates); 
-	    
+
 	}
-	
+
+
+
+
+	public void onClick(View v) {
+		Intent i = new Intent(this, History.class);
+
+		switch(v.getId()) {		
+		case R.id.refresh:	
+			dataHelper.syncDown();
+			startActivity(i);
+			break;
+
+		}}
+
+
+
+
+
+
 	/**
 	 * Returns an ArrayList of HappyBottles of MyHistory
 	 * @return
@@ -32,7 +56,7 @@ public class History extends Activity{
 	private ArrayList<HappyBottle> getUpdates(){
 		return dataHelper.getMyHistory();
 	}
-	
+
 	/**
 	 * Shows the ArrayList of HappyBottles on the Screen via a big string
 	 * @param a
@@ -51,7 +75,7 @@ public class History extends Activity{
 	    TextView text = (TextView) findViewById(R.id.text); 
 	    text.setText(builder);
 	}
-	
+
 	/**
 	 * Creates setting menu
 	 */
@@ -62,7 +86,7 @@ public class History extends Activity{
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-	
+
 	/**
 	 * Invoked when a option is clicked
 	 */
