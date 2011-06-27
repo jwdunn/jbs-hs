@@ -20,10 +20,6 @@ import static org.jbs.happysad.Constants.UID;
 public class HappyDB extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "happy.db";
 	private static final int DATABASE_VERSION = 2;
-	private static final String TAG = "HappyDB"; 
-
-	
-	
 	
 	/**
 	 * Constructor for the DB object
