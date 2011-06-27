@@ -21,6 +21,7 @@
 	<string name="empty">No events!</string>
 	<string name="map_name">Map</string>
 	<string name="personalMapTitle">Map:</string>
+	<string name="refresh_name">Refresh</string>
 
 
 </resources>

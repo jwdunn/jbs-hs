@@ -38,10 +38,10 @@ public class History extends ListActivity implements OnClickListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.history2);
+		setContentView(R.layout.history);
 		
 
-		View refreshButton = findViewById(R.id.refresh);
+		View refreshButton = findViewById(R.id.refresh_button);
     	refreshButton.setOnClickListener(this);
 
 		dataHelper = new HappyData(this);
@@ -57,7 +57,7 @@ public class History extends ListActivity implements OnClickListener{
 		Intent i = new Intent(this, History.class);
 
 		switch(v.getId()) {		
-		case R.id.refresh:	
+		case R.id.refresh_button:	
 			dataHelper.syncDown();
 			startActivity(i);
 			break;
@@ -93,9 +93,6 @@ public class History extends ListActivity implements OnClickListener{
 	       builder.append("\n");
 
 	    }
-	    // Display on the screen
-	    TextView text = (TextView) findViewById(R.id.text); 
-	    text.setText(builder);
 	}
 	
 	/**
