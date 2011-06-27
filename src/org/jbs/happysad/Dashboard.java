@@ -39,7 +39,7 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	fmhButton.setOnClickListener(this);
   	  	
   	  	//Finds the map view
-  	  	View button6button = findViewById(R.id.button6_button);
+  	  	View button6button = findViewById(R.id.map_button);
   	  	button6button.setOnClickListener(this);
 	}
     
@@ -66,7 +66,7 @@ public class Dashboard extends Activity implements OnClickListener{
 			startActivity(k);
 			break;
 		
-		case R.id.button6_button:
+		case R.id.map_button:
 			Intent l = new Intent(this, PersonalMap.class);
 			startActivity(l);
 			break;

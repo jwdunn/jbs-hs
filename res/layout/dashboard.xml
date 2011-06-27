@@ -58,12 +58,12 @@
 		</TableRow>
 		<TableRow> 
 			<Button
-				android:id="@+id/button6_button"
+				android:id="@+id/map_button"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/button6_name" />
+				android:text="@string/map_name" />
 		</TableRow> 
 	</TableLayout>
 	</LinearLayout>
