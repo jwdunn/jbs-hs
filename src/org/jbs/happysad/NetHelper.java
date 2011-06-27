@@ -172,7 +172,7 @@ public class NetHelper {
 				   a.add(b);
 			   }  
 		   } catch (JSONException e) {
-			   Log.v(TAG + "array error", e.toString());
+			   Log.e(TAG + "array error", e.toString());
 			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(float) 1, "JSONARRAYERROR",1) );
 		   }
 		   return a;

@@ -181,6 +181,14 @@ public class HappyData {
 		return a;
 	}
 	
+	//FOR HW W5L1
+	public Cursor getMyHistoryCursor(){
+		SQLiteDatabase db = h.getReadableDatabase();
+		Cursor cursor = getCursor(db);
+		
+		return cursor;
+	}
+	
 	/**
 	 * This method creates an ArrayList of HappyBottles to create AllHistory
 	 * @return an ArrayList of HappyBottles
