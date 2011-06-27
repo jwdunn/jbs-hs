@@ -236,32 +236,6 @@ public class More extends Activity implements OnKeyListener, OnClickListener, On
 		dataHelper.addBottle(b);
 	}
 
-	
-	/**
-	 * Creates setting menu
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
-	
-	/**
-	 * Invoked when a option is clicked
-	 */
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.settings:
-			startActivity(new Intent(this, Prefs.class));
-			return true;
-			// More items go here (if any) ...
-		}
-	return false;
-	}
-	
-
    //**************************************************************
 	// this is all the pinch to zoom stuff!! :-D
 	

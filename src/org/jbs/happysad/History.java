@@ -75,28 +75,4 @@ public class History extends Activity implements OnClickListener{
 	    TextView text = (TextView) findViewById(R.id.text); 
 	    text.setText(builder);
 	}
-
-	/**
-	 * Creates setting menu
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
-
-	/**
-	 * Invoked when a option is clicked
-	 */
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.settings:
-			startActivity(new Intent(this, Prefs.class));
-			return true;
-			// More items go here (if any) ...
-		}
-	return false;
-	}
 }
