@@ -28,56 +28,27 @@ public class History extends ListActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
 		
-
 		View refreshButton = findViewById(R.id.refresh_button);
     	refreshButton.setOnClickListener(this);
 
 		dataHelper = new HappyData(this);
-		//ArrayList<HappyBottle> updates = getUpdates(); 
-		//showUpdates(updates); 
 	    showUpdatesCursor(dataHelper.getMyHistoryCursor());
 	}
 
-
-
-
 	public void onClick(View v) {
-		Intent i = new Intent(this, History.class);
-
 		switch(v.getId()) {		
 		case R.id.refresh_button:	
+			dataHelper = new HappyData(this);
+		    showUpdatesCursor(dataHelper.getMyHistoryCursor());
 			dataHelper.syncDown();
-			startActivity(i);
 			break;
 
 		}}
+	
 	private void showUpdatesCursor(Cursor cursor){
 		startManagingCursor(cursor);
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, FROM, TO);
 		setListAdapter(adapter);
 		
-	}
-	
-	/**
-	 * Creates setting menu
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.history, menu);
-		return true;
-	}
-
-	/**
-	 * Invoked when a option is clicked
-	 */
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.dashboard:
-			startActivity(new Intent(this, Dashboard.class));
-			return true;
-		}
-		return false;
 	}
 }
