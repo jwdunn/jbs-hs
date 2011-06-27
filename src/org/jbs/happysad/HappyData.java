@@ -93,20 +93,22 @@ public class HappyData {
 				addBottle(b, true);
 			}
 			
-		}
-		db.close();
+		} 
+		cursor.close();
+		db.close(); 
 	}
 	
 	//temporary method for testing uses only.
 	public void syncDown(){
-		String j = " [   { user:8, lat:20, lon:48, emo:.1, msg:\"Shalom Salaam Peace\", t:333}  ,   { user:8, lat:211, lon:33, emo:.8, msg:\"Hadag Nachash\", t:339}  ] ";
+		/*String j = " [   { user:8, lat:20, lon:48, emo:.1, msg:\"Shalom Salaam Peace\", t:333}  ,   { user:8, lat:211, lon:33, emo:.8, msg:\"Hadag Nachash\", t:339}  ] ";
 		ArrayList<HappyBottle> b = net.parse(j);
 		for (HappyBottle bottle: b){
 			Log.e(TAG, "PARSED:" + bottle.toString());	
 		}
-		
+		*/
 		//so far so good.
-		//syncAllDown();
+		syncAllDown();
+		//addAvoidDupes(b);
 	
 	}
 	
@@ -133,21 +135,26 @@ public class HappyData {
 		//for each bottle
 		//if there is nothing with the same uid and time as the bottle in your localdb
 		//add it to the db
-		SQLiteDatabase db = h.getReadableDatabase();
+		
 		for (HappyBottle b : a){
 			long t = b.getTime();
 			long u = b.getUID();
-			
+			SQLiteDatabase db = h.getReadableDatabase();
 			String[] columns = {_ID, MSG};
 			Cursor c = db.query(TABLE_NAME, columns, UID+"=\'"+u+"\' AND "+TIME+"="+t, null, null, null, null);
 			if (c.getCount() == 0){
+				c.close();
+				db.close();
+				
 				//ie if there are no rows in the local table that match the uid and time of the bottle
 				Log.d(TAG, "adding bottle fromthe internets!");
 				this.addBottle(b, true);
 			}
+			c.close();
+			db.close();
 		
 		}
-		db.close();
+	
 		
 	}
 	
@@ -169,7 +176,7 @@ public class HappyData {
 				a.add(b);
 				}
 		}
-	
+		cursor.close();
 		db.close();
 		return a;
 	}
@@ -186,6 +193,7 @@ public class HappyData {
 			HappyBottle b = createBottle(cursor);
 			a.add(b);
 		}
+		cursor.close();
 		db.close();
 		return a;
 	}
