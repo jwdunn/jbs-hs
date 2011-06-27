@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" >
 	<LinearLayout
  	xmlns:android="http://schemas.android.com/apk/res/android"
  	android:layout_height="fill_parent"
@@ -10,7 +14,8 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center" 
 			android:layout_width="fill_parent" 
-			android:orientation="vertical" >
+			android:orientation="vertical" 
+			android:layout_marginTop="150dip">
 			
 			<!-- How are you feeling? -->
 			<TextView 
@@ -30,7 +35,7 @@
 				android:layout_width="fill_parent" >
 				
 				<Button 
-					android:background="@drawable/smile"
+					android:background="@drawable/promptsmile"
 					android:id="@+id/happy_button" 
 					android:layout_alignParentLeft="true" 
 					android:layout_height="wrap_content" 
@@ -38,7 +43,7 @@
 				</Button>
 				
 				<Button 
-					android:background="@drawable/frown"
+					android:background="@drawable/promptfrown"
 					android:id="@+id/sad_button" 
 					android:layout_alignParentRight="true" 
 					android:layout_height="wrap_content" 
@@ -47,3 +52,4 @@
 			</RelativeLayout>
 			</LinearLayout>
 		</LinearLayout>
+		</ScrollView>

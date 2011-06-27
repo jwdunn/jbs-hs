@@ -27,7 +27,6 @@ public class HappyDB extends SQLiteOpenHelper {
 
 	
 	
-	
 	/**
 	 * Constructor for the DB object
 	 */
