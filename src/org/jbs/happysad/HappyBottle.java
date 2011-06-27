@@ -70,7 +70,7 @@ public class HappyBottle {
 	public String getMsg(){
 		return this.msg;
 	}
-	public float getTime(){
+	public long getTime(){
 		return time;
 	}
 	public long getUID(){
