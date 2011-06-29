@@ -32,6 +32,11 @@
 			android:name=".FindMeHappiness" 
 			android:label="@string/fmh_name">
 		</activity>
+		
+		<activity 
+			android:name=".Stats" 
+			android:label="@string/stats_prompt">
+		</activity>
 
 	</application>
 

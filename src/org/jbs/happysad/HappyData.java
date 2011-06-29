@@ -30,6 +30,8 @@ public class HappyData {
 	private static final long MyUserID = 1; //should not be hardcoded to 1
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME,  };
 	private static String ORDER_BY = TIME + " DESC";
+	private int happycount;
+	private int sadcount;
 	
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
@@ -102,6 +104,15 @@ public class HappyData {
 		String msg = cursor.getString(5);
 		long time = cursor.getLong(6);
 		
+		if (emo == 1){
+			
+			happycount++;
+			
+		} else {
+			
+			sadcount++;
+		}
+		
 		HappyBottle b = new HappyBottle(uid, latitude, longitude, emo, msg, time);
 		return b;
 	}
@@ -115,5 +126,15 @@ public class HappyData {
 		Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
 		           null, ORDER_BY);
 		return cursor;
+	}
+	
+	public int getHappycount(){
+		
+		return happycount;
+	}
+	
+	public int getSadcount(){
+		
+		return sadcount;
 	}
 }

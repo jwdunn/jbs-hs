@@ -42,6 +42,10 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	View exitButton = findViewById(R.id.exit_button);
   	  	exitButton.setOnClickListener(this);
   	  	
+  	  	//Finds the exit_button view
+  	  	View statsButton = findViewById(R.id.stats_button);
+  	  	statsButton.setOnClickListener(this);
+  	  	
 	}
     
     /**
@@ -70,6 +74,11 @@ public class Dashboard extends Activity implements OnClickListener{
 		case R.id.exit_button: 
     		onDestroy();
     		break;
+    		
+		case R.id.stats_button:
+			Intent l = new Intent(this, Stats.class);
+			startActivity(l);
+			break;
 		}
 	}
 	

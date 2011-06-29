@@ -18,7 +18,8 @@
 		<string name="global_prompt">Global</string>
 		<string name="fmh_prompt">FMH</string>
 		<string name="exit_prompt">Exit</string>
-		<string name="button6_prompt">Button6</string>
+		<string name="stats_prompt">Stats</string>
 		<string name="fmh_name">Find Me Happiness</string>
+		<string name="stats_name">Stats</string>
 		<string name="history_name">History</string>
 </resources>
