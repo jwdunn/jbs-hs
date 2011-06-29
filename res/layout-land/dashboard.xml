@@ -31,20 +31,20 @@
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginRight= "5dip"
-				android:text="@string/update_prompt" />
+				android:text="@string/update_name" />
 			<Button 
 				android:id="@+id/history_button" 
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
-				android:text="@string/history_prompt" />
+				android:text="@string/history_name" />
 			<Button
-				android:id="@+id/global_button"
+				android:id="@+id/locavg_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/global_prompt" />
+				android:text="@string/locavg_name" />
 		</TableRow> 
 		<TableRow> 
 			<Button
@@ -53,20 +53,20 @@
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginRight= "5dip"
-				android:text="@string/fmh_prompt" />
+				android:text="@string/fmh_name" />
 			<Button
-				android:id="@+id/exit_button"
+				android:id="@+id/map_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
-				android:text="@string/exit_prompt" /> 
+				android:text="@string/map_name" /> 
 			<Button
-				android:id="@+id/stats_button"
+				android:id="@+id/globavg_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/stats_prompt" />
+				android:text="@string/globavg_name" />
 		</TableRow>
 	</TableLayout>
 	</LinearLayout>

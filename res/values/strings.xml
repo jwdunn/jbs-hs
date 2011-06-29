@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Happy Sad</string>
-	    <string name="happy_prompt">Happy</string>
-	    <string name="sad_prompt">Sad</string>
-	    <string name="im_happy">Im Happy</string>
-		<string name="im_sad">Im Sad</string>
-    	<string name="happysad_name">How are you feeling?</string>
-		<string name="more_question">Why?\n</string>
-    	<string name="submit_to_dash">Submit</string>
-		<string name="more_name">More!</string>
-		<string name="more_hint_text">Why?</string>
-		<string name ="dashboard_name">Dashboard</string>
-		<string name="update_prompt">Update</string>
-		<string name="history_prompt">History</string>
-		<string name="settings_label">Settings</string>
-		<string name="settings_title">Happy Sad Settings</string>	
-		<string name="global_prompt">Global</string>
-		<string name="fmh_prompt">FMH</string>
-		<string name="exit_prompt">Exit</string>
-		<string name="stats_prompt">Stats</string>
-		<string name="fmh_name">Find Me Happiness</string>
-		<string name="stats_name">Stats</string>
-		<string name="history_name">History</string>
+    <string name="happysad_name">How are you feeling?</string>
+   	<string name="im_happy">Im Happy</string>
+	<string name="im_sad">Im Sad</string>
+	<string name="more_name">More!</string>
+	<string name="more_hint_text">Why?</string>
+    <string name="submit_to_dash">Submit</string>
+	<string name ="dashboard_name">Dashboard</string>
+	<string name="update_name">Update</string>
+	<string name="history_name">History</string>
+	<string name="global_name">Global</string>
+	<string name="fmh_name">Find Me Happiness</string>
+	<string name="exit_name">Exit</string>
+	<string name="locavg_name">Local Avg</string>
+	<string name="globavg_name">Global Avg</string>
+	<string name="settings_label">Settings</string>
+	<string name="settings_title">Happy Sad Settings</string>
+	<string name="exit_label">Exit</string>	
+	<string name="empty">No events!</string>
+	<string name="map_name">Map</string>
+	<string name="personalMapTitle">Map:</string>
+	<string name="refresh_name">Refresh</string>
 </resources>
+

@@ -38,14 +38,18 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	View fmhButton = findViewById(R.id.fmh_button);
   	  	fmhButton.setOnClickListener(this);
   	  	
-  	  	//Finds the exit_button view
-  	  	View exitButton = findViewById(R.id.exit_button);
-  	  	exitButton.setOnClickListener(this);
+  	  	//Finds the locavg_button view
+  	  	View locavgButton = findViewById(R.id.locavg_button);
+  	  	locavgButton.setOnClickListener(this);
   	  	
-  	  	//Finds the exit_button view
-  	  	View statsButton = findViewById(R.id.stats_button);
-  	  	statsButton.setOnClickListener(this);
+  	  	//Finds the globavg_button view
+  	  	View globavgButton = findViewById(R.id.globavg_button);
+  	  	globavgButton.setOnClickListener(this);
   	  	
+  	  	//Finds the map view
+  	  	View button6button = findViewById(R.id.map_button);
+  	  	button6button.setOnClickListener(this);
+
 	}
     
     /**
@@ -71,14 +75,21 @@ public class Dashboard extends Activity implements OnClickListener{
 			startActivity(k);
 			break;
 			
-		case R.id.exit_button: 
-    		onDestroy();
+		case R.id.locavg_button: 
+			Intent m = new Intent(this, ChartInfo.class);
+			startActivity(m);
     		break;
     		
-		case R.id.stats_button:
-			Intent l = new Intent(this, Stats.class);
+		case R.id.globavg_button:
+			Intent n = new Intent(this, ChartInfo.class);
+			startActivity(n);
+			break;
+		
+		case R.id.map_button:
+			Intent l = new Intent(this, PersonalMap.class);
 			startActivity(l);
 			break;
+
 		}
 	}
 	
@@ -101,7 +112,12 @@ public class Dashboard extends Activity implements OnClickListener{
 		case R.id.settings:
 			startActivity(new Intent(this, Prefs.class));
 			return true;
-			// More items go here (if any) ...
+		case R.id.exit:
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			finish();
+			startActivity(intent);
+		
 		}
 		return false;
 	}

@@ -1,45 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" >
+
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:layout_gravity="center" >
-	<TextView
-		android:id="@+id/more_text"
-		android:text="@string/more_question"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center"
-		android:layout_marginBottom="25dip"
-		android:textSize="24.5sp" />
-	
-	<EditText
-	    android:id="@+id/more_textbox"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:hint="@string/more_hint_text"
-	    android:layout_marginBottom="5dip"
-	    />
+  android:layout_height="match_parent"
+   android:layout_width="match_parent"
+    android:orientation="vertical">
+    
+    <TableLayout android:id="@+id/tableLayout1" 
+    android:layout_height="wrap_content" 
+    android:layout_width="match_parent"
+    android:layout_marginBottom="30dip" >
+    
+    
+        <TextView android:text="@string/more_hint_text" 
+        android:id="@+id/textView1" 
+        android:layout_width="wrap_content" 
+        android:textSize="34.5sp" 
+        android:gravity="center"
+        android:layout_height="wrap_content" 
+        android:layout_weight="1" 
+      	>
+        </TextView>
+        	
+    </TableLayout>
+    <TableLayout 
+    	android:id="@+id/tableLayout2" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="match_parent">
+    	
+		
+        <EditText android:hint="why are you feeling this way?" 
+        android:id="@+id/more_textbox" 
+        android:layout_width="wrap_content" 
+        android:layout_height="match_parent"
+         >
+         </EditText>
+         
+        <FrameLayout android:gravity="center" 
+        android:layout_height="wrap_content" 
+        android:id="@+id/frameLayout1" 
+        android:layout_width="match_parent"
+        android:layout_marginLeft="60dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="50dip"
+        >
+            <LinearLayout android:id="@+id/linearLayout1" 
+            android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+             </LinearLayout>
+            <ImageView android:layout_height="200dip" 
+            android:layout_width="200dip" 
+            android:scaleType="matrix" 
+            android:id="@+id/imageView" 
+            android:src="@drawable/smile2"
+            >
+            </ImageView>
+         
+        </FrameLayout>
+    </TableLayout>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:background="#000000" 
+    android:layout_height="fill_parent"> 
+    
+		<ImageButton android:text="@string/im_happy" 
+		android:id="@+id/camera_button" 
+		android:src="@drawable/camera" 
+		android:layout_centerHorizontal="true" 
+		android:layout_width="170dip" 
+		android:layout_alignParentLeft="true" 
+		android:layout_height="wrap_content">
+		</ImageButton>
 
-	<Button
-		android:id="@+id/more_to_dash"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/submit_to_dash" 
-		android:layout_marginBottom="25dip"  />
-	
-	<TextView
-		android:id="@+id/more_blank"
-		android:text=""
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center"
-		android:layout_marginTop="20dip"
-		android:textSize="10.5sp" /> 
-
-</LinearLayout>
-</LinearLayout>
+		<Button android:text="@string/submit_to_dash" 
+		android:id="@+id/more_to_dash" 
+		android:layout_centerHorizontal="true" 
+		android:layout_width="170dip" 
+		android:layout_toRightOf="@id/camera_button" 
+		android:layout_alignTop="@id/camera_button" 
+		android:layout_height="55dip">
+		</Button>  
+ 	</RelativeLayout>   	
+ </LinearLayout>  	 
+</ScrollView>
