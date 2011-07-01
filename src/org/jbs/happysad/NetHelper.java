@@ -163,10 +163,10 @@ public class NetHelper {
 	public ArrayList<HappyBottle> parse(String in){
 		   ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		   try {
-//error is here somehow
-			   Log.w(TAG, "Trying to add the new jsonarray");
+
+			  // Log.w(TAG, "Trying to add the new jsonarray");
 			   JSONArray jarray = new JSONArray(in);
-			   Log.w(TAG, "added new jarray");
+			   //Log.w(TAG, "added new jarray");
 			   for (int i = 0; i<jarray.length(); i++){
 				   JSONObject o = jarray.getJSONObject(i);
 				   HappyBottle b = parseone(o);
@@ -175,6 +175,9 @@ public class NetHelper {
 		   } catch (JSONException e) {
 			   Log.e(TAG + "array error", e.toString());
 			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(float) 1, "JSONARRAYERROR",1) );
+		   }
+		   catch (Exception e){
+			   Log.e(TAG + "mysterious other error", e.toString());
 		   }
 		   return a;
 	}
