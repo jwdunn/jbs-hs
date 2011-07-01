@@ -7,17 +7,12 @@ import static org.jbs.happysad.Constants.TIME;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import android.app.ListActivity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 
 
 public class History extends ListActivity implements OnClickListener{
@@ -39,7 +34,7 @@ public class History extends ListActivity implements OnClickListener{
     	refreshButton.setOnClickListener(this);
 
 		dataHelper = new HappyData(this);
-	    //showUpdatesCursor(dataHelper.getMyHistoryCursor());
+	   
 		ArrayList<HappyBottle> list = dataHelper.getMyHistory();
 		showUpdates(list);
 	}
@@ -47,8 +42,6 @@ public class History extends ListActivity implements OnClickListener{
 	public void onClick(View v) {
 		switch(v.getId()) {		
 		case R.id.refresh_button:	
-		    //showUpdatesCursor(dataHelper.getMyHistoryCursor());
-			//dataHelper.syncDown();
 			ArrayList<HappyBottle> list = dataHelper.getMyHistory();
 			showUpdates(list);
 			adapter.notifyDataSetChanged();
@@ -77,12 +70,4 @@ public class History extends ListActivity implements OnClickListener{
 		
 	}
 	
-	private void showUpdatesCursor(Cursor cursor){
-		startManagingCursor(cursor);
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, FROM, TO);
-		
-		setListAdapter(adapter);
-		
-		
-	}
 }
