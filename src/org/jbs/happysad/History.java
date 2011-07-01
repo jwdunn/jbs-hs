@@ -43,7 +43,9 @@ public class History extends ListActivity implements OnClickListener{
 	private void showUpdatesCursor(Cursor cursor){
 		startManagingCursor(cursor);
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, FROM, TO);
+		
 		setListAdapter(adapter);
+		
 		
 	}
 }
