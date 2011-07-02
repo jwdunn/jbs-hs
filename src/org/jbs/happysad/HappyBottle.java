@@ -34,11 +34,11 @@ public class HappyBottle {
 	 * @param t
 	 * @param time
 	 */
-	public HappyBottle(long id, float la, float lo, short e, String t, long time ){
-		lati = la;
-		longi = lo;
-		emo = e;
-		msg = t;
+	public HappyBottle(long uid, float lati, float longi, short emo, String msg, long time) {
+		this.lati = lati;
+		this.longi = longi;
+		this.emo = emo;
+		this.msg = msg;
 		this.time = time;
 		uid = id;
 	}	
