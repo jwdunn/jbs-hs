@@ -71,12 +71,12 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
-		emotion = sender.getExtras().getShort("Emotion");
+		emotion = (short) sender.getExtras().getInt("Emotion");
 		
 		if(emotion == 1){
 			setContentView(R.layout.more);
 		}
-		else{
+		else if(emotion == 0){
 			setContentView(R.layout.moresad);
 		}
 		
