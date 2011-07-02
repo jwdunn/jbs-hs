@@ -40,7 +40,7 @@ public class HappyBottle {
 		this.emo = emo;
 		this.msg = msg;
 		this.time = time;
-		uid = id;
+		this.uid = uid;
 	}	
 	
 	/**
