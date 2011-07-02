@@ -45,7 +45,7 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 	private float Network_latitude;
 	private float Network_longitude;
 	private HappyData dataHelper;
-	int emotion = -1;
+	short emotion = -1;
 	String extradata;
 	long myID = 1;
 	
@@ -71,7 +71,7 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
-		emotion = sender.getExtras().getInt("Emotion");
+		emotion = sender.getExtras().getShort("Emotion");
 		
 		if(emotion == 1){
 			setContentView(R.layout.more);

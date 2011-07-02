@@ -119,7 +119,7 @@ public class NetHelper {
 		   surl += "&user=";
 		   surl += c.getAsString(UID);
 		   surl += "&emo=";
-		   surl += c.getAsFloat(EMO);
+		   surl += c.getAsShort(EMO);
 		   surl += "&msg=";
 		   surl += c.getAsString(MSG);
 		   
@@ -174,7 +174,7 @@ public class NetHelper {
 			   }  
 		   } catch (JSONException e) {
 			   Log.e(TAG + "array error", e.toString());
-			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(float) 1, "JSONARRAYERROR",1) );
+			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONARRAYERROR",1) );
 		   }
 		   catch (Exception e){
 			   Log.e(TAG + "mysterious other error", e.toString());
@@ -188,7 +188,7 @@ public class NetHelper {
 		try {
 			   float lati = (float) o.getDouble("lat");
 			   float longi = (float) o.getDouble("lon");
-			   float emo = (float) o.getDouble("emo");
+			   short emo = (short) o.getInt("emo");
 			   String msg = o.getString("msg");
 			   long time = o.getLong("t");
 			   long uid = myid;
@@ -196,7 +196,7 @@ public class NetHelper {
 		   	} catch (JSONException e) {
 				e.printStackTrace();
 				Log.e(TAG + "object error", e.toString());
-				return new HappyBottle(myid , (float) 1, (float) 1,(float) 1, "JSONOBJECTERROR",1) ;
+				return new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONOBJECTERROR",1) ;
 		   	}
 	}
 	   
