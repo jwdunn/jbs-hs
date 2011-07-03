@@ -22,6 +22,8 @@
 	<string name="map_name">Map</string>
 	<string name="personalMapTitle">Map:</string>
 	<string name="refresh_name">Refresh</string>
-
+	<string name="happy_overlay">Why the worry?</string>
+	<string name="sad_overlay">Show me the happy!</string>
+	<string name="switch_view">Switch View</string>
 
 </resources>

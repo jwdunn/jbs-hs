@@ -7,16 +7,49 @@
  ! We make no guarantees that this code is fit for any purpose. 
  ! Visit http://www.pragmaticprogrammer.com/titles/eband for more book information.
 -->
-<LinearLayout
+<FrameLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
    android:id="@+id/frame"
    android:orientation="vertical"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent">
-   <com.google.android.maps.MapView
-      android:id="@+id/map"
-      android:apiKey="0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent" 
-      android:clickable="true" />
-</LinearLayout>
+
+
+   <view android:id="@+id/map"
+        class="com.google.android.maps.MapView"
+  		android:apiKey="0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ"
+  		android:layout_width="fill_parent"
+  		android:layout_height="fill_parent"
+  		android:layout_weight="1" 
+  		android:clickable="true" />
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:padding="0px"           
+            >
+                                                    
+        <Button android:id="@+id/showSad"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" 
+            android:textSize="12sp"   
+            android:text="@string/happy_overlay" />
+            
+        <Button android:id="@+id/showHappy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:textSize="12sp" 
+            android:text="@string/sad_overlay" />
+            
+        <Button android:id="@+id/switchView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:textSize="12sp" 
+            android:text="@string/switch_view" />
+                        
+        </LinearLayout>
+</FrameLayout>

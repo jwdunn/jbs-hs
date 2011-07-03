@@ -10,12 +10,12 @@ import android.util.Log;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class HelloItemizedOverlay extends ItemizedOverlay {
+public class ItemizedEmotionOverlay extends ItemizedOverlay {
 	
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	Context mContext;
 	
-	public HelloItemizedOverlay(Drawable defaultMarker) {
+	public ItemizedEmotionOverlay(Drawable defaultMarker) {
 		  super(boundCenterBottom(defaultMarker));
 	}
 	
@@ -34,7 +34,7 @@ public class HelloItemizedOverlay extends ItemizedOverlay {
 	  return mOverlays.size();
 	}
 	
-	public HelloItemizedOverlay(Drawable defaultMarker, Context context) {
+	public ItemizedEmotionOverlay(Drawable defaultMarker, Context context) {
 		  super(boundCenterBottom(defaultMarker));
 		  mContext = context;
 	}
@@ -42,14 +42,20 @@ public class HelloItemizedOverlay extends ItemizedOverlay {
 	
 	@Override
 	protected boolean onTap(int index) {
-	  OverlayItem item = mOverlays.get(index);
-	  Log.e("Checking","NPWL1");
-	  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-	  Log.e("Checking","NPWL2");
-	  dialog.setTitle(item.getTitle());
-	  dialog.setMessage(item.getSnippet());
-	  dialog.show();
-	  return true;
+		
+		//if (mContext==null){
+		//	AlertDialog.Builder dialog = new AlertDialog.Builder(map.this);
+		//}
+		//else{
+		  OverlayItem item = mOverlays.get(index);
+		  Log.e("Checking","NPWL1");
+		  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+		  Log.e("Checking","NPWL2");
+		  dialog.setTitle(item.getTitle());
+		  dialog.setMessage(item.getSnippet());
+		  dialog.show();
+		//}
+		return true;
 	}
 	
 	
