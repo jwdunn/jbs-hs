@@ -26,5 +26,6 @@
 	<string name="sad_overlay">Show me the happy!</string>
 	<string name="switch_view">Switch View</string>
 	<string name="blank"></string>
+	<string name="share">Share</string>
 
 </resources>
