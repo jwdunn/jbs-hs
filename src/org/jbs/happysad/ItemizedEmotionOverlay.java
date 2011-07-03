@@ -37,16 +37,13 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay {
 	public ItemizedEmotionOverlay(Drawable defaultMarker, Context context) {
 		  super(boundCenterBottom(defaultMarker));
 		  mContext = context;
+		  populate();
 	}
 
 	
 	@Override
 	protected boolean onTap(int index) {
 		
-		//if (mContext==null){
-		//	AlertDialog.Builder dialog = new AlertDialog.Builder(map.this);
-		//}
-		//else{
 		  OverlayItem item = mOverlays.get(index);
 		  Log.e("Checking","NPWL1");
 		  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
@@ -54,7 +51,7 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay {
 		  dialog.setTitle(item.getTitle());
 		  dialog.setMessage(item.getSnippet());
 		  dialog.show();
-		//}
+		  
 		return true;
 	}
 	
