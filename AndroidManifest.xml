@@ -22,7 +22,10 @@
            		  android:label="@string/more_name"	>
         </activity>
         <activity android:name=".PersonalMap"
-        	      android:label="@string/personalMapTitle">
+        	      android:label="@string/personalMap">
+        </activity>
+        <activity android:name=".GlobalMap"
+        	      android:label="@string/globalMap">
         </activity>
         <activity android:name=".Dashboard"
         	      android:label="@string/dashboard_name" >

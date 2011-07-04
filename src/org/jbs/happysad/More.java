@@ -45,7 +45,7 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 	private float Network_latitude;
 	private float Network_longitude;
 	private HappyData dataHelper;
-	int emotion = -1;
+	short emotion = -1;
 	String extradata;
 	long myID = 1;
 	
@@ -71,12 +71,12 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
 		extradata = sender.getExtras().getString("Clicked");
-		emotion = sender.getExtras().getInt("Emotion");
+		emotion = (short) sender.getExtras().getInt("Emotion");
 		
 		if(emotion == 1){
 			setContentView(R.layout.more);
 		}
-		else{
+		else if(emotion == 0){
 			setContentView(R.layout.moresad);
 		}
 		
@@ -89,6 +89,10 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
+		
+		//Finds the share_button view
+		View shareButton = findViewById(R.id.share);
+		shareButton.setOnClickListener(this);
 		
 		//this creates the ontouch listener for the smiley face
 		ImageView view = (ImageView) findViewById(R.id.imageView);
@@ -139,10 +143,31 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 			startActivityForResult(intent, 0);
 			break;	
+		case R.id.share:
+			if (emotion == 1){
+				String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+				share("Happy", shareString);
+			}
+			else{
+				String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+				share("Sad", shareString);
+			}
+			break;	
 		}
 	}  
 	
-	
+	/** Share
+	 * 
+	 */
+	public void share(String subject,String text) {
+		final Intent intent = new Intent(Intent.ACTION_SEND);
+			 
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_TEXT, text);
+		
+		startActivity(Intent.createChooser(intent, getString(R.string.share)));
+	}
 	
 	
 	
@@ -329,13 +354,6 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 			float x = event.getX(0) + event.getX(1);
 			float y = event.getY(0) + event.getY(1);
 			point.set(x / 2, y / 2);
-			}
-		
-	   
-
-
-	protected void onPause() {
-		super.onPause();
-	}
+		}
 }
 

@@ -19,7 +19,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-public class PersonalMap extends MapActivity implements OnClickListener{
+public class GlobalMap extends MapActivity implements OnClickListener{
    private MapView map;
    private MapController controller;
    int checkHappy = 1;
@@ -28,7 +28,7 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.personalmap);
+      setContentView(R.layout.globalmap);
       initMapView();
       initMyLocation();
       
@@ -56,7 +56,7 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 	   ItemizedEmotionOverlay itemizedoverlay2 = new ItemizedEmotionOverlay(drawable2, this);
 	      
 	   HappyData datahelper = new HappyData(this);
-	   ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
+	   ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
 	   List<Overlay> mapOverlays = map.getOverlays();
 	      
 	   emotionOverlayMaker(1,plottables,itemizedoverlay);
@@ -161,4 +161,3 @@ public class PersonalMap extends MapActivity implements OnClickListener{
       return false;
    }
 }
-

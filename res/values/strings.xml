@@ -19,9 +19,13 @@
 	<string name="settings_title">Happy Sad Settings</string>
 	<string name="exit_label">Exit</string>	
 	<string name="empty">No events!</string>
-	<string name="map_name">Map</string>
-	<string name="personalMapTitle">Map:</string>
+	<string name="personalMap">Personal Map</string>
+	<string name="globalMap">Everybodys Map</string>
 	<string name="refresh_name">Refresh</string>
-
+	<string name="happy_overlay">Why the worry?</string>
+	<string name="sad_overlay">Show me the happy!</string>
+	<string name="switch_view">Switch View</string>
+	<string name="blank"></string>
+	<string name="share">Share</string>
 
 </resources>

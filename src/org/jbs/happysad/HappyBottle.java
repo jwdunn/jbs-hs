@@ -19,7 +19,7 @@ public class HappyBottle {
 	//fields
 	private float lati;
 	private float longi;
-	private float emo;
+	private short emo;
 	private String msg;
 	private long time;
 	private long uid;
@@ -34,13 +34,13 @@ public class HappyBottle {
 	 * @param t
 	 * @param time
 	 */
-	public HappyBottle(long id, float la, float lo, float e, String t, long time ){
-		lati = la;
-		longi = lo;
-		emo = e;
-		msg = t;
+	public HappyBottle(long uid, float lati, float longi, short emo, String msg, long time) {
+		this.lati = lati;
+		this.longi = longi;
+		this.emo = emo;
+		this.msg = msg;
 		this.time = time;
-		uid = id;
+		this.uid = uid;
 	}	
 	
 	/**
@@ -49,11 +49,11 @@ public class HappyBottle {
 	 */
 	public ContentValues getAll(){
 		ContentValues values = new ContentValues();
-		values.put(TIME, this.time);
+		values.put(TIME, time);
 		values.put(LAT, lati);
 		values.put(LONG, longi);
-		values.put(MSG, this.msg);
-		values.put(EMO, this.emo);
+		values.put(MSG, msg);
+		values.put(EMO, emo);
 		values.put(UID, uid);
 		return values;
 	}
@@ -64,11 +64,11 @@ public class HappyBottle {
 	public float getLat(){
 		return lati;
 	}
-	public float getEmo(){
+	public short getEmo(){
 		return emo;
 	}
 	public String getMsg(){
-		return this.msg;
+		return msg;
 	}
 	public long getTime(){
 		return time;

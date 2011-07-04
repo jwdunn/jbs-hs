@@ -210,7 +210,7 @@ public class HappyData {
 		long uid = cursor.getLong(1);
 		float latitude = cursor.getFloat(2);
 		float longitude = cursor.getFloat(3);
-		float emo = cursor.getFloat(4);
+		short emo = cursor.getShort(4);
 		String msg = cursor.getString(5);
 		long time = cursor.getLong(6);
 		
