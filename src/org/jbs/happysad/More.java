@@ -20,18 +20,21 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 //import android.util.Log;
+import android.widget.TextView.OnEditorActionListener;
 
 /**
  * Creates the More activity
  * @author HS
  */
-public class More extends Activity implements OnClickListener, OnTouchListener, OnKeyListener {
+public class More extends Activity implements OnClickListener, OnTouchListener {
 	//for debugging purposes, delete after debugging.
 	//private static final String TAG = "there's more screen";
 	
@@ -101,24 +104,8 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		
 		//Finds the more_textbox view
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnKeyListener(this);
-	}
-	
-	/**
-	 * Called when a key is dispatched to a view.
-	 */
-	public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-		if ((event.getAction() == KeyEvent.ACTION_DOWN)
-				&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-			// Done pressed! Do something here.
-
-		}
-		// Returning false allows other listeners to react to the press.
-		return false;
-	}
-	   
-	   	
+		textField.setOnKeyListener(onEnterFocusDown);
+	}  	
 	
 	/**
      * Invoked when a view is clicked
@@ -147,7 +134,24 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 			}
 			break;	
 		}
-	}  
+	} 
+	
+	/**
+	 * OnKeyListener that puts the focus down when the ENTER key is pressed
+	 */
+	/**
+	 * OnKeyListener that puts the focus down when the ENTER key is pressed
+	 */
+	protected View.OnKeyListener onEnterFocusDown = new View.OnKeyListener() {
+		public boolean onKey(View v, int keyCode, KeyEvent event) {
+			if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+					(keyCode == KeyEvent.KEYCODE_ENTER)) {
+	                	v.requestFocus(View.FOCUS_DOWN);
+	                	return true;
+			}
+			return false;
+		}
+	};
 	
 	/** Share
 	 * 
