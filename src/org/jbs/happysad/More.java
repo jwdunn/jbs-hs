@@ -90,6 +90,10 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 		
+		//Finds the share_button view
+		View shareButton = findViewById(R.id.share);
+		shareButton.setOnClickListener(this);
+		
 		//this creates the ontouch listener for the smiley face
 		ImageView view = (ImageView) findViewById(R.id.imageView);
 		view.setOnTouchListener(this);
@@ -139,10 +143,31 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 			startActivityForResult(intent, 0);
 			break;	
+		case R.id.share:
+			if (emotion == 1){
+				String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+				share("Happy", shareString);
+			}
+			else{
+				String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+				share("Sad", shareString);
+			}
+			break;	
 		}
 	}  
 	
-	
+	/** Share
+	 * 
+	 */
+	public void share(String subject,String text) {
+		final Intent intent = new Intent(Intent.ACTION_SEND);
+			 
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_TEXT, text);
+		
+		startActivity(Intent.createChooser(intent, getString(R.string.share)));
+	}
 	
 	
 	
