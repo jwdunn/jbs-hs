@@ -40,12 +40,12 @@
 		</activity>
 		
 		<activity 
-			android:name=".ChartInfo" 
+			android:name=".Chart" 
 			android:label="@string/locavg_name">
 		</activity>
 		
 		<activity 
-			android:name=".ChartInfo" 
+			android:name=".Chart" 
 			android:label="@string/globavg_name">
 		</activity>
 

@@ -76,12 +76,12 @@ public class Dashboard extends Activity implements OnClickListener{
 			break;
 			
 		case R.id.locavg_button: 
-			Intent m = new Intent(this, ChartInfo.class);
+			Intent m = new Intent(this, Chart.class);
 			startActivity(m);
     		break;
     		
 		case R.id.globavg_button:
-			Intent n = new Intent(this, ChartInfo.class);
+			Intent n = new Intent(this, Chart.class);
 			startActivity(n);
 			break;
 		
