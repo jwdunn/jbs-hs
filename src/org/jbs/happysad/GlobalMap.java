@@ -160,6 +160,9 @@ public class GlobalMap extends MapActivity implements OnClickListener{
       return false;
    }
    
+   /**
+    * Enables My Location
+    */
    @Override
    public void onResume() {
 	   super.onResume();
@@ -167,6 +170,9 @@ public class GlobalMap extends MapActivity implements OnClickListener{
 	   
    }
    
+   /**
+    * Disables My Location
+    */
    @Override
    public void onPause() {
 	   super.onPause();

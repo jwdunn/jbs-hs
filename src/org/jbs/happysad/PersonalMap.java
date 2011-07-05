@@ -160,6 +160,9 @@ public class PersonalMap extends MapActivity implements OnClickListener{
       return false;
    }
    
+   /**
+    * Enables GPS Map Location
+    */
    @Override
    public void onPause() {
 	   super.onPause();
@@ -167,6 +170,9 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 	   
    }
    
+   /**
+    * Disables GPS Map Location
+    */
    @Override
    public void onResume() {
 	   super.onResume();

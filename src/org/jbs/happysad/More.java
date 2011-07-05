@@ -349,7 +349,10 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		float y = event.getY(0) + event.getY(1);
 		point.set(x / 2, y / 2);
 	}
-		
+	
+	/**
+	 * Disables GPS Managers and Listeners
+	 */
 	public void onPause() {
 		super.onPause();
 		gpsLocationManager.removeUpdates(gpsLocationListener);
@@ -358,6 +361,9 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		networkLocationManager = null;
 	}
 	
+	/**
+	 * Enables GPS Managers and Listeners
+	 */
 	public void onResume() {
 		super.onResume();
 		locationStuff();
