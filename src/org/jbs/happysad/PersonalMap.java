@@ -24,6 +24,7 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    private MapController controller;
    int checkHappy = 1;
    int checkSad = 1;
+   MyLocationOverlay overlay;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -123,9 +124,7 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    
    /** Start tracking the position on the map. */
    private void initMyLocation() {
-      final MyLocationOverlay overlay = new MyLocationOverlay(this, map);
-      overlay.enableMyLocation();
-      //overlay.enableCompass(); // does not work in emulator
+      overlay = new MyLocationOverlay(this, map);
       overlay.runOnFirstFix(new Runnable() {
          public void run() {
             // Zoom in to current location
@@ -159,6 +158,19 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    protected boolean isRouteDisplayed() {
       // Required by MapActivity
       return false;
+   }
+   
+   @Override
+   public void onPause() {
+	   super.onPause();
+	   overlay.disableMyLocation();
+	   
+   }
+   
+   @Override
+   public void onResume() {
+	   super.onResume();
+	   overlay.enableMyLocation();
    }
 }
 
