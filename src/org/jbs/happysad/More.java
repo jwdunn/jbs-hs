@@ -83,8 +83,6 @@ public class More extends Activity implements OnClickListener, OnTouchListener, 
 		//prevent text edit from being focused onCreate
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
-	
-		
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
