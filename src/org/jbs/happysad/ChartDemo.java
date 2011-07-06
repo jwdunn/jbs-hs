@@ -2,6 +2,7 @@ package org.jbs.happysad;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +47,7 @@ public class ChartDemo extends ListActivity {
 
   private String[] mMenuSummary;
   
+  //here*.
   public ArrayList<Integer> chartline;
 
   /** Called when the activity is first created. */
@@ -90,10 +92,12 @@ public class ChartDemo extends ListActivity {
       intent = new Intent(this, XYChartBuilder.class);
     } else if (position <= mCharts.length) {
     */
+    
+    //here*.
     HappyData datahelper = new HappyData(this);
 	ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
-	
-	this.chartline = lineTrace(plottables);
+	//here*.
+	this.chartline = emoTrace(plottables);
     
       intent = mCharts[0].execute(this);
     /*
@@ -104,13 +108,16 @@ public class ChartDemo extends ListActivity {
     startActivity(intent);
   }
   
-  public ArrayList<Integer> lineTrace(ArrayList<HappyBottle> plottables){
+  //here*.
+  public ArrayList<Integer> emoTrace(ArrayList<HappyBottle> plottables){
 	   Iterator<HappyBottle> itr = plottables.iterator(); 
 	   int trace = 0;
 	   ArrayList<Integer> traceline = new ArrayList<Integer>();
 	   traceline.add(trace);
 	   while(itr.hasNext()) {
-		     HappyBottle element = itr.next();
+		     
+		   	HappyBottle element = itr.next();
+		     
 		     if (element.getEmo() == 1){
 		    	trace += 2; 
 		    	traceline.add(trace); 
@@ -123,4 +130,20 @@ public class ChartDemo extends ListActivity {
 	   
 	   return traceline;
   }
+  
+  //here*.
+  public ArrayList<Date> dateTrace(ArrayList<HappyBottle> plottables){
+	   Iterator<HappyBottle> itr = plottables.iterator(); 
+	   ArrayList<Date> dates = new ArrayList<Date>();
+	   while(itr.hasNext()) {
+		     
+		   	HappyBottle element = itr.next();
+		    
+		   	//here*.
+		    //dates.add(element.getTime());
+	   } 
+	   
+	   return dates;
+  }
+  
 }
