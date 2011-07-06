@@ -15,6 +15,10 @@ import android.view.View.OnClickListener;
  * @author HS
  */
 public class Prompt extends Activity implements OnClickListener{
+	
+	private Syncer s;
+	private Thread t;
+	private int myID = 1;
 	/**
 	 * Initializes activity
 	 */
@@ -30,6 +34,11 @@ public class Prompt extends Activity implements OnClickListener{
     	//Finds the sad_button view
     	View sadButton = findViewById(R.id.sad_button);
     	sadButton.setOnClickListener(this);
+    	
+    	s = new Syncer(myID, this);
+    	t = new Thread(s);
+    	t.start();
+    	
     }
     
     /**
@@ -50,5 +59,9 @@ public class Prompt extends Activity implements OnClickListener{
 			startActivity(i);
 			break;
 		}
+	}
+	
+	public void onDestroy(){
+		s.safeShutdown();
 	}
 }

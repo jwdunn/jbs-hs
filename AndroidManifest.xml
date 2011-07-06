@@ -22,7 +22,10 @@
            		  android:label="@string/more_name"	>
         </activity>
         <activity android:name=".PersonalMap"
-        	      android:label="@string/personalMapTitle">
+        	      android:label="@string/personalMap">
+        </activity>
+        <activity android:name=".GlobalMap"
+        	      android:label="@string/globalMap">
         </activity>
         <activity android:name=".Dashboard"
         	      android:label="@string/dashboard_name" >
@@ -39,15 +42,13 @@
 			android:label="@string/fmh_name">
 		</activity>
 		
-		<activity 
-			android:name=".Chart" 
-			android:label="@string/locavg_name">
-		</activity>
-		
-		<activity 
-			android:name=".Chart" 
-			android:label="@string/globavg_name">
-		</activity>
+		<activity android:name=".ChartDemo"
+                  android:label="Happiness Chart">
+        </activity>
+        
+		<activity android:name="org.achartengine.chartdemo.demo.chart.XYChartBuilder" />
+        <activity android:name="org.achartengine.GraphicalActivity" />
+		<activity android:name=".GeneratedChartDemo" />
 
 	</application>
 

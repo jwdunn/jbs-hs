@@ -45,6 +45,14 @@
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
 				android:text="@string/locavg_name" />
+			<Button
+				android:id="@+id/globavg_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/globavg_name" />
+			
 		</TableRow> 
 		<TableRow> 
 			<Button
@@ -55,18 +63,26 @@
 				android:layout_marginRight= "5dip"
 				android:text="@string/fmh_name" />
 			<Button
-				android:id="@+id/map_button"
-				android:layout_width="wrap_content"
+				android:id="@+id/personal_map"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="20dip"
-				android:text="@string/map_name" /> 
-			<Button
-				android:id="@+id/globavg_button"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/globavg_name" />
+				android:text="@string/personalMap" /> 
+			<Button
+				android:id="@+id/global_map"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/globalMap" />
+			<Button
+				android:id="@+id/new_button"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_marginBottom="20dip"
+				android:layout_marginLeft= "5dip"
+				android:text="@string/blank" />
 		</TableRow>
 	</TableLayout>
 	</LinearLayout>

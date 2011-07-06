@@ -53,7 +53,7 @@ public class HappyData {
 		return addBottle(b, false);
 	}
 	
-	public boolean addBottle(HappyBottle b, boolean isSynced){
+	public synchronized boolean addBottle(HappyBottle b, boolean isSynced){
 		boolean toreturn = false;
 		
 		SQLiteDatabase db = h.getWritableDatabase();
@@ -72,12 +72,12 @@ public class HappyData {
 		finally{
 			h.close();
 		}	
-		syncUp();
+		
 		return toreturn;
 		
 	}
 	//for each entry that isn't synced, send to database.
-	private void syncUp(){
+	public void syncUp(){
 		Log.w(TAG, "SYNCUP");
 		SQLiteDatabase db = h.getReadableDatabase();
 		Cursor cursor = getCursor(db);
@@ -127,7 +127,7 @@ public class HappyData {
 		Log.e(TAG, "REMOVEBYID STARTED");
 		SQLiteDatabase db = h.getWritableDatabase();
 		db.delete(TABLE_NAME, "_ID==" + id, null );
-		
+		db.close();
 	}
 	
 	//addAvoidDupes = takes an arraylist of bottles. Adds them to the database but only if they are not dupes
@@ -181,13 +181,7 @@ public class HappyData {
 		return a;
 	}
 	
-	//FOR HW W5L1
-	public Cursor getMyHistoryCursor(){
-		SQLiteDatabase db = h.getReadableDatabase();
-		Cursor cursor = getCursor(db);
-		
-		return cursor;
-	}
+	
 	
 	/**
 	 * This method creates an ArrayList of HappyBottles to create AllHistory
@@ -216,7 +210,7 @@ public class HappyData {
 		long uid = cursor.getLong(1);
 		float latitude = cursor.getFloat(2);
 		float longitude = cursor.getFloat(3);
-		float emo = cursor.getFloat(4);
+		short emo = cursor.getShort(4);
 		String msg = cursor.getString(5);
 		long time = cursor.getLong(6);
 		
@@ -233,5 +227,4 @@ public class HappyData {
 		           null, ORDER_BY);
 		return cursor;
 	}
-	
 }
