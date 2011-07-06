@@ -37,7 +37,6 @@ android:layout_height="fill_parent" >
         android:id="@+id/more_textbox" 
         android:layout_width="wrap_content" 
         android:layout_height="match_parent"
-        android:imeOptions="actionDone"
         android:singleLine="true" >
          </EditText>
          
