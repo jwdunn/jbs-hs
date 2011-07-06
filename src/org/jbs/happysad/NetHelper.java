@@ -35,8 +35,6 @@ public class NetHelper {
 		return d;
 	}
 	
-	
-	
 	public ArrayList<HappyBottle> doTask(Task task){
 		String result = "connecting...";
 		HttpURLConnection con = null;

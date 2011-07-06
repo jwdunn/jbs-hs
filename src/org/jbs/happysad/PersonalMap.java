@@ -121,7 +121,8 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    
    /** Start tracking the position on the map. */
    private void initMyLocation() {
-	   overlay = new MyLocationOverlay(this, map);      overlay.enableMyLocation();
+	   overlay = new MyLocationOverlay(this, map);     
+	   overlay.enableMyLocation();
 	   overlay.runOnFirstFix(new Runnable() {
 		   public void run() {
 			   // Zoom in to current location
@@ -130,19 +131,6 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 		   }
 	   });
 	   map.getOverlays().add(overlay);
-   }
-   
-   /** Stop tracking the position on the map. */
-   private void stopMyLocation() {
-      overlay.enableMyLocation();
-      overlay.runOnFirstFix(new Runnable() {
-         public void run() {
-            // Zoom in to current location
-            controller.setZoom(8);
-            controller.animateTo(overlay.getMyLocation());
-         }
-      });
-      map.getOverlays().add(overlay);
    }
    	
    /** Creates and returns overlay Item*/
