@@ -1,27 +1,15 @@
 package org.jbs.happysad;
 
-import static android.provider.BaseColumns._ID;
-import static org.jbs.happysad.Constants.EMO;
-import static org.jbs.happysad.Constants.LAT;
-import static org.jbs.happysad.Constants.LONG;
-import static org.jbs.happysad.Constants.MSG;
-import static org.jbs.happysad.Constants.TABLE_NAME;
-import static org.jbs.happysad.Constants.TIME;
-import static org.jbs.happysad.Constants.UID;
-
-
 import org.jbs.happysad.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Formatter;
 

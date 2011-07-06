@@ -1,6 +1,5 @@
 package org.jbs.happysad;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,10 +27,6 @@ import org.achartengine.chartdemo.demo.chart.XYChartBuilder;
 */
 
 import org.jbs.happysad.Chart;
-
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -22,8 +22,7 @@ android:layout_height="fill_parent" >
         android:textSize="34.5sp" 
         android:gravity="center"
         android:layout_height="wrap_content" 
-        android:layout_weight="1" 
-      	>
+        android:layout_weight="1"  >
         </TextView>
         	
     </TableLayout>

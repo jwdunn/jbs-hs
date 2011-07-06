@@ -1,9 +1,5 @@
 package org.jbs.happysad;
 
-import static org.jbs.happysad.Constants.EMO;
-import static org.jbs.happysad.Constants.MSG;
-import static org.jbs.happysad.Constants.TIME;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;

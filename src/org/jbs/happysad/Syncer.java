@@ -1,7 +1,5 @@
 package org.jbs.happysad;
 
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 
 public class Syncer implements Runnable {

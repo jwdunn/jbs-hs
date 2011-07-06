@@ -11,10 +11,6 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint.Align;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 /**
  * Sales growth demo chart.
