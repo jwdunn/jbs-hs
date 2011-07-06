@@ -1,7 +1,9 @@
 package org.jbs.happysad;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,9 @@ import org.achartengine.chartdemo.demo.chart.XYChartBuilder;
 
 import org.jbs.happysad.Chart;
 
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +45,8 @@ public class ChartDemo extends ListActivity {
   private String[] mMenuText;
 
   private String[] mMenuSummary;
+  
+  public ArrayList<Integer> chartline;
 
   /** Called when the activity is first created. */
   @Override
@@ -83,6 +90,11 @@ public class ChartDemo extends ListActivity {
       intent = new Intent(this, XYChartBuilder.class);
     } else if (position <= mCharts.length) {
     */
+    HappyData datahelper = new HappyData(this);
+	ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
+	
+	this.chartline = lineTrace(plottables);
+    
       intent = mCharts[0].execute(this);
     /*
   	} else {
@@ -90,5 +102,25 @@ public class ChartDemo extends ListActivity {
     }
     */
     startActivity(intent);
+  }
+  
+  public ArrayList<Integer> lineTrace(ArrayList<HappyBottle> plottables){
+	   Iterator<HappyBottle> itr = plottables.iterator(); 
+	   int trace = 0;
+	   ArrayList<Integer> traceline = new ArrayList<Integer>();
+	   traceline.add(trace);
+	   while(itr.hasNext()) {
+		     HappyBottle element = itr.next();
+		     if (element.getEmo() == 1){
+		    	trace += 2; 
+		    	traceline.add(trace); 
+		    	
+		     } else {
+		    	trace -= 2; 
+			    traceline.add(trace); 
+		     }
+	   } 
+	   
+	   return traceline;
   }
 }

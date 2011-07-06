@@ -39,20 +39,12 @@
 				android:layout_marginBottom="20dip"
 				android:text="@string/history_name" />
 			<Button
-				android:id="@+id/locavg_button"
+				android:id="@+id/chart_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/locavg_name" />
-			<Button
-				android:id="@+id/globavg_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="20dip"
-				android:layout_marginLeft= "5dip"
-				android:text="@string/globavg_name" />
-			
+				android:text="@string/chart_name" />
 		</TableRow> 
 		<TableRow> 
 			<Button
@@ -76,13 +68,6 @@
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
 				android:text="@string/globalMap" />
-			<Button
-				android:id="@+id/new_button"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:layout_marginBottom="20dip"
-				android:layout_marginLeft= "5dip"
-				android:text="@string/blank" />
 		</TableRow>
 	</TableLayout>
 	</LinearLayout>

@@ -13,7 +13,7 @@
 	<string name="global_name">Global</string>
 	<string name="fmh_name">Find Me Happiness</string>
 	<string name="exit_name">Exit</string>
-	<string name="locavg_name">Local Avg</string>
+	<string name="chart_name">Chart</string>
 	<string name="globavg_name">Global Avg</string>
 	<string name="settings_label">Settings</string>
 	<string name="settings_title">Happy Sad Settings</string>

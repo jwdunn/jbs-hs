@@ -39,12 +39,8 @@ public class Dashboard extends Activity implements OnClickListener{
   	  	fmhButton.setOnClickListener(this);
   	  	
   	  	//Finds the locavg_button view
-  	  	View locavgButton = findViewById(R.id.locavg_button);
-  	  	locavgButton.setOnClickListener(this);
-  	  	
-  	  	//Finds the globavg_button view
-  	  	View globavgButton = findViewById(R.id.globavg_button);
-  	  	globavgButton.setOnClickListener(this);
+  	  	View locavgButton = findViewById(R.id.chart_button);
+  	  	locavgButton.setOnClickListener(this);  	
   	  	
   	  	//Finds the personal map view
   	  	View button6button = findViewById(R.id.personal_map);
@@ -78,15 +74,10 @@ public class Dashboard extends Activity implements OnClickListener{
 			startActivity(k);
 			break;
 			
-		case R.id.locavg_button: 
+		case R.id.chart_button: 
 			Intent l = new Intent(this, ChartDemo.class);
 			startActivity(l);
     		break;
-    		
-		case R.id.globavg_button:
-			Intent m = new Intent(this, Chart.class);
-			startActivity(m);
-			break;
 		
 		case R.id.personal_map:
 			Intent n = new Intent(this, PersonalMap.class);

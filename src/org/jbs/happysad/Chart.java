@@ -11,6 +11,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +27,7 @@ public class Chart extends AbstractDemoChart {
    * @return the chart name
    */
   public String getName() {
-    return "Sales growth";
+    return "Happy - Sad";
   }
 
   /**
@@ -35,7 +36,7 @@ public class Chart extends AbstractDemoChart {
    * @return the chart description
    */
   public String getDesc() {
-    return "The sales growth across several years (time chart)";
+    return "This chart reflects time (x axis) vs happiness (y axis)";
   }
 
   /**
@@ -45,7 +46,7 @@ public class Chart extends AbstractDemoChart {
    * @return the built intent
    */
   public Intent execute(Context context) {
-    String[] titles = new String[] { "Sales growth January 1995 to December 2000" };
+    String[] titles = new String[] { "Follow the up's and down's" };
     List<Date[]> dates = new ArrayList<Date[]>();
     List<double[]> values = new ArrayList<double[]>();
     Date[] dateValues = new Date[] { new Date(95, 0, 1), new Date(95, 3, 1), new Date(95, 6, 1),
@@ -59,12 +60,19 @@ public class Chart extends AbstractDemoChart {
 
     values.add(new double[] { 4.9, 5.3, 3.2, 4.5, 6.5, 4.7, 5.8, 4.3, 4, 2.3, -0.5, -2.9, 3.2, 5.5,
         4.6, 9.4, 4.3, 1.2, 0, 0.4, 4.5, 3.4, 4.5, 4.3, 4 });
-    int[] colors = new int[] { Color.BLUE };
+    int[] colors = new int[] { Color.CYAN };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-    setChartSettings(renderer, "Sales growth", "Date", "%", dateValues[0].getTime(),
-        dateValues[dateValues.length - 1].getTime(), -4, 11, Color.GRAY, Color.LTGRAY);
+    setChartSettings(renderer, "Happy Chart", "Date", "Happiness", dateValues[0].getTime(),
+        dateValues[dateValues.length - 1].getTime(), -4, 11, Color.LTGRAY, Color.WHITE);
+    //renderer.setXLabels(12);
     renderer.setYLabels(10);
+    //renderer.setShowGrid(true);
+    //renderer.setXLabelsAlign(Align.RIGHT);
+    //renderer.setYLabelsAlign(Align.RIGHT);
+    renderer.setZoomButtonsVisible(true);
+    //renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
+    //renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MMM yyyy");
   }
