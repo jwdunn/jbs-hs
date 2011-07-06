@@ -17,7 +17,7 @@
 
    <view android:id="@+id/map"
         class="com.google.android.maps.MapView"
-  		android:apiKey="0_9Pks7VkRuhX3CGkkeQsPHyWtt26wWT8sI_Sig"
+  		android:apiKey="0YF0O5dU7GKwEfDoDETrh-nv_oakxs0PcgV1Maw"
   		android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
   		android:layout_weight="1" 

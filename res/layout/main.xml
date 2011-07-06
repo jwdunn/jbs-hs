@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent" >
-	<LinearLayout
+
+	<RelativeLayout
  	xmlns:android="http://schemas.android.com/apk/res/android"
  	android:layout_height="fill_parent"
  	android:layout_width="fill_parent"
- 	android:padding="10dip" android:orientation="vertical">
+ 	android:background="@drawable/promptback"
+     android:orientation="vertical">
  	
 		<LinearLayout 
 			android:id="@+id/linearLayout1" 
@@ -51,5 +49,4 @@ android:layout_height="fill_parent" >
 				</Button>
 			</RelativeLayout>
 			</LinearLayout>
-		</LinearLayout>
-		</ScrollView>
+		</RelativeLayout>
