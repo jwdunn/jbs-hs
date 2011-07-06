@@ -76,6 +76,7 @@ public class HappyData {
 		return toreturn;
 		
 	}
+	
 	//for each entry that isn't synced, send to database.
 	public void syncUp(){
 		Log.w(TAG, "SYNCUP");
@@ -100,29 +101,23 @@ public class HappyData {
 	
 	//temporary method for testing uses only.
 	public void syncDown(){
-		/*String j = " [   { user:8, lat:20, lon:48, emo:.1, msg:\"Shalom Salaam Peace\", t:333}  ,   { user:8, lat:211, lon:33, emo:.8, msg:\"Hadag Nachash\", t:339}  ] ";
-		ArrayList<HappyBottle> b = net.parse(j);
-		for (HappyBottle bottle: b){
-			Log.e(TAG, "PARSED:" + bottle.toString());	
-		}
-		*/
-		//so far so good.
+		//syncMyDown();
 		syncAllDown();
-		//addAvoidDupes(b);
+		Log.d(TAG, "synced down");
 	
 	}
 	
 	private void syncMyDown(){
-		String j = net.doTask(Task.GETMINE);
-		ArrayList<HappyBottle> b = net.parse(j);
+		
+		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE);
 		addAvoidDupes(b);
 	}
 	
 	private void syncAllDown(){
-		String j = net.doTask(Task.GETALL);
-		ArrayList<HappyBottle> b = net.parse(j);
+		ArrayList<HappyBottle> b = net.doTask(Task.GETALL);
 		addAvoidDupes(b);
 	}
+	
 	private void removeByID(long id){
 		Log.e(TAG, "REMOVEBYID STARTED");
 		SQLiteDatabase db = h.getWritableDatabase();
@@ -143,12 +138,10 @@ public class HappyData {
 			String[] columns = {_ID, MSG};
 			Cursor c = db.query(TABLE_NAME, columns, UID+"=\'"+u+"\' AND "+TIME+"="+t, null, null, null, null);
 			if (c.getCount() == 0){
-				c.close();
-				db.close();
 				
 				//ie if there are no rows in the local table that match the uid and time of the bottle
 				Log.d(TAG, "adding bottle fromthe internets!");
-				this.addBottle(b, true);
+				this.addBottle(b, true); //was true
 			}
 			c.close();
 			db.close();
