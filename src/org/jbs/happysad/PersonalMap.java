@@ -65,21 +65,34 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 	   
 	   
        switch(v.getId()){
-           case R.id.switchView:		
-        	   if (map.isStreetView()==false){
-        		   map.setStreetView(true);
-        		   map.setSatellite(false);
-        		   map.invalidate();
-        	   }
-        	   else{
-        		   map.setStreetView(false);
-        		   map.setSatellite(true);
-        	   }
-        	   
-               break;
+	       case R.id.switchView:
+			   mapOverlays.clear();
+	    	   if (map.isStreetView()==false){
+	    		   map.setStreetView(true);
+	    		   map.setSatellite(false);  
+	    		   if (checkSad==0) {
+					   mapOverlays.add(itemizedoverlay2);
+				   }
+	    		   if (checkHappy==0) {
+					   mapOverlays.add(itemizedoverlay);
+				   }
+	    	   }
+	    	   else{
+	    		   map.setStreetView(false);
+	    		   map.setSatellite(true);
+	    		   mapOverlays.clear();
+	    		   if (checkSad==0) {
+					   mapOverlays.add(itemizedoverlay2);
+				   }
+	    		   if (checkHappy==0) {
+					   mapOverlays.add(itemizedoverlay);
+				   }
+	    		   
+	    	   }
+	           break;
            
            case R.id.showHappy:
-        	   if (this.checkHappy==1){
+        	   if (checkHappy==1){
 	        	   mapOverlays.add(itemizedoverlay);
 	        	   checkHappy = 0;
         	   }
