@@ -20,21 +20,18 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 //import android.util.Log;
-import android.widget.TextView.OnEditorActionListener;
 
 /**
  * Creates the More activity
  * @author HS
  */
-public class More extends Activity implements OnClickListener, OnTouchListener {
+public class More extends Activity implements OnClickListener, OnTouchListener, OnKeyListener {
 	//for debugging purposes, delete after debugging.
 	//private static final String TAG = "there's more screen";
 	
@@ -86,6 +83,9 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 		//prevent text edit from being focused onCreate
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
+		//Updates location
+		locationStuff();
+		
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
@@ -104,8 +104,24 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 		
 		//Finds the more_textbox view
 		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnKeyListener(onEnterFocusDown);
-	}  	
+		textField.setOnKeyListener(this);
+	}
+	
+	/**
+	 * Called when a key is dispatched to a view.
+	 */
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+		if ((event.getAction() == KeyEvent.ACTION_DOWN)
+				&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
+			// Done pressed! Do something here.
+
+		}
+		// Returning false allows other listeners to react to the press.
+		return false;
+	}
+	   
+	   	
 	
 	/**
      * Invoked when a view is clicked
@@ -116,6 +132,10 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 			Intent i = new Intent(this, Dashboard.class);
 			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			saveUpdate(userstring); 
+			gpsLocationManager.removeUpdates(gpsLocationListener);
+			networkLocationManager.removeUpdates(networkLocationListener);
+			gpsLocationManager = null;
+			networkLocationManager = null;
 			finish();
 			startActivity(i);
 			break;
@@ -134,24 +154,7 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 			}
 			break;	
 		}
-	} 
-	
-	/**
-	 * OnKeyListener that puts the focus down when the ENTER key is pressed
-	 */
-	/**
-	 * OnKeyListener that puts the focus down when the ENTER key is pressed
-	 */
-	protected View.OnKeyListener onEnterFocusDown = new View.OnKeyListener() {
-		public boolean onKey(View v, int keyCode, KeyEvent event) {
-			if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-					(keyCode == KeyEvent.KEYCODE_ENTER)) {
-	                	v.requestFocus(View.FOCUS_DOWN);
-	                	return true;
-			}
-			return false;
-		}
-	};
+	}  
 	
 	/** Share
 	 * 
@@ -318,59 +321,39 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 
 		}
 
-	/** Show an event in the LogCat view, for debugging */
-	private void dumpEvent(MotionEvent event) {
-		String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
-				"POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
-		StringBuilder sb = new StringBuilder();
-		int action = event.getAction();
-		int actionCode = action & MotionEvent.ACTION_MASK;
-		sb.append("event ACTION_" ).append(names[actionCode]);
-		if (actionCode == MotionEvent.ACTION_POINTER_DOWN || actionCode == MotionEvent.ACTION_POINTER_UP) {
-			sb.append("(pid " ).append(action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+		/** Show an event in the LogCat view, for debugging */
+		private void dumpEvent(MotionEvent event) {
+			String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
+					"POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
+			StringBuilder sb = new StringBuilder();
+			int action = event.getAction();
+			int actionCode = action & MotionEvent.ACTION_MASK;
+			sb.append("event ACTION_" ).append(names[actionCode]);
+			if (actionCode == MotionEvent.ACTION_POINTER_DOWN || actionCode == MotionEvent.ACTION_POINTER_UP) {
+				sb.append("(pid " ).append(action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
 				sb.append(")" );
 			}
-		sb.append("[" );
-		for (int i = 0; i < event.getPointerCount(); i++) {
-			sb.append("#" ).append(i);
-			sb.append("(pid " ).append(event.getPointerId(i));
-			sb.append(")=" ).append((int) event.getX(i));
-			sb.append("," ).append((int) event.getY(i));
-			if (i + 1 < event.getPointerCount())
-				sb.append(";" );
-		}
-		sb.append("]" );
-	}
+			sb.append("[" );
+			for (int i = 0; i < event.getPointerCount(); i++) {
+				sb.append("#" ).append(i);
+				sb.append("(pid " ).append(event.getPointerId(i));
+				sb.append(")=" ).append((int) event.getX(i));
+				sb.append("," ).append((int) event.getY(i));
+				if (i + 1 < event.getPointerCount())
+					sb.append(";" );
+			}
+			sb.append("]" );
+			}
 
-	private float spacing(MotionEvent event) {
-		float x = event.getX(0) - event.getX(1);
-		float y = event.getY(0) - event.getY(1);
-		return FloatMath.sqrt(x * x + y * y);
-	}
-	
-	private void midPoint(PointF point, MotionEvent event) {
-		float x = event.getX(0) + event.getX(1);
-		float y = event.getY(0) + event.getY(1);
-		point.set(x / 2, y / 2);
-	}
-	
-	/**
-	 * Disables GPS Managers and Listeners
-	 */
-	public void onPause() {
-		super.onPause();
-		gpsLocationManager.removeUpdates(gpsLocationListener);
-		networkLocationManager.removeUpdates(networkLocationListener);
-		gpsLocationManager = null;
-		networkLocationManager = null;
-	}
-	
-	/**
-	 * Enables GPS Managers and Listeners
-	 */
-	public void onResume() {
-		super.onResume();
-		locationStuff();
-	}
+		private float spacing(MotionEvent event) {
+			float x = event.getX(0) - event.getX(1);
+			float y = event.getY(0) - event.getY(1);
+			return FloatMath.sqrt(x * x + y * y);
+			}
+		private void midPoint(PointF point, MotionEvent event) {
+			float x = event.getX(0) + event.getX(1);
+			float y = event.getY(0) + event.getY(1);
+			point.set(x / 2, y / 2);
+		}
 }
 

@@ -80,7 +80,7 @@ public class HappyBottle {
 	public String toString(){
 		String s = "";
 		//s+= "bottle:: ";
-		s += "uid: " + uid + " ";
+		s += UID + ": "+ uid + " ";
 		s += "lat: " + lati + " ";
 		s += "long: " + longi + " ";
 		s += "emo: " + emo + " ";

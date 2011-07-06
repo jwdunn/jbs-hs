@@ -35,14 +35,14 @@ public class History extends ListActivity implements OnClickListener{
 
 		dataHelper = new HappyData(this);
 	   
-		ArrayList<HappyBottle> list = dataHelper.getMyHistory();
+		ArrayList<HappyBottle> list = dataHelper.getMyHistory(); 
 		showUpdates(list);
 	}
 
 	public void onClick(View v) {
 		switch(v.getId()) {		
 		case R.id.refresh_button:	
-			ArrayList<HappyBottle> list = dataHelper.getMyHistory();
+			ArrayList<HappyBottle> list = dataHelper.getMyHistory(); 
 			showUpdates(list);
 			adapter.notifyDataSetChanged();
 			break;
