@@ -80,26 +80,27 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 
 		//prevent text edit from being focused onCreate
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		
+
+		//Finds the more_textbox view
+		EditText textField = (EditText)findViewById(R.id.more_textbox);
+		textField.setOnEditorActionListener(new DoneOnEditorActionListener());
+		
+		//this creates the on touch listenter for the photo button
+		View buttonImageCapture = (View) findViewById(R.id.camera_button);
+		buttonImageCapture.setOnClickListener(this);
+		
+		//Finds the share_button view
+		View shareButton = findViewById(R.id.share);
+		shareButton.setOnClickListener(this);
 
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 
-		//Finds the share_button view
-		View shareButton = findViewById(R.id.share);
-		shareButton.setOnClickListener(this);
-
 		//this creates the ontouch listener for the smiley face
 		ImageView view = (ImageView) findViewById(R.id.imageView);
 		view.setOnTouchListener(this);
-
-		//this creates the on touch listenter for the photo button
-		View buttonImageCapture = (View) findViewById(R.id.camera_button);
-		buttonImageCapture.setOnClickListener(this);
-
-		//Finds the more_textbox view
-		EditText textField = (EditText)findViewById(R.id.more_textbox);
-		textField.setOnEditorActionListener(new DoneOnEditorActionListener());
 	}  	
 
 	/**
