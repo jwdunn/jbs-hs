@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class PersonalMap extends MapActivity implements OnClickListener {
+public class MyMap extends MapActivity implements OnClickListener {
    private MapView map;
    private MapController controller;
    int checkHappy = 1;

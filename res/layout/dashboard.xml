@@ -42,7 +42,7 @@
 		</TableRow> 
 		<TableRow> 
 			<Button
-				android:id="@+id/personal_map"
+				android:id="@+id/my_map"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_marginBottom="20dip"
