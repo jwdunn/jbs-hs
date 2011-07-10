@@ -75,7 +75,7 @@ public class Dashboard extends Activity implements OnClickListener{
 			break;
 			
 		case R.id.chart_button: 
-			Intent l = new Intent(this, ChartDemo.class);
+			Intent l = new Intent(this, ChartList.class);
 			startActivity(l);
     		break;
 		
