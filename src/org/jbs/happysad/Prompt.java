@@ -57,16 +57,14 @@ public class Prompt extends Activity implements OnClickListener{
             	Context context = getApplicationContext();
             	String loginPrompt = getString(R.string.login_message);
                 CharSequence loggedin = (loginPrompt +" " + sp.getString( "usernameString", ""));
-            	int duration = Toast.LENGTH_LONG;
-            	Toast toast = Toast.makeText(context, loggedin, duration);
+            	Toast toast = Toast.makeText(context, loggedin, 1000);
             	toast.show();
             }
             else{
             	Context context = getApplicationContext();
             	String loginPrompt = getString(R.string.error_login_message);
             	CharSequence text = loginPrompt;
-            	int duration = Toast.LENGTH_LONG;
-            	Toast toast = Toast.makeText(context, text, duration);
+            	Toast toast = Toast.makeText(context, text, 1000);
             	toast.show();
             }
     }

@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
 //import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Creates the More activity
@@ -37,6 +38,7 @@ public class More extends Activity implements OnClickListener {
 	short emotion = -1;
 	String extradata;
 	long myID =1;
+	String shareString = "";
 
 
 	Matrix matrix = new Matrix();
@@ -96,11 +98,16 @@ public class More extends Activity implements OnClickListener {
 	public void onClick(View v) {		
 		switch (v.getId()) {
 		case R.id.more_to_dash:
+			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+			if (!shareString.equals("")) {
 			Intent i = new Intent(this, Dashboard.class);
-			String userstring = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-			saveUpdate(userstring); 
+			saveUpdate(shareString); 
 			finish();
 			startActivity(i);
+			} else {
+				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 500);
+				toast.show();
+			}
 			break;
 		case R.id.camera_button:
 			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -108,11 +115,11 @@ public class More extends Activity implements OnClickListener {
 			break;	
 		case R.id.share:
 			if (emotion == 1){
-				String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+				shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 				share("Happy", shareString);
 			}
 			else{
-				String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
+				shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 				share("Sad", shareString);
 			}
 			break;	
