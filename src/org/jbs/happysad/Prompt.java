@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 /**
  * Creates Prompt Activity
- * @author HS
+ * @author HappySad
  */
 public class Prompt extends Activity implements OnClickListener{
 	
