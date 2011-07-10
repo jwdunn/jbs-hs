@@ -3,6 +3,7 @@ package org.jbs.happysad;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.location.Address;
@@ -41,7 +42,7 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 	private HappyData dataHelper;
 	short emotion = -1;
 	String extradata;
-	long myID = 1;
+	long myID =1;
 
 
 	Matrix matrix = new Matrix();
@@ -61,6 +62,11 @@ public class More extends Activity implements OnClickListener, OnTouchListener {
 	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//This updates the userId to the proper id. it must be here because Shared Preferences has to be called after
+		//on create, or it crashes.
+		SharedPreferences sp = getSharedPreferences(Prompt.USER_DATA,0);
+		myID =  sp.getInt( "usernameint", 0);
 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
