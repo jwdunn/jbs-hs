@@ -3,6 +3,7 @@ package org.jbs.happysad;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -47,18 +48,20 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay {
 		
 		  OverlayItem item = mOverlays.get(index);
 		  Log.e("Checking","NPWL1");
-		  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+		  AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(mContext);
 		  Log.e("Checking","NPWL2");
 		  String date = item.getTitle().substring(0, item.getTitle().length()-1);
 		  char emotion = item.getTitle().charAt(item.getTitle().length()-1);
 		  if (emotion == '1'){
-			  dialog.setIcon(R.drawable.mapsmile);
+			  dialogbuilder.setIcon(R.drawable.mapsmile);
 		  }
 		  else{
-			  dialog.setIcon(R.drawable.mapfrown);
+			  dialogbuilder.setIcon(R.drawable.mapfrown);
 		  }
-		  dialog.setTitle(date);
-		  dialog.setMessage(item.getSnippet());
+		  dialogbuilder.setTitle(date);
+		  dialogbuilder.setMessage(item.getSnippet());
+		  Dialog dialog = dialogbuilder.create();
+		  dialog.setCanceledOnTouchOutside(true);
 		  dialog.show();
 		  
 		return true;
