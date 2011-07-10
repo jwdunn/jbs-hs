@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Happy Sad</string>
+    <string name="app_name">HappySad</string>
     <string name="happysad_name">How Are You Feeling?</string>
     <string name="login_message">User Account: </string>
 	<string name="login_message_title">Your Logged In!</string>
