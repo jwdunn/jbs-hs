@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.SimpleAdapter;
 
-
 public class History extends ListActivity implements OnClickListener{
 	private HappyData dataHelper;
 	private static int[] TO = {R.id.item_text1, R.id.item_text2 };
@@ -48,9 +47,6 @@ public class History extends ListActivity implements OnClickListener{
 			Log.d("History", "adding bottle with msg " + b.getMsg());
 			HashMap<String, String> m = new HashMap<String, String>();
 			String e = (b.getEmo()>0)?"Happy":"Sad";
-			//Double lat = (double) b.getLat();
-			//Double longi = (double) b.getLong();
-			//getAddress(lat, longi);
 			m.put("line1", e + " : " +  b.getMsg());
 			m.put("line2", new Timestamp(b.getTime()).toLocaleString() );
 			
@@ -59,5 +55,5 @@ public class History extends ListActivity implements OnClickListener{
 		adapter = new SimpleAdapter(this, newList, R.layout.item, FROM, TO); 
 		setListAdapter(adapter);
 		
-	}
+	}    
 }

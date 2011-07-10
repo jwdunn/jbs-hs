@@ -38,7 +38,6 @@
 				android:layout_width="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:drawableTop = "@drawable/fmh"
 				android:text="@string/history_name" />
 		</TableRow> 
 		<TableRow> 
