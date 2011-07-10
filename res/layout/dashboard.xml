@@ -47,7 +47,7 @@
 				android:layout_width="wrap_content"
 				android:layout_marginBottom="20dip"
 				android:layout_marginLeft= "5dip"
-				android:text="@string/personalMap" />
+				android:text="@string/myMap" />
 			<Button
 				android:id="@+id/global_map"
 				android:layout_height="wrap_content"

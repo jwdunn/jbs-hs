@@ -24,8 +24,8 @@
            		  android:label="@string/more_name"
            		  android:screenOrientation="portrait" 	>
         </activity>
-        <activity android:name=".PersonalMap"
-        	      android:label="@string/personalMap"
+        <activity android:name=".MyMap"
+        	      android:label="@string/myMap"
         	      android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".GlobalMap"
