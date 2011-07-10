@@ -23,7 +23,7 @@
 	<string name="globalMap">Everybodys Map</string>
 	<string name="refresh_name">Refresh</string>
 	<string name="happy_overlay">Toggle Sad</string>
-	<string name="sad_overlay">Toogle Happy</string>
+	<string name="sad_overlay">Toggle Happy</string>
 	<string name="switch_view">Switch View</string>
 	<string name="blank"></string>
 	<string name="share">Share</string>
