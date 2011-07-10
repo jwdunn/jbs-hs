@@ -16,7 +16,7 @@ android:layout_height="fill_parent" >
     android:layout_marginBottom="30dip" >
     
     
-        <TextView android:text="@string/more_hint_text" 
+        <TextView android:text="@string/more_text" 
         android:id="@+id/textView1" 
         android:layout_width="wrap_content" 
         android:textSize="34.5sp" 
