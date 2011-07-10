@@ -13,8 +13,6 @@ import android.widget.SimpleAdapter;
 
 public class History extends ListActivity implements OnClickListener{
 	private HappyData dataHelper;
-	//private static String[] FROM = { TIME, MSG, EMO,  };
-	//private static int[] TO = { R.id.time, R.id.msg, R.id.emo, };
 	private static int[] TO = {R.id.item_text1, R.id.item_text2 };
 	private static String[] FROM = { "line1","line2" };	
 	private SimpleAdapter adapter;
@@ -58,34 +56,8 @@ public class History extends ListActivity implements OnClickListener{
 			
 			newList.add(m);
 		}
-		adapter = new SimpleAdapter(this, newList, R.layout.item_two, FROM, TO); //item_two
+		adapter = new SimpleAdapter(this, newList, R.layout.item, FROM, TO); 
 		setListAdapter(adapter);
 		
 	}
-	/*
-	public void getAddress(double lat, double longi){
-        try{
-            Geocoder gcd = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = 
-                gcd.getFromLocation(lat, longi,100);
-            if (addresses.size() > 0) {
-                result = new StringBuilder();
-                for(int i = 0; i < addresses.size(); i++){
-                    Address address =  addresses.get(i);
-                    int maxIndex = address.getMaxAddressLineIndex();
-                    for (int x = 0; x <= maxIndex; x++ ){
-                        result.append(address.getAddressLine(x));
-                        result.append(",");
-                    }               
-                    result.append(address.getLocality());
-                    result.append(",");
-                    result.append(address.getPostalCode());
-                    result.append("\n\n");
-                }
-            }
-        }
-        catch(IOException ex){
-        }
-    } */
-	
 }
