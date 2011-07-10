@@ -18,7 +18,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 /*
  * An abstract class for the demo charts to extend.
  */
-public abstract class AbstractChart implements IChart {
+public abstract class AbstractChart implements ChartInterface {
 	/*
 	 * Builds an XY dataset
 	 * @param titles the series titles
@@ -141,12 +141,12 @@ public abstract class AbstractChart implements IChart {
 	}
 
 	/*
-	   * Builds a multiple category series using the provided values.
-	   * @param titles the series titles
-	   * @param values the values
-	   * @return the category series
-	   */
-	  protected MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
+	 * Builds a multiple category series using the provided values.
+	 * @param titles the series titles
+	 * @param values the values
+	 * @return the category series
+	 */
+	 protected MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
 		  MultipleCategorySeries series = new MultipleCategorySeries(title);
 		  int k = 0;
 	    for (double[] value : values) {
@@ -156,11 +156,11 @@ public abstract class AbstractChart implements IChart {
 	    return series;
 	  }
 
-	  /**
-	   * Builds a category renderer to use the provided colors. 
-	   * @param colors the colors
-	   * @return the category renderer
-	   */
+	 /*
+	  * Builds a category renderer to use the provided colors. 
+	  * @param colors the colors
+	  * @return the category renderer
+	  */
 	  protected DefaultRenderer buildCategoryRenderer(int[] colors) {
 		  DefaultRenderer renderer = new DefaultRenderer();
 		  renderer.setLabelsTextSize(15);
@@ -174,7 +174,7 @@ public abstract class AbstractChart implements IChart {
 		  return renderer;
 	  }
 
-	  /**
+	  /*
 	   * Builds a bar multiple series dataset using the provided values.
 	   * @param titles the series titles
 	   * @param values the values
@@ -195,7 +195,7 @@ public abstract class AbstractChart implements IChart {
 		  return dataset;
 	  }
 
-	  /**
+	  /*
 	   * Builds a bar multiple series renderer to use the provided colors. 
 	   * @param colors the series renderers colors
 	   * @return the bar multiple series renderer

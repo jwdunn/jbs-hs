@@ -12,7 +12,7 @@ import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
 import org.achartengine.chartdemo.demo.chart.BudgetDoughnutChart;
 import org.achartengine.chartdemo.demo.chart.BudgetPieChart;
 import org.achartengine.chartdemo.demo.chart.CombinedTemperatureChart;
-import org.achartengine.chartdemo.demo.chart.IChart;
+import org.achartengine.chartdemo.demo.chart.ChartInterface;
 import org.achartengine.chartdemo.demo.chart.MultipleTemperatureChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusBubbleChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
@@ -36,7 +36,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class ChartList extends ListActivity {
-	private IChart[] mCharts = new IChart[] { new Chart() };
+	private ChartInterface[] mCharts = new ChartInterface[] { new Chart() };
 	private String[] mMenuText;
 	private String[] mMenuSummary;
 	protected ArrayList<Integer> chartline;
@@ -51,7 +51,7 @@ public class ChartList extends ListActivity {
   	  mMenuText[0] = "HAPPY CHART!!!";
   	  mMenuSummary[0] = "Click here to see the graph for your happiness performance!";
   	  setListAdapter(new SimpleAdapter(this, getListValues(), android.R.layout.simple_list_item_2,
-  			  new String[] { IChart.NAME, IChart.DESC }, new int[] { android.R.id.text1,
+  			  new String[] { ChartInterface.NAME, ChartInterface.DESC }, new int[] { android.R.id.text1,
             android.R.id.text2 }));
 	}
 
@@ -60,8 +60,8 @@ public class ChartList extends ListActivity {
 	    int length = mMenuText.length;
 	    for (int i = 0; i < length; i++) {
 	    	Map<String, String> v = new HashMap<String, String>();
-	    	v.put(IChart.NAME, mMenuText[i]);
-	    	v.put(IChart.DESC, mMenuSummary[i]);
+	    	v.put(ChartInterface.NAME, mMenuText[i]);
+	    	v.put(ChartInterface.DESC, mMenuSummary[i]);
 	    	values.add(v);
 	    }
 	    return values;
