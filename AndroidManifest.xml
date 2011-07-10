@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:label="@string/more_name"
+           		  android:label="@string/more_text"
            		  android:screenOrientation="portrait" 	>
         </activity>
         <activity android:name=".MyMap"
