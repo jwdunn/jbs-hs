@@ -92,6 +92,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 				}
 				checkHappy = 0;
 			}
+			map.getOverlays().add(overlay);
+			map.invalidate();
 			break;
 			
 		case R.id.showSad:		
@@ -105,10 +107,10 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 				}
 				checkSad = 0;
 			}
+			map.getOverlays().add(overlay);
+			map.invalidate(); 
 			break;
-		}
-		map.getOverlays().add(overlay);
-		map.invalidate();       
+		}       
 	}
 	
 	// Find and initialize the map view.
