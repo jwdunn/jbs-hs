@@ -5,12 +5,13 @@
    android:layout_height="fill_parent"
    android:orientation="vertical">
    
-   <Button 		android:id="@+id/refresh_button" 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:layout_marginBottom="20dip"
-				android:layout_marginLeft= "5dip"
-				android:text="@string/refresh_name" />
+   <Button 		
+	android:id="@+id/refresh_button" 
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:layout_marginBottom="20dip"
+	android:layout_marginLeft= "5dip"
+	android:text="@string/refresh_name" />
 	
 <LinearLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
