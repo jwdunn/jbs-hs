@@ -33,11 +33,7 @@ public class Dashboard extends Activity implements OnClickListener{
 		//Finds the history_button view
   	  	View histButton = findViewById(R.id.history_button);
   	  	histButton.setOnClickListener(this);
-  	  	
-  	  	//Finds the fmh_button view
-  	  	View fmhButton = findViewById(R.id.fmh_button);
-  	  	fmhButton.setOnClickListener(this);
-  	  	
+  	 
   	  	//Finds the locavg_button view
   	  	View locavgButton = findViewById(R.id.chart_button);
   	  	locavgButton.setOnClickListener(this);  	
