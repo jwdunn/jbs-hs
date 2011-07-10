@@ -3,7 +3,6 @@ package org.jbs.happysad;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class PersonalMap extends MapActivity implements OnClickListener{
@@ -25,11 +23,25 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    int checkHappy = 1;
    int checkSad = 1;
    MyLocationOverlay overlay;
+   ItemizedEmotionOverlay itemizedoverlay;
+   ItemizedEmotionOverlay itemizedoverlay2;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.personalmap);
+      
+      Drawable drawable = this.getResources().getDrawable(R.drawable.mapsmile);
+	  itemizedoverlay = new ItemizedEmotionOverlay(drawable, this);
+	  Drawable drawable2 = this.getResources().getDrawable(R.drawable.mapfrown);
+	  itemizedoverlay2 = new ItemizedEmotionOverlay(drawable2, this);
+	      
+	  HappyData datahelper = new HappyData(this);
+	  ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
+	      
+	  emotionOverlayMaker(1,plottables,itemizedoverlay);
+	  emotionOverlayMaker(0,plottables,itemizedoverlay2);
+	   
       initMapView();
       initMyLocation();
       
@@ -44,24 +56,10 @@ public class PersonalMap extends MapActivity implements OnClickListener{
       // Add ClickListener for the button
       View switchButton = findViewById(R.id.switchView);
       switchButton.setOnClickListener(this); 
-
    }
    
    @Override
    public void onClick(View v) {
-	   Drawable drawable = this.getResources().getDrawable(R.drawable.mapsmile);
-	   ItemizedEmotionOverlay itemizedoverlay = new ItemizedEmotionOverlay(drawable, this);
-	   Drawable drawable2 = this.getResources().getDrawable(R.drawable.mapfrown);
-	   ItemizedEmotionOverlay itemizedoverlay2 = new ItemizedEmotionOverlay(drawable2, this);
-	      
-	   HappyData datahelper = new HappyData(this);
-	   ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
-	   List<Overlay> mapOverlays = map.getOverlays();
-	      
-	   emotionOverlayMaker(1,plottables,itemizedoverlay);
-	   emotionOverlayMaker(0,plottables,itemizedoverlay2);
-	   
-	   
        switch(v.getId()){
 	       case R.id.switchView:
 	    	   if (map.isStreetView()==false){
@@ -75,30 +73,30 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 	           break;
            
            case R.id.showHappy:
-        	   if (checkHappy==1){
-	        	   mapOverlays.add(itemizedoverlay);
-	        	   checkHappy = 0;
+        	   if (checkHappy==0){
+        		   map.getOverlays().add(itemizedoverlay);
+	        	   checkHappy = 1;
         	   }
         	   else{
-	        	   mapOverlays.clear();
-	        	   if (checkSad == 0){
-		        	   mapOverlays.add(itemizedoverlay2);
+        		   map.getOverlays().clear();
+	        	   if (checkSad == 1){
+	        		   map.getOverlays().add(itemizedoverlay2);
 	        	   }
-        		   checkHappy = 1;
+        		   checkHappy = 0;
         	   }
         	   break;
            
            case R.id.showSad:		
-        	   if (checkSad == 1){
-	        	   mapOverlays.add(itemizedoverlay2);
-	        	   checkSad = 0;	        	   
+        	   if (checkSad == 0){
+        		   map.getOverlays().add(itemizedoverlay2);
+	        	   checkSad = 1;	        	   
         	   }	   
         	   else{
-        		   mapOverlays.clear();
-        		   if (this.checkHappy==0){
-    	        	   mapOverlays.add(itemizedoverlay);
+        		   map.getOverlays().clear();
+        		   if (this.checkHappy==1){
+        			   map.getOverlays().add(itemizedoverlay);
             	   }
-        		   checkSad = 1;
+        		   checkSad = 0;
         	   }
                break;
        }
@@ -111,7 +109,9 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    private void initMapView() {
       map = (MapView) findViewById(R.id.map);
       controller = map.getController();
-      map.setSatellite(true);
+      map.setStreetView(true);
+      map.getOverlays().add(itemizedoverlay2);
+      map.getOverlays().add(itemizedoverlay);
       map.setBuiltInZoomControls(true);
    }
    
@@ -122,7 +122,7 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 	   overlay.runOnFirstFix(new Runnable() {
 		   public void run() {
 			   // Zoom in to current location
-			   controller.setZoom(8);
+			   controller.setZoom(15);
 			   controller.animateTo(overlay.getMyLocation());
 		   }
 	   });
@@ -138,9 +138,9 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 		     	int latitude =  (int) (element.getLat()*1E6);
 		        int longitude =  (int) (element.getLong()*1E6);
 		        GeoPoint point = new GeoPoint(latitude,longitude);
-		        float time = element.getTime();
+		        long time = element.getTime();
 		        String S ="";
-		        S = S + new Timestamp((long)time);
+		        S = S + new Timestamp(time).toLocaleString();
 		        itemizedoverlay.addOverlay(new OverlayItem(point, S, element.getMsg()));		        
 		     }
 	   }   
