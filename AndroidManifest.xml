@@ -51,7 +51,7 @@
 			android:screenOrientation="portrait" >
 		</activity>
 		
-		<activity android:name=".ChartDemo"
+		<activity android:name=".ChartList"
                   android:label="Happiness Chart"
                   android:screenOrientation="portrait" >
         </activity>
