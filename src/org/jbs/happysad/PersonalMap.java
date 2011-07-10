@@ -1,23 +1,21 @@
 package org.jbs.happysad;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-//import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class PersonalMap extends MapActivity implements OnClickListener{
+
+public class PersonalMap extends MapActivity implements OnClickListener {
    private MapView map;
    private MapController controller;
    int checkHappy = 1;
