@@ -149,7 +149,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 				long time = element.getTime();
 				String S ="";
 				S = S + new Timestamp(time).toLocaleString();
-				itemizedoverlay.addOverlay(new OverlayItem(point, S, element.getMsg()));		        
+				itemizedoverlay.addOverlay(new OverlayItem(point, S+emotion, element.getMsg()));		        
 			}
 		}   
 	}

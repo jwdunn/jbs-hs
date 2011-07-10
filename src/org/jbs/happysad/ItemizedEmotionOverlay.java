@@ -49,7 +49,15 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay {
 		  Log.e("Checking","NPWL1");
 		  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
 		  Log.e("Checking","NPWL2");
-		  dialog.setTitle(item.getTitle());
+		  String date = item.getTitle().substring(0, item.getTitle().length()-1);
+		  char emotion = item.getTitle().charAt(item.getTitle().length()-1);
+		  if (emotion == '1'){
+			  dialog.setIcon(R.drawable.mapsmile);
+		  }
+		  else{
+			  dialog.setIcon(R.drawable.mapfrown);
+		  }
+		  dialog.setTitle(date);
 		  dialog.setMessage(item.getSnippet());
 		  dialog.show();
 		  
