@@ -49,8 +49,6 @@ public class PersonalMap extends MapActivity implements OnClickListener{
    
    @Override
    public void onClick(View v) {
-	   
-	   
 	   Drawable drawable = this.getResources().getDrawable(R.drawable.mapsmile);
 	   ItemizedEmotionOverlay itemizedoverlay = new ItemizedEmotionOverlay(drawable, this);
 	   Drawable drawable2 = this.getResources().getDrawable(R.drawable.mapfrown);
@@ -66,28 +64,13 @@ public class PersonalMap extends MapActivity implements OnClickListener{
 	   
        switch(v.getId()){
 	       case R.id.switchView:
-			   mapOverlays.clear();
 	    	   if (map.isStreetView()==false){
 	    		   map.setStreetView(true);
 	    		   map.setSatellite(false);  
-	    		   if (checkSad==0) {
-					   mapOverlays.add(itemizedoverlay2);
-				   }
-	    		   if (checkHappy==0) {
-					   mapOverlays.add(itemizedoverlay);
-				   }
 	    	   }
 	    	   else{
 	    		   map.setStreetView(false);
 	    		   map.setSatellite(true);
-	    		   mapOverlays.clear();
-	    		   if (checkSad==0) {
-					   mapOverlays.add(itemizedoverlay2);
-				   }
-	    		   if (checkHappy==0) {
-					   mapOverlays.add(itemizedoverlay);
-				   }
-	    		   
 	    	   }
 	           break;
            
