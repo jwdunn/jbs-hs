@@ -58,7 +58,9 @@ public class Prompt extends Activity implements OnClickListener{
 		}
 	}
 	
+	//Safes 
 	public void onDestroy(){
+		super.onDestroy();
 		s.safeShutdown();
 	}
 }
