@@ -27,7 +27,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.personalmap);
+      setContentView(R.layout.map);
       
       Drawable drawable = this.getResources().getDrawable(R.drawable.mapsmile);
 	  itemizedoverlay = new ItemizedEmotionOverlay(drawable, this);
