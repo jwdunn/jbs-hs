@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
+@SuppressWarnings("rawtypes")
 public class ItemizedEmotionOverlay extends ItemizedOverlay {
 	
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();

@@ -106,7 +106,7 @@ public class HappyData {
 	
 	}
 	
-	private void syncMyDown(){
+	protected void syncMyDown(){
 		
 		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE);
 		addAvoidDupes(b);

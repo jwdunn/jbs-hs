@@ -1,7 +1,6 @@
 package org.jbs.happysad;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -96,14 +95,5 @@ public class ChartList extends ListActivity {
 		     }
 	   } 
 	   return traceline;
-	}
-  
-	public ArrayList<Date> dateTrace(ArrayList<HappyBottle> plottables){
-		Iterator<HappyBottle> itr = plottables.iterator(); 
-		ArrayList<Date> dates = new ArrayList<Date>();
-		while(itr.hasNext()) {	     
-			HappyBottle element = itr.next();
-	   } 
-	   return dates;
 	}
 }

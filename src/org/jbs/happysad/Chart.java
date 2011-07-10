@@ -89,13 +89,4 @@ public class Chart extends AbstractChart {
 		} 
 		return traceline;
 	}
-	
-	public ArrayList<Date> dateTrace(ArrayList<HappyBottle> plottables){
-		Iterator<HappyBottle> itr = plottables.iterator(); 
-		ArrayList<Date> dates = new ArrayList<Date>();
-		while(itr.hasNext()) {     
-		   	HappyBottle element = itr.next();
-	   } 
-	   return dates;
-	}
 }	

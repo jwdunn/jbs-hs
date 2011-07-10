@@ -1,15 +1,9 @@
 package org.jbs.happysad;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.ListActivity;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +12,6 @@ import android.widget.SimpleAdapter;
 
 
 public class History extends ListActivity implements OnClickListener{
-	
-	private String TAG = "History";
 	private HappyData dataHelper;
 	//private static String[] FROM = { TIME, MSG, EMO,  };
 	//private static int[] TO = { R.id.time, R.id.msg, R.id.emo, };

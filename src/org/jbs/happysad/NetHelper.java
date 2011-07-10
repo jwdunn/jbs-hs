@@ -12,13 +12,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Formatter;
-
 import org.jbs.happysad.HappyBottle;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.ContentValues;
 import android.util.Log;
 
 public class NetHelper {
@@ -29,7 +26,6 @@ public class NetHelper {
 	}
 	
 	public String send(HappyBottle bottle){
-		ContentValues c = bottle.getAll();
 		//Log.v(TAG, "ContentValues c = bottle.getAll()");
 		String d = upload(bottle);
 		return d;
