@@ -8,15 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-//import android.util.Log;
 
 /**
- * Creates the Dashboard Activity
- * @author HS
+ * Creates the Dashboard Activity, which is composed of multiple buttons that go to other Activities
+ * @author HappySad
  */
 public class Dashboard extends Activity implements OnClickListener{
-	//for debugging purposes, delete after debugging.
-	//private static final String TAG = "dashboard";
 	
 	/**
 	 * Initializes activity
@@ -33,58 +30,50 @@ public class Dashboard extends Activity implements OnClickListener{
 		//Finds the history_button view
   	  	View histButton = findViewById(R.id.history_button);
   	  	histButton.setOnClickListener(this);
-  	 
-  	  	//Finds the chart_button view
-  	  	View chartButton = findViewById(R.id.chart_button);
-  	  	chartButton.setOnClickListener(this);  	
   	  	
-  	  	//Finds the my map view
+  	  	//Finds the my_map view
   	  	View myButton = findViewById(R.id.my_map);
   	  	myButton.setOnClickListener(this);
 
-  	  	//Finds the global map view
+  	  	//Finds the global_map view
   	  	View globalButton = findViewById(R.id.global_map);
   	  	globalButton.setOnClickListener(this);
+  	  	
+  	  	//Finds the chart_button view
+  	  	View chartButton = findViewById(R.id.chart_button);
+  	  	chartButton.setOnClickListener(this);  	
 	}
     
     /**
      * Invoked when a view is clicked
      */
-
 	public void onClick(View v) {
 		switch(v.getId()) {
 
 		case R.id.update_button:
-			Intent i = new Intent(this, Prompt.class);
-			i.putExtra("Clicked", "Happy");
-			startActivity(i);
+			startActivity(new Intent(this, Prompt.class));
 			break;
 
 		case R.id.history_button:
-			Intent j = new Intent(this, History.class);
-			startActivity(j);
+			startActivity(new Intent(this, History.class));
 			break;
-    		
-		case R.id.chart_button: 
-			Intent l = new Intent(this, ChartList.class);
-			startActivity(l);
-    		break;
 		
 		case R.id.my_map:
-			Intent n = new Intent(this, MyMap.class);
-			startActivity(n);
+			startActivity(new Intent(this, MyMap.class));
 			break;
 		
 		case R.id.global_map:
-			Intent o = new Intent(this, GlobalMap.class);
-			startActivity(o);
+			startActivity(new Intent(this, GlobalMap.class));
 			break;
-
+			
+		case R.id.chart_button: 
+			startActivity(new Intent(this, ChartList.class));
+    		break;
 		}
 	}
 	
 	/**
-	 * Creates setting menu
+	 * Creates a setting menu
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
