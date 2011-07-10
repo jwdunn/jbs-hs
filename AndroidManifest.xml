@@ -44,13 +44,6 @@
         	      android:label="@string/settings_title"
         	      android:screenOrientation="portrait" >
         </activity>
-        
-        <activity 
-			android:name=".FindMeHappiness" 
-			android:label="@string/fmh_name"
-			android:screenOrientation="portrait" >
-		</activity>
-		
 		<activity android:name=".ChartList"
                   android:label="Happiness Chart"
                   android:screenOrientation="portrait" >
