@@ -38,6 +38,10 @@ public class Prompt extends Activity implements OnClickListener{
     	View sadButton = findViewById(R.id.sad_button);
     	sadButton.setOnClickListener(this);
     	
+    	//Finds the submit_button view
+    	View submitButton = findViewById(R.id.more_to_dash);
+    	submitButton.setOnClickListener(this);
+    	
     	s = new Syncer(myID, this);
     	t = new Thread(s);
     	t.start();
@@ -86,6 +90,9 @@ public class Prompt extends Activity implements OnClickListener{
 			i.putExtra("Clicked", "Sad");
 			i.putExtra("Emotion", 0);
 			startActivity(i);
+			break;
+		case R.id.more_to_dash:
+			startActivity(new Intent(this, GlobalMap.class));
 			break;
 		}
 	}

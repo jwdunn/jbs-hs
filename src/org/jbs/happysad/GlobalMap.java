@@ -1,5 +1,6 @@
 package org.jbs.happysad;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -63,6 +64,19 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		// Add ClickListener for the button
 		View switchButton = findViewById(R.id.switchView);
 		switchButton.setOnClickListener(this); 
+		
+		
+		//Finds the chart_button view
+  	  	View chartButton = findViewById(R.id.myTrack_button);
+  	  	chartButton.setOnClickListener(this);  	
+  	  	
+  	  	//Finds the history_button view
+  	  	View histButton = findViewById(R.id.myChart_button);
+  	  	histButton.setOnClickListener(this);
+  	  	
+  	  	//Finds the my_map view
+  	  	View myButton = findViewById(R.id.myMap);
+  	  	myButton.setOnClickListener(this);
 	}
    
     /**
@@ -110,7 +124,19 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			map.getOverlays().add(overlay);
 			map.invalidate(); 
 			break;
-		}       
+			
+		case R.id.my_map:
+			startActivity(new Intent(this, MyMap.class));
+			break;
+		
+		case R.id.myTrack_button:
+			startActivity(new Intent(this, History.class));
+			break;
+			
+		case R.id.myChart_button: 
+			startActivity(new Intent(this, ChartList.class));
+			break;
+		}
 	}
 	
 	// Find and initialize the map view.
@@ -120,12 +146,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.setStreetView(true);
 		map.getOverlays().add(sadOverlay);
 		map.getOverlays().add(happyOverlay);
-		map.setBuiltInZoomControls(true);
+		map.setBuiltInZoomControls(false);
 	}
 	
 	// Start tracking the position on the map.
 	private void initMyLocation() {
-		overlay = new MyLocationOverlay(this, map);     
+		overlay = new MyLocationOverlay(this, map);
 		overlay.enableMyLocation();
 		overlay.runOnFirstFix(new Runnable() {
 			public void run() {

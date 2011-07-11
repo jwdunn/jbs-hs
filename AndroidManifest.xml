@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:label="@string/more_text"
+           		  android:label="@string/more"
            		  android:screenOrientation="portrait" 	>
         </activity>
         <activity android:name=".MyMap"
@@ -32,12 +32,8 @@
         	      android:label="@string/globalMap"
         	      android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".Dashboard"
-        	      android:label="@string/dashboard_name"
-        	      android:screenOrientation="portrait"  >
-        </activity>
         <activity android:name=".History"
-        	      android:label="@string/history_name"
+        	      android:label="@string/myTrack_name"
         	      android:screenOrientation="portrait"  >
         </activity>
         <activity android:name=".Prefs"

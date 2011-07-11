@@ -48,5 +48,19 @@
 					android:layout_width="wrap_content" >
 				</Button>
 			</RelativeLayout>
+			
+			<RelativeLayout 
+				android:layout_gravity="bottom"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent" >
+				
+				<Button 
+					android:text="Skip to Dashboard" 
+					android:id="@+id/more_to_dash" 
+					android:layout_centerHorizontal="true" 
+					android:layout_width="110dip" 
+					android:layout_height="60dip">
+				</Button> 
+			</RelativeLayout>
 			</LinearLayout>
 		</RelativeLayout>
