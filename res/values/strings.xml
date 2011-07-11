@@ -14,7 +14,6 @@
     
     <string name="myMap">MyMap</string>
 	<string name="globalMap">GlobalMap</string>
-	<string name ="dashboard_name">Dashboard</string>
 	<string name="update_name">Update</string>
 	<string name="myTrack_name">MyTrack</string>
 	<string name="myChart_name">MyChart</string>

@@ -151,7 +151,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	
 	// Start tracking the position on the map.
 	private void initMyLocation() {
-		overlay = new MyLocationOverlay(this, map);     
+		overlay = new MyLocationOverlay(this, map);
 		overlay.enableMyLocation();
 		overlay.runOnFirstFix(new Runnable() {
 			public void run() {
