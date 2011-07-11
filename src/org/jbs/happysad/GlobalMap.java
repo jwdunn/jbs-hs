@@ -125,7 +125,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			map.invalidate(); 
 			break;
 			
-		case R.id.my_map:
+		case R.id.myMap:
 			startActivity(new Intent(this, MyMap.class));
 			break;
 		
