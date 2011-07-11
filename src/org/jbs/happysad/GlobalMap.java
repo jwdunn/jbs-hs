@@ -146,7 +146,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.setStreetView(true);
 		map.getOverlays().add(sadOverlay);
 		map.getOverlays().add(happyOverlay);
-		map.setBuiltInZoomControls(true);
+		map.setBuiltInZoomControls(false);
 	}
 	
 	// Start tracking the position on the map.
