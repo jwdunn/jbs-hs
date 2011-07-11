@@ -6,9 +6,10 @@ android:layout_height="fill_parent" >
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_height="match_parent"
-   android:layout_width="match_parent"
-    android:orientation="vertical">
+  android:layout_height="fill_parent"
+   android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/promptback">
     
     <TableLayout android:id="@+id/tableLayout1" 
     android:layout_height="wrap_content" 
@@ -16,7 +17,7 @@ android:layout_height="fill_parent" >
     android:layout_marginBottom="30dip" >
     
     
-        <TextView android:text="@string/more_text" 
+        <TextView android:text="@string/more_happy" 
         android:id="@+id/textView1" 
         android:layout_width="wrap_content" 
         android:textSize="34.5sp" 
@@ -32,7 +33,7 @@ android:layout_height="fill_parent" >
     	android:layout_width="match_parent">
     	
 		
-        <EditText android:hint="why are you feeling this way?" 
+        <EditText android:hint="why are you feeling happy?" 
         android:id="@+id/more_textbox" 
         android:layout_width="wrap_content" 
         android:layout_height="match_parent"
