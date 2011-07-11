@@ -32,10 +32,6 @@
         	      android:label="@string/globalMap"
         	      android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".Dashboard"
-        	      android:label="@string/dashboard_name"
-        	      android:screenOrientation="portrait"  >
-        </activity>
         <activity android:name=".History"
         	      android:label="@string/myTrack_name"
         	      android:screenOrientation="portrait"  >
