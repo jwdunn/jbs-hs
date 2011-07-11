@@ -35,9 +35,9 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
-		Drawable drawable = this.getResources().getDrawable(R.drawable.mapsmile);
+		Drawable drawable = this.getResources().getDrawable(R.drawable.pinhappy);
 		happyOverlay = new ItemizedEmotionOverlay(drawable, this);
-		Drawable drawable2 = this.getResources().getDrawable(R.drawable.mapfrown);
+		Drawable drawable2 = this.getResources().getDrawable(R.drawable.pinsad);
 		sadOverlay = new ItemizedEmotionOverlay(drawable2, this);
 		
 		//get all HappyBottles from HappyData
