@@ -1,0 +1,81 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:3494), pid=5236, tid=2104
+#  Error: ShouldNotReachHere()
+#
+# JRE version: 6.0_26-b03
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (20.1-b02 mixed mode windows-amd64 compressed oops)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000000030b000):  JavaThread "Unknown thread" [_thread_in_vm, id=2104, stack(0x00000000023d0000,0x00000000024d0000)]
+
+Stack: [0x00000000023d0000,0x00000000024d0000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x000000000030b000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=2104, stack(0x00000000023d0000,0x00000000024d0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x0000000000400000 - 0x000000000042e000 	C:\Program Files\Java\jre6\bin\javaw.exe
+0x00000000773f0000 - 0x000000007759c000 	C:\Windows\SYSTEM32\ntdll.dll
+0x0000000076e10000 - 0x0000000076f2f000 	C:\Windows\system32\kernel32.dll
+0x000007fefda50000 - 0x000007fefdabb000 	C:\Windows\system32\KERNELBASE.dll
+0x000007fefdcf0000 - 0x000007fefddcb000 	C:\Windows\system32\ADVAPI32.dll
+0x000007feff230000 - 0x000007feff2cf000 	C:\Windows\system32\msvcrt.dll
+0x000007fefe1e0000 - 0x000007fefe1ff000 	C:\Windows\SYSTEM32\sechost.dll
+0x000007feff4e0000 - 0x000007feff60e000 	C:\Windows\system32\RPCRT4.dll
+0x0000000076d10000 - 0x0000000076e0a000 	C:\Windows\system32\USER32.dll
+0x000007fefdc30000 - 0x000007fefdc97000 	C:\Windows\system32\GDI32.dll
+0x000007feff220000 - 0x000007feff22e000 	C:\Windows\system32\LPK.dll
+0x000007fefdf30000 - 0x000007fefdffa000 	C:\Windows\system32\USP10.dll
+0x000007feff6b0000 - 0x000007feff6de000 	C:\Windows\system32\IMM32.DLL
+0x000007fefe200000 - 0x000007fefe309000 	C:\Windows\system32\MSCTF.dll
+0x000000006d7f0000 - 0x000000006dfa8000 	C:\Program Files\Java\jre6\bin\server\jvm.dll
+0x000007fefb680000 - 0x000007fefb6bb000 	C:\Windows\system32\WINMM.dll
+0x000000006d760000 - 0x000000006d76e000 	C:\Program Files\Java\jre6\bin\verify.dll
+0x000000006d3b0000 - 0x000000006d3d7000 	C:\Program Files\Java\jre6\bin\java.dll
+0x00000000775c0000 - 0x00000000775c7000 	C:\Windows\system32\PSAPI.DLL
+0x000000006d7b0000 - 0x000000006d7c2000 	C:\Program Files\Java\jre6\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 -Xbootclasspath:C:\Users\Todd\Dropbox\android-sdk\platforms\android-8\android.jar;C:\Users\Todd\Dropbox\android-sdk\add-ons\addon_google_apis_google_inc_8\libs\maps.jar 
+java_command: org.jbs.happysad.testUploader
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+CLASSPATH=.;C:\Program Files (x86)\Java\jre6\lib\ext\QTJava.zip
+PATH=C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files\Java\jdk1.6.0_26\jre\bin\java.exe;C:\Program Files (x86)\Nmap
+USERNAME=Todd
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 23 Stepping 6, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7600 
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 6 model 23 stepping 6, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1
+
+Memory: 4k page, physical 4158252k(1607080k free), swap 8314604k(4428112k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (20.1-b02) for windows-amd64 JRE (1.6.0_26-b03), built on May  4 2011 07:15:24 by "java_re" with MS VC++ 8.0 (VS2005)
+
+time: Tue Jul 12 15:47:17 2011
+elapsed time: 0 seconds
+

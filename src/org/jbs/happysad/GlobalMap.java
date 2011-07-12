@@ -129,13 +129,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			startActivity(new Intent(this, MyMap.class));
 			break;
 		
-		case R.id.myTrack_button:
-			startActivity(new Intent(this, History.class));
-			break;
-			
-		case R.id.myChart_button: 
-			startActivity(new Intent(this, ChartList.class));
-			break;
 		}
 	}
 	
