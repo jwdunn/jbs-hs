@@ -20,6 +20,12 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay<OverlayItem> {
 		  super(boundCenterBottom(defaultMarker));
 	}
 	
+	public ItemizedEmotionOverlay(Drawable defaultMarker, Context context) {
+		  super(boundCenterBottom(defaultMarker));
+		  mContext = context;
+		  populate();
+	}
+	
 	public void addOverlay(OverlayItem overlay) {
 	    mOverlays.add(overlay);
 	    populate();
@@ -34,23 +40,17 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay<OverlayItem> {
 	public int size() {
 	  return mOverlays.size();
 	}
-	
-	public ItemizedEmotionOverlay(Drawable defaultMarker, Context context) {
-		  super(boundCenterBottom(defaultMarker));
-		  mContext = context;
-		  populate();
-	}
 
 	
 	@Override
 	protected boolean onTap(int index) {
 		
 		  OverlayItem item = mOverlays.get(index);
+		  String date = item.getTitle().substring(0, item.getTitle().length()-1);
+		  char emotion = item.getTitle().charAt(item.getTitle().length()-1);
 		  Log.e("Checking","NPWL1");
 		  AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(mContext);
 		  Log.e("Checking","NPWL2");
-		  String date = item.getTitle().substring(0, item.getTitle().length()-1);
-		  char emotion = item.getTitle().charAt(item.getTitle().length()-1);
 		  if (emotion == '1'){
 			  dialogbuilder.setIcon(R.drawable.mapsmile);
 		  }

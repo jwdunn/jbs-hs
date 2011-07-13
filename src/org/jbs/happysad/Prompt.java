@@ -99,8 +99,8 @@ public class Prompt extends Activity implements OnClickListener{
 	
 	//Safes 
 	public void onDestroy(){
-		super.onDestroy();
 		s.safeShutdown();
+		super.onDestroy();
 	}
 	
 	// here is the has function. it inputs the username and turns it into an integer.
