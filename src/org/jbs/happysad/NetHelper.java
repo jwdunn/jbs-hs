@@ -25,6 +25,7 @@ public class NetHelper {
 		myid = id;
 	}
 	
+	
 	public String send(HappyBottle bottle){
 		//Log.v(TAG, "ContentValues c = bottle.getAll()");
 		String d = upload(bottle);
@@ -140,7 +141,6 @@ public class NetHelper {
          return result;
      }
 		
-	
 	
 	
 	public ArrayList<HappyBottle> parse(String in, Task task){

@@ -1,5 +1,6 @@
 package org.jbs.happysad;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,21 +13,20 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
- * Creates a My Map view with Google Maps API with someone's personal's HappyBottles
+ * Creates a Personal Map view with Google Maps API with users personal HappyBottles
  * @author HappySad
  */
 public class MyMap extends MapActivity implements OnClickListener {
 	//fields
-	private MapView map;
-	private MapController controller;
-	int checkHappy = 1;
-	int checkSad = 1;
-	MyLocationOverlay overlay;
-	ItemizedEmotionOverlay happyOverlay;
-	ItemizedEmotionOverlay sadOverlay;
+	private MapView map; //setting view
+	private MapController controller; //setting pinch to zoom
+	int checkHappy = 1; //check digits to keep track of whether happy faces are being shown on map - standard binary
+	int checkSad = 1; //check digit to keep track of whether sad faces are being shown on map - standard binary
+	MyLocationOverlay userLocationOverlay; //an overlay that marks users position on the map
+	ItemizedEmotionOverlay happyOverlay; //an overlay that marks all the happy faces
+	ItemizedEmotionOverlay sadOverlay; //an overlay that marks all the sad faces
 	
 	/**
 	 * Initializes Activity
@@ -34,21 +34,26 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map);
-		Drawable drawable = this.getResources().getDrawable(R.drawable.pinhappy);
-		happyOverlay = new ItemizedEmotionOverlay(drawable, this);
-		Drawable drawable2 = this.getResources().getDrawable(R.drawable.pinsad);
-		sadOverlay = new ItemizedEmotionOverlay(drawable2, this);
+		setContentView(R.layout.map); //sets the view
+		
+		//Defines the drawable items for the happy and sad overlays
+		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
+		Drawable sadface = this.getResources().getDrawable(R.drawable.pinsad);
+		
+		//initializes the happy and sad overlays
+		happyOverlay = new ItemizedEmotionOverlay(happyface, this);	
+		sadOverlay = new ItemizedEmotionOverlay(sadface, this);
 		
 		//get all HappyBottles from HappyData
-		HappyData datahelper = new HappyData(this);
-		ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
+		HappyData datahelper = new HappyData(this); //instantiates HappyData to access local storage
+		ArrayList<HappyBottle> plottables = datahelper.getMyHistory(); //creates an arraylist of all personal bottles
 		
-		//plot overlays
-		emotionOverlayMaker(0,plottables,sadOverlay);
-		emotionOverlayMaker(1,plottables,happyOverlay);
-		
-		//initialize map and location
+		//adds items to overlays
+		//1 is for sad and 0 is for happy, according to the HappyTrack system
+		emotionOverlayFiller(1,plottables,happyOverlay); //adds all happy bottles to the happy overlay
+		emotionOverlayFiller(0,plottables,sadOverlay); //adds all sad bottles to the sad overlay
+			
+		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();
       
@@ -63,6 +68,19 @@ public class MyMap extends MapActivity implements OnClickListener {
 		// Add ClickListener for the button
 		View switchButton = findViewById(R.id.switchView);
 		switchButton.setOnClickListener(this); 
+		
+		
+		//Finds the chart_button view
+  	  	View chartButton = findViewById(R.id.myTrack_button);
+  	  	chartButton.setOnClickListener(this);  	
+  	  	
+  	  	//Finds the history_button view
+  	  	View histButton = findViewById(R.id.myChart_button);
+  	  	histButton.setOnClickListener(this);
+  	  	
+  	  	//Finds the my_map view
+  	  	View myButton = findViewById(R.id.myMap);
+  	  	myButton.setOnClickListener(this);
 	}
    
     /**
@@ -71,6 +89,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
+		
+		//checks what current view is, then switches it off and starts the alternate
 		case R.id.switchView:
 			if (map.isStreetView()==false){
 				map.setStreetView(true);
@@ -80,76 +100,91 @@ public class MyMap extends MapActivity implements OnClickListener {
 				map.setSatellite(true);
 			}
 			break;
-			
+		
+		//used to show/hide the happy faces
+		//checks the check digit to note whether the user wants to show or hide the happy faces
+		//acts accordingly and updates the check digit
 		case R.id.showHappy:
-			if (checkHappy==0){
-				map.getOverlays().add(happyOverlay);
-				checkHappy = 1;
-			} else{
-				map.getOverlays().clear();
+			if (checkHappy==0){ //checks if happy faces are visible, goes here if not visible
+				map.getOverlays().add(happyOverlay); //adds happy face overlay to visible overlays 
+				checkHappy = 1; //updates the check digit
+			} else{ //goes here if happy faces are already visible
+				map.getOverlays().clear(); //clears all overlays
 				if (checkSad == 1){
-					map.getOverlays().add(sadOverlay);
+					map.getOverlays().add(sadOverlay);  //if sad faces should be visible, it adds them back
 				}
-				checkHappy = 0;
+				checkHappy = 0; //updates the check digit
 			}
-			map.getOverlays().add(overlay);
-			map.invalidate();
+			map.getOverlays().add(userLocationOverlay); //adds the users current location overlay back to the map
+			map.invalidate(); //redraws the map with the new overlay settings
 			break;
 			
+		//used to show/hide the sad faces
 		case R.id.showSad:		
-			if (checkSad == 0){
-				map.getOverlays().add(sadOverlay);
-				checkSad = 1;	        	   
-			} else{
-				map.getOverlays().clear();
+			if (checkSad == 0){ //checks if sad faces are visible, goes here if not visible
+				map.getOverlays().add(sadOverlay); //adds sad face overlay to visible overlays
+				checkSad = 1; //updates the check digit        	   
+			} else{ //goes here if sad faces are already visible
+				map.getOverlays().clear(); //clears all overlays
 				if (this.checkHappy==1){
-					map.getOverlays().add(happyOverlay);
+					map.getOverlays().add(happyOverlay); //if happy faces should be visible, it adds them back
 				}
-				checkSad = 0;
+				checkSad = 0; //updates the check digit
 			}
-			map.getOverlays().add(overlay);
-			map.invalidate();      
+			map.getOverlays().add(userLocationOverlay); //adds the users current location overlay back to the map
+			map.invalidate(); //redraws the map with the new overlay settings
 			break;
-		} 
+			
+		case R.id.myMap:
+			startActivity(new Intent(this, MyMap.class));
+			break;
+		
+		}
 	}
 	
-	// Find and initialize the map view.
+	/**
+	 * Finds and initializes the map view.
+	 */
 	private void initMapView() {
-		map = (MapView) findViewById(R.id.map);
-		controller = map.getController();
-		map.setStreetView(true);
-		map.getOverlays().add(sadOverlay);
-		map.getOverlays().add(happyOverlay);
-		map.setBuiltInZoomControls(true);
+		map = (MapView) findViewById(R.id.map); //sets map view from xml
+		controller = map.getController(); //gets pinch to zoom controller for map
+		map.setStreetView(true); //sets default view to screen view
+		map.getOverlays().add(sadOverlay); //adds the sad faces to the map
+		map.getOverlays().add(happyOverlay); //adds the happy faces to the map
+		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
 	}
 	
-	// Start tracking the position on the map.
+	/**
+	 * Starts tracking the users position on the map.
+	 */ 
 	private void initMyLocation() {
-		overlay = new MyLocationOverlay(this, map);     
-		overlay.enableMyLocation();
-		overlay.runOnFirstFix(new Runnable() {
+		userLocationOverlay = new MyLocationOverlay(this, map); //creates an overlay with the users current location
+		userLocationOverlay.enableMyLocation(); //enables location detection
+		userLocationOverlay.runOnFirstFix(new Runnable() { //the statements within should only be run when the map is first loaded
 			public void run() {
 				// Zoom in to current location
-				controller.setZoom(15);
-				controller.animateTo(overlay.getMyLocation());
+				controller.animateTo(userLocationOverlay.getMyLocation()); //sets the view to centralize the user
+				controller.setZoom(15); //sets the map zoom level to 15
 			}
 		});
-		map.getOverlays().add(overlay);
+		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	
-	// Creates and returns overlay Item
-	private static void emotionOverlayMaker(int emotion, ArrayList<HappyBottle> plottables, ItemizedEmotionOverlay itemizedoverlay){
-		Iterator<HappyBottle> itr = plottables.iterator(); 
-		while(itr.hasNext()) {
-			HappyBottle element = itr.next();
-			if (element.getEmo()==emotion){
-				int latitude =  (int) (element.getLat()*1E6);
-				int longitude =  (int) (element.getLong()*1E6);
-				GeoPoint point = new GeoPoint(latitude,longitude);
-				long time = element.getTime();
-				String S ="";
-				S = S + new Timestamp(time).toLocaleString();
-				itemizedoverlay.addOverlay(new OverlayItem(point, S+emotion, element.getMsg()));		        
+	/**
+	 * Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
+	 * The filter is happy or sad (1 or 0)
+	 * The list is a list of emotion bottles
+	 * The overlay may be an overlay of happy or sad faces
+	 */ 
+	private static void emotionOverlayFiller(int emotion, ArrayList<HappyBottle> plottables, ItemizedEmotionOverlay itemizedoverlay){ 
+		for(int i = 0; i<plottables.size();i++) { //loops for every bottle in the list
+			HappyBottle element = plottables.get(i); //sets the element to the current bottle for easy reference
+			if (element.getEmo()==emotion){ //enters only id the bottle passes the filter
+				int latitude =  (int) (element.getLat()*1E6); //converts latitude from float to integer in microdegrees
+				int longitude =  (int) (element.getLong()*1E6); //converts longitude from float to integer in microdegrees
+				GeoPoint point = new GeoPoint(latitude,longitude); //creates geopoint (a type of point required for map overlays)
+				String S = (String) new Timestamp(element.getTime()).toLocaleString(); //creates a string of bottle time that is human readable
+				itemizedoverlay.addToOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay	- emotion is appended to date in the title        
 			}
 		}   
 	}
@@ -163,14 +198,14 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		overlay.disableMyLocation();  
+		userLocationOverlay.disableMyLocation();  
 	}
 	
 	//Enables MyLocation
 	@Override
 	protected void onResume() {
 		super.onResume();
-		overlay.enableMyLocation();
+		userLocationOverlay.enableMyLocation();
 	}
 }
 

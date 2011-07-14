@@ -100,7 +100,7 @@ public class More extends Activity implements OnClickListener {
 		case R.id.more_to_dash:
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
-			Intent i = new Intent(this, Dashboard.class);
+			Intent i = new Intent(this, GlobalMap.class);
 			saveUpdate(shareString); 
 			finish();
 			startActivity(i);
