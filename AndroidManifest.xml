@@ -7,40 +7,47 @@
 	<uses-permission android:name="android.permission.INTERNET"/> 
 	<uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 	<application android:icon="@drawable/happysad"
 		android:label="@string/app_name">
 		<uses-library android:name="com.google.android.maps" />
         <activity android:name=".Prompt"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:screenOrientation="portrait" >
            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:label="@string/more_name"	>
+           		  android:label="@string/more"
+           		  android:screenOrientation="portrait" 	>
         </activity>
-        <activity android:name=".PersonalMap"
-        	      android:label="@string/personalMap">
+        <activity android:name=".MyMap"
+        	      android:label="@string/myMap"
+        	      android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".GlobalMap"
-        	      android:label="@string/globalMap">
-        </activity>
-        <activity android:name=".Dashboard"
-        	      android:label="@string/dashboard_name" >
+        	      android:label="@string/globalMap"
+        	      android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".History"
-        	      android:label="@string/history_name" >
+        	      android:label="@string/myTrack_name"
+        	      android:screenOrientation="portrait"  >
         </activity>
         <activity android:name=".Prefs"
-        	      android:label="@string/settings_title">
+        	      android:label="@string/settings_title"
+        	      android:screenOrientation="portrait" >
+        </activity>
+		<activity android:name=".ChartList"
+                  android:label="Happiness Chart"
+                  android:screenOrientation="portrait" >
         </activity>
         
-        <activity 
-			android:name=".FindMeHappiness" 
-			android:label="@string/fmh_name">
-		</activity>
+		<activity android:name="org.achartengine.chartdemo.demo.chart.XYChartBuilder" />
+        <activity android:name="org.achartengine.GraphicalActivity" />
+		<activity android:name=".GeneratedChartDemo" />
 
 	</application>
 

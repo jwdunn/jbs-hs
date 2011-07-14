@@ -14,12 +14,11 @@ import com.google.android.maps.OverlayItem;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-
 /**
- * Creates a Global Map view with Google Maps API with everyone's HappyBottles
+ * Creates a Personal Map view with Google Maps API with users personal HappyBottles
  * @author HappySad
  */
-public class GlobalMap extends MapActivity implements OnClickListener {
+public class MyMap extends MapActivity implements OnClickListener {
 	//fields
 	private MapView map; //setting view
 	private MapController controller; //setting pinch to zoom
@@ -47,7 +46,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		//get all HappyBottles from HappyData
 		HappyData datahelper = new HappyData(this); //instantiates HappyData to access local storage
-		ArrayList<HappyBottle> plottables = datahelper.getAllHistory(); //creates an arraylist of all the bottles
+		ArrayList<HappyBottle> plottables = datahelper.getMyHistory(); //creates an arraylist of all personal bottles
 		
 		//adds items to overlays
 		//1 is for sad and 0 is for happy, according to the HappyTrack system
@@ -57,7 +56,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();
-
       
 		//Add ClickListener for the button
 		View sadButton = findViewById(R.id.showSad);
@@ -85,7 +83,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
   	  	myButton.setOnClickListener(this);
 	}
    
-
     /**
      * Invoked when a view is clicked
      */
@@ -187,7 +184,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 				int longitude =  (int) (element.getLong()*1E6); //converts longitude from float to integer in microdegrees
 				GeoPoint point = new GeoPoint(latitude,longitude); //creates geopoint (a type of point required for map overlays)
 				String S = (String) new Timestamp(element.getTime()).toLocaleString(); //creates a string of bottle time that is human readable
-				itemizedoverlay.addToOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay	- emotion is appended to date in the title	        
+				itemizedoverlay.addToOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay	- emotion is appended to date in the title        
 			}
 		}   
 	}
@@ -211,5 +208,4 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		userLocationOverlay.enableMyLocation();
 	}
 }
-
 

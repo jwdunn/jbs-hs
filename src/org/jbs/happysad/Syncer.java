@@ -1,12 +1,9 @@
 package org.jbs.happysad;
 
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 
 public class Syncer implements Runnable {
-
-	private int myID;
+	protected int myID;
 	private boolean running;
 	private HappyData h;
 	public Syncer(int id, Context ctx){
@@ -19,16 +16,17 @@ public class Syncer implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while(running==true){
+			
+			
+			h.syncDown();
+			h.syncUp();
+			
 			try {
 				Thread.sleep(10002); //update every 10 seconds
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			h.syncDown();
-			h.syncUp();
-			
 		}
 	}
 

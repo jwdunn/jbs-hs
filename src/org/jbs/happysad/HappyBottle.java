@@ -80,13 +80,14 @@ public class HappyBottle {
 	public String toString(){
 		String s = "";
 		//s+= "bottle:: ";
+
 		s += UID + ": "+ uid + " ";
 		s += "lat: " + lati + " ";
 		s += "long: " + longi + " ";
 		s += "emo: " + emo + " ";
 		s += "msg: " + msg + " ";
 		s += "time: " + new Timestamp( time) + " ";	
+
 		return s;
-	}
-	
+	}	
 }

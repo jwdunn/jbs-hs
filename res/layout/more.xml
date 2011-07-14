@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent" >
+android:layout_width="match_parent"
+android:layout_height="match_parent" >
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_height="match_parent"
    android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/promptback">
     
     <TableLayout android:id="@+id/tableLayout1" 
     android:layout_height="wrap_content" 
@@ -16,14 +17,13 @@ android:layout_height="fill_parent" >
     android:layout_marginBottom="30dip" >
     
     
-        <TextView android:text="@string/more_hint_text" 
+        <TextView android:text="@string/more_happy" 
         android:id="@+id/textView1" 
         android:layout_width="wrap_content" 
         android:textSize="34.5sp" 
         android:gravity="center"
         android:layout_height="wrap_content" 
-        android:layout_weight="1" 
-      	>
+        android:layout_weight="1"  >
         </TextView>
         	
     </TableLayout>
@@ -33,7 +33,7 @@ android:layout_height="fill_parent" >
     	android:layout_width="match_parent">
     	
 		
-        <EditText android:hint="why are you feeling this way?" 
+        <EditText android:hint="why are you feeling happy?" 
         android:id="@+id/more_textbox" 
         android:layout_width="wrap_content" 
         android:layout_height="match_parent"
@@ -46,54 +46,58 @@ android:layout_height="fill_parent" >
         android:layout_width="match_parent"
         android:layout_marginLeft="60dip"
         android:layout_marginRight="50dip"
-        android:layout_marginTop="50dip"
-        >
+        android:layout_marginTop="50dip">
+        
             <LinearLayout android:id="@+id/linearLayout1" 
             android:layout_width="wrap_content"
              android:layout_height="wrap_content">
              </LinearLayout>
             <ImageView android:layout_height="200dip" 
+            
             android:layout_width="200dip" 
             android:scaleType="matrix" 
+            android:layout_gravity="center"
             android:id="@+id/imageView" 
-            android:src="@drawable/smile2"
+            android:src="@drawable/smile"
             >
             </ImageView>
          
-        </FrameLayout>
-    </TableLayout>
-  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="fill_parent" 
-    android:background="#000000" 
-    android:layout_height="fill_parent"> 
+        	</FrameLayout>
+    	</TableLayout>
+  	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    	android:layout_width="match_parent" 
+    	android:background="#000000" 
+    	android:layout_height="match_parent"> 
     
-		<ImageButton android:text="@string/im_happy" 
-		android:id="@+id/camera_button" 
-		android:src="@drawable/camera" 
-		android:layout_centerHorizontal="true" 
-		android:layout_width="110dip" 
-		android:layout_alignParentLeft="true" 
-		android:layout_height="wrap_content">
-		</ImageButton>
-
-		<Button android:text="@string/submit_to_dash" 
-		android:id="@+id/more_to_dash" 
+		<ImageButton 
+			android:id="@+id/camera_button" 
+			android:src="@drawable/camera" 
+			android:layout_centerHorizontal="true" 
+			android:layout_width="110dip" 
+			android:layout_alignParentLeft="true" 
+			android:layout_height="wrap_content">
+		</ImageButton> 
+		
+		<Button
+		 android:text="@string/share" 
+		android:id="@+id/share" 
 		android:layout_centerHorizontal="true" 
 		android:layout_width="110dip" 
 		android:layout_toRightOf="@id/camera_button" 
 		android:layout_alignTop="@id/camera_button" 
-		android:layout_height="55dip">
+		android:layout_height="60dip">
 		</Button>
 		
-		<Button android:text="@string/share" 
-		android:id="@+id/share" 
+		<Button 
+		android:text="@string/submit_to_dash" 
+		android:id="@+id/more_to_dash" 
 		android:layout_centerHorizontal="true" 
-		android:layout_width="100dip" 
-		android:layout_alignParentRight="true" 
+		android:layout_width="110dip" 
+		android:layout_toRightOf="@id/share" 
 		android:layout_alignTop="@id/camera_button" 
-		android:layout_height="55dip">
-		</Button>   		
-		
- 	</RelativeLayout>   	
+		android:layout_height="60dip">
+		</Button> 
+		    
+ 		</RelativeLayout>   	
  </LinearLayout>  	 
 </ScrollView>

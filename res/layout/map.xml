@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/frame"
+   android:orientation="vertical"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent">
+
+
+   <view android:id="@+id/map"
+        class="com.google.android.maps.MapView"
+  		android:apiKey="0daBwQHl-_TXlY02LntDucoHZUZ3ER3mjky_jWQ" 
+  		android:layout_width="fill_parent"
+  		android:layout_height="fill_parent"
+  		 android:enabled="true"
+  		android:layout_weight="1" 
+  		android:clickable="true" />
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:padding="0px"           
+            >
+            
+         
+            
+     
+		</LinearLayout>
+		<TableLayout 
+		android:layout_gravity="top" 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:stretchColumns="*" > 
+		<TableRow>
+			<Button android:id="@+id/showHappy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:textSize="12sp" 
+            android:text="@string/sad_overlay" />
+
+        <Button android:id="@+id/showSad"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" 
+            android:textSize="12sp"   
+            android:text="@string/happy_overlay" />
+            
+        <Button android:id="@+id/switchView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:textSize="12sp" 
+            android:text="@string/switch_view" />
+		</TableRow> 
+	</TableLayout>
+	<TableLayout 
+		android:layout_gravity="bottom" 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:stretchColumns="*" > 
+		<TableRow> 
+			<Button
+				android:id="@+id/myMap"
+				android:text="@string/myMap"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0" 
+				android:textSize="12sp" />
+			<Button
+				android:id="@+id/myTrack_button" 
+				android:text="@string/myTrack_name"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0" 
+				android:textSize="12sp" />
+			<Button
+				android:id="@+id/myChart_button"
+				android:text="@string/myChart_name"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0" 
+				android:textSize="12sp" /> 
+		</TableRow>  
+	</TableLayout>
+</FrameLayout>

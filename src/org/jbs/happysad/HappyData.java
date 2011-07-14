@@ -19,7 +19,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
 import android.util.Log;
 
 /**
@@ -37,8 +36,8 @@ public class HappyData {
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME, SYNC };
 	private static String ORDER_BY = TIME + " DESC";
 	private NetHelper net = new NetHelper(MyUserID);
+
 	//private Handler mainThread;
-	
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
 		//mainThread = new Handler();
@@ -107,7 +106,7 @@ public class HappyData {
 	
 	}
 	
-	private void syncMyDown(){
+	protected void syncMyDown(){
 		
 		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE);
 		addAvoidDupes(b);
@@ -220,6 +219,4 @@ public class HappyData {
 		           null, ORDER_BY);
 		return cursor;
 	}
-	
-	
 }
