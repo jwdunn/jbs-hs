@@ -136,6 +136,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 			break;
 			
 		case R.id.globalMap:
+			finish();
 			startActivity(new Intent(this, GlobalMap.class));
 			break;
 		
