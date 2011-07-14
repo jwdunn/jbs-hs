@@ -1,3 +1,5 @@
+//new happydata
+
 package org.jbs.happysad;
 
 import static android.provider.BaseColumns._ID;
@@ -19,6 +21,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import android.util.Log;
 
 /**
@@ -36,8 +39,8 @@ public class HappyData {
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME, SYNC };
 	private static String ORDER_BY = TIME + " DESC";
 	private NetHelper net = new NetHelper(MyUserID);
-
 	//private Handler mainThread;
+	
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
 		//mainThread = new Handler();
@@ -87,7 +90,7 @@ public class HappyData {
 			if ((id == MyUserID) && (synced == 0)) {
 				HappyBottle b = createBottle(cursor);
 				Log.e(TAG, "NETSEND");
-				net.send(b);
+				net.doTask(Task.SEND, b);
 				Log.e(TAG, "REMOVEBYID");
 				removeByID(cursor.getLong(0));
 				addBottle(b, true);
@@ -106,14 +109,14 @@ public class HappyData {
 	
 	}
 	
-	protected void syncMyDown(){
+	private void syncMyDown(){
 		
-		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE);
+		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE, null);
 		addAvoidDupes(b);
 	}
 	
 	private void syncAllDown(){
-		ArrayList<HappyBottle> b = net.doTask(Task.GETALL);
+		ArrayList<HappyBottle> b = net.doTask(Task.GETALL, null);
 		addAvoidDupes(b);
 	}
 	
@@ -219,4 +222,6 @@ public class HappyData {
 		           null, ORDER_BY);
 		return cursor;
 	}
+	
+	
 }

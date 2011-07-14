@@ -1,13 +1,20 @@
+//new nethelper
 package org.jbs.happysad;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.jbs.happysad.Task;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -16,6 +23,7 @@ import org.jbs.happysad.HappyBottle;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.util.Base64;
 import android.util.Log;
 
 public class NetHelper {
@@ -26,124 +34,119 @@ public class NetHelper {
 	}
 	
 	
-	public String send(HappyBottle bottle){
-		//Log.v(TAG, "ContentValues c = bottle.getAll()");
-		String d = upload(bottle);
-		return d;
+	public ArrayList<HappyBottle> doTask(Task t, HappyBottle b){
+		switch(t){
+		case SEND:
+			upload(b);
+			return null;
+		default:
+			return download(t);
+		}
 	}
 	
-	public ArrayList<HappyBottle> doTask(Task task){
-		String result = "connecting...";
-		HttpURLConnection con = null;
-		try {
-	    
-			URL url = new URL ("http://stark-water-134.heroku.com/bottles.json");
+	private ArrayList<HappyBottle> download(Task t) {
+        BufferedReader in = null;
+        String page = "error";
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
+            if( t.equals(Task.GETMINE)){
+            	request.setURI(new URI("http://stark-water-134.heroku.com/bottles/" + myid+".json"));
+            }
+            BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+            request.setHeader(declareAuth);
+            
+            HttpResponse response = client.execute(request);
+            in = new BufferedReader
+            (new InputStreamReader(response.getEntity().getContent()));
+            StringBuffer sb = new StringBuffer("");
+            String line = "";
+            String NL = System.getProperty("line.separator");
+            while ((line = in.readLine()) != null) {
+                sb.append(line + NL);
+            }
+            in.close();
+            page = sb.toString();
+            Log.d(TAG, "this is the download dump " + page);
+            }
+        catch (Exception e){
+        	e.printStackTrace();
+        }
+        finally {
+            if (in != null) {
+                try {
+                    in.close();
+                    } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return parse(page);
+    }
+    
+    
+ 
+ 
+    
+    private String upload(HappyBottle b) {
+		
+		String page = "erorr";
+		HttpClient client = new DefaultHttpClient();
+	    HttpPost request = new HttpPost();
+	    Object[] values = {b.getEmo(), b.getLat(), b.getLong(), b.getMsg(), b.getUID(), b.getTime()};  
+		Formatter f = new Formatter();
+		f.format("bottle[emo]=%s&bottle[lat]=%s&bottle[long]=%s&bottle[msg]=%s&bottle[user_id]=%s&bottle[time]=%s&commit=Create Bottle", values);
+		String data = f.toString();
+		BufferedReader in = null;
+		URI url;
+		try { 
+			url = new URI("http", "stark-water-134.heroku.com", "/bottles", data, null);
+			request.setURI(url);
+			Log.d(TAG, "data: "+ data);
+			Log.d(TAG, "uRL: " + url);
+		} catch (URISyntaxException e1) {
 			
-	          
-	    	  // Check if task has been interrupted
-	    	  if (Thread.interrupted())
-	    		  throw new InterruptedException();
-
-	    	  // Build RESTful query for Google API
-	    	  //     String q = URLEncoder.encode(original, "UTF-8");
-	        
-	         
-	         con = (HttpURLConnection) url.openConnection();
-	         con.setReadTimeout(10000 /* milliseconds */);
-	         con.setConnectTimeout(15000 /* milliseconds */);
-	         con.setRequestMethod("GET");
-	         con.setDoInput(true);
-
-	         
-	         // Start the query
-	         con.connect();
-
-	         // Check if task has been interrupted
-	         if (Thread.interrupted())
-	            throw new InterruptedException();
-
-	         // Read results from the query
-	         BufferedReader reader = new BufferedReader(
-	        		 new InputStreamReader(con.getInputStream(), "UTF-8"));
-	         String payload = reader.readLine();
-	         reader.close();
-	         Log.d(TAG, "bottles.json: " + payload );
-	         // Parse to get translated text
-	         return parse(payload, task);
-	         
-	      } catch (IOException e) {
-	         Log.e(TAG, "IOException", e);
-	      } catch (InterruptedException e) {
-	         Log.d(TAG, "InterruptedException", e);
-	         result = "interruptedexception";
-	      } finally {
-	         if (con != null) {
-	            con.disconnect();
-	         }
-	      }
-
-	      // All done
-	      Log.d(TAG, "   -> returned " + result);
-	    return new ArrayList<HappyBottle>();
-	      
-	   }
-
-	private String upload(HappyBottle b) {
-		Log.d(TAG, "SENDING THROUGH NETHELPER");  
-		String result = "uploading..";
+			e1.printStackTrace();
+		}
+	    try {
 		
-		Log.d(TAG, "Time: " +  b.getTime());
-		//String t = Long.toString(b.getTime());
-		Object[] values = {b.getEmo(), b.getLat(), b.getLong(), b.getMsg(), b.getUID(), b.getTime()};  
-		
-		 
-    	Formatter f = new Formatter();
-    	f.format("bottle[emo]=%s&bottle[lat]=%s&bottle[long]=%s&bottle[msg]=%s&bottle[user_id]=%s&bottle[time]=%s&commit=Create Bottle", values);
-    	String data = f.toString();
-		
-    	 try {
-             
-             // Send the request
-             URL url = new URL("http://stark-water-134.heroku.com/bottles");
-             URLConnection conn = url.openConnection();
-             conn.setDoOutput(true);
-             OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-             
-             //write parameters
-             writer.write(data);
-             writer.flush();
-             
-             // Get the response
-             StringBuffer answer = new StringBuffer();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-             String line;
-             while ((line = reader.readLine()) != null) {
-                 answer.append(line);
-             }
-             writer.close();
-             reader.close();
-             
-             //Output the response
-             result = answer.toString();
-             
-         } catch (MalformedURLException ex) {
-        	 Log.v(TAG, "Malformed URL exception in upload");
-        	 ex.printStackTrace();
-         } catch (IOException ex) {
-        	 Log.v(TAG, "IO exception in upload");
-        	 ex.printStackTrace();
-         }
-         catch (Exception e) {
-        	 e.printStackTrace();
-        	 Log.v(TAG, "lame error I don't understand");
-         }
-         Log.d(TAG, "upload result: " + result);
-         return result;
-     }
-		
+	    BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+	    request.setHeader(declareAuth);
+	    
+	    HttpResponse response = client.execute(request);
+	    in = new BufferedReader
+	    (new InputStreamReader(response.getEntity().getContent()));
+	    StringBuffer sb = new StringBuffer("");
+	    String line = "";
+	    String NL = System.getProperty("line.separator");
+	            while ((line = in.readLine()) != null) {
+	                sb.append(line + NL);
+	            }
+	            in.close();
+	            page = sb.toString();
+	            
+	            }
+	        catch (Exception e){
+	        	e.printStackTrace();
+	        }
+	        finally {
+	            if (in != null) {
+	                try {
+	                    in.close();
+	                    } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        return page;
+    
+}
+	
+
 	
 	
-	public ArrayList<HappyBottle> parse(String in, Task task){
+	public ArrayList<HappyBottle> parse(String in){
 		   ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		   try {
 
@@ -157,7 +160,7 @@ public class NetHelper {
 				   a.add(b);
 			   }  
 		   } catch (JSONException e) {
-			   Log.e(TAG + "array error", e.toString());
+			   Log.e(TAG,  "array error" + e.toString());
 			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONARRAYERROR",1) );
 		   }
 		   catch (Exception e){
