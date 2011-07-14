@@ -184,7 +184,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 				int longitude =  (int) (element.getLong()*1E6); //converts longitude from float to integer in microdegrees
 				GeoPoint point = new GeoPoint(latitude,longitude); //creates geopoint (a type of point required for map overlays)
 				String S = (String) new Timestamp(element.getTime()).toLocaleString(); //creates a string of bottle time that is human readable
-				itemizedoverlay.addOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay		        
+				itemizedoverlay.addToOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay	- emotion is appended to date in the title	        
 			}
 		}   
 	}
