@@ -51,8 +51,8 @@
 		android:stretchColumns="*" > 
 		<TableRow> 
 			<Button
-				android:id="@+id/globalMap"
-				android:text="@string/globalMap"
+				android:id="@+id/myMap"
+				android:text="@string/myMap"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 

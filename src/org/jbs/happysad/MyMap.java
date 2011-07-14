@@ -79,7 +79,7 @@ public class MyMap extends MapActivity implements OnClickListener {
   	  	histButton.setOnClickListener(this);
   	  	
   	  	//Finds the my_map view
-  	  	View myButton = findViewById(R.id.myMap);
+  	  	View myButton = findViewById(R.id.globalMap);
   	  	myButton.setOnClickListener(this);
 	}
    
@@ -135,8 +135,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 			map.invalidate(); //redraws the map with the new overlay settings
 			break;
 			
-		case R.id.myMap:
-			startActivity(new Intent(this, MyMap.class));
+		case R.id.globalMap:
+			startActivity(new Intent(this, GlobalMap.class));
 			break;
 		
 		}

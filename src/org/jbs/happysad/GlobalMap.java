@@ -34,7 +34,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map); //sets the view
+		setContentView(R.layout.globalmap); //sets the view
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
