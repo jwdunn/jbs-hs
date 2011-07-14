@@ -1,92 +1,113 @@
+/**
+ * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
+ *  
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jbs.happysad;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import org.achartengine.ChartFactory;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.DefaultRenderer;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
 /**
- * First HappyData Chart
- * @author HappySad
+ * Budget demo pie chart.
  */
 public class Chart extends AbstractChart {
-  	
-	/**
-	 * Returns the chart name as a string
-	 * @return the chart name as a string
-	 */
-	public String getName() {
-		return "Happy - Sad";
-	}
+  /**
+   * Returns the chart name.
+   * 
+   * @return the chart name
+   */
+  public String getName() {
+    return "Happy Pie-Chart";
+  }
 
-	/**
-	 * Returns the chart description.
-	 * @return the chart description
-	 */
-	public String getDesc() {
-		return "This chart reflects time (x axis) vs happiness (y axis)";
-	}
+  /**
+   * Returns the chart description.
+   * 
+   * @return the chart description
+   */
+  public String getDesc() {
+    return "This chart shows the percentages of your happiness in a pie chart format.";
+  }
 
-	/**
-	 * Executes the chart demo.
-	 * @param context the context
-	 * @return the built intent
-	 */
-	public Intent execute(Context context) {
-		HappyData datahelper = new HappyData(context);
-		ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
-		ArrayList<Double> cat = emoTrace(plottables);
+  /**
+   * Executes the chart demo.
+   * 
+   * @param context the context
+   * @return the built intent
+   */
+  public Intent execute(Context context) {
+	  
+	HappyData datahelper = new HappyData(context);
+	ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
 	
-		double [] dog = new double[cat.size()]; // = (double []) cat.toArray();
-		for (int i=0; i<cat.size(); i++)
-			dog[i]=cat.get(i);
-		String[] titles = new String[] { "Follow the up's and down's" };
-		List<Date[]> dates = new ArrayList<Date[]>();
-		List<double[]> values = new ArrayList<double[]>();
-		Date[] dateValues = new Date[] { new Date(111, 0, 1), new Date(111, 3, 1), new Date(111, 6, 1),
-				new Date(111, 9, 1), new Date(112, 0, 1), new Date(112, 3, 1), new Date(112, 6, 1),
-				new Date(112, 9, 1), new Date(113, 0, 1), new Date(113, 3, 1), new Date(113, 6, 1),
-				new Date(113, 9, 1), new Date(114, 0, 1), new Date(114, 3, 1), new Date(114, 6, 1),
-				new Date(114, 9, 1), new Date(115, 0, 1), new Date(115, 3, 1), new Date(115, 6, 1),
-				new Date(115, 9, 1), new Date(116, 0, 1), new Date(116, 3, 1), new Date(116, 6, 1),
-				new Date(116, 9, 1), new Date(116, 11, 1) };
-		dates.add(dateValues);
-
-		values.add(dog);
-		int[] colors = new int[] { Color.CYAN };
-		PointStyle[] styles = new PointStyle[] { PointStyle.POINT };
-		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-		setChartSettings(renderer, "Happy Chart", "Date", "Happiness", dateValues[0].getTime(),
-				dateValues[dateValues.length - 1].getTime(), -4, 11, Color.LTGRAY, Color.WHITE);
-		renderer.setYLabels(10);
-		renderer.setZoomButtonsVisible(true);
-		return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
-				renderer, "MMM yyyy");
-	}
+    double[] values = percentages(plottables);
+    	//new double[] { 12, 14, 11, 10, 19 };
+    int[] colors = new int[] { Color.YELLOW, Color.CYAN };
+    
+    DefaultRenderer renderer = buildCategoryRenderer(colors);
+    renderer.setZoomButtonsVisible(true);
+    renderer.setZoomEnabled(true);
+    //renderer.setChartTitleTextSize(20);
+    
+    renderer.setChartTitle("PIE CHART!");
+    
+    renderer.setChartTitleTextSize(50);
+	renderer.setLabelsTextSize(20);
+	renderer.setLegendTextSize(40);
+	renderer.setMargins(new int[] {20, 30});
+    
+    return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Happy Pie", values),
+        renderer, "Chart");
+  }
   
-	public ArrayList<Double> emoTrace(ArrayList<HappyBottle> plottables){
-		Iterator<HappyBottle> itr = plottables.iterator(); 
-		double trace = 0;
-		ArrayList<Double> traceline = new ArrayList<Double>();
-		traceline.add(trace);
+  public double [] percentages(ArrayList<HappyBottle> plottables){
+		
+	  	Iterator<HappyBottle> itr = plottables.iterator(); 
+		double happy = 0;
+		double sad = 0;
+		double [] values = new double[2];
+	
 		while(itr.hasNext()) {     
-		   	HappyBottle element = itr.next();
-		     if (element.getEmo() == 1){
-		    	trace += 2; 
-		    	traceline.add(trace); 
+		   	
+			HappyBottle element = itr.next();
+		     
+		   	if (element.getEmo() == 1){
+		    	happy += 1; 
 		     } else {
-		    	trace -= 2; 
-			    traceline.add(trace); 
+		    	sad += 1; 
 		     }
 		} 
-		return traceline;
+		
+		double happyprctg = (happy * 100) / (happy + sad);
+		double sadprctg = 100 - happyprctg;
+		
+		int happytransf = (int) (happyprctg * 100);
+		int sadtrans = (int) (sadprctg * 100);
+		
+		happyprctg = (double) happytransf / 100;
+		sadprctg = (double) sadtrans / 100;
+		
+		values[0] = happyprctg;
+		values[1] = sadprctg;
+		
+		return values;
 	}
 }	

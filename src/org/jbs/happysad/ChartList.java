@@ -70,30 +70,14 @@ public class ChartList extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Intent intent = null;
-
+		
+		/*
 		HappyData datahelper = new HappyData(this);
 		ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
 		this.chartline = emoTrace(plottables);
+		*/
     
 		intent = mCharts[0].execute(this);
 		startActivity(intent);
-	}
-  
-	public ArrayList<Integer> emoTrace(ArrayList<HappyBottle> plottables){
-	   Iterator<HappyBottle> itr = plottables.iterator(); 
-	   int trace = 0;
-	   ArrayList<Integer> traceline = new ArrayList<Integer>();
-	   traceline.add(trace);
-	   while(itr.hasNext()) {   
-		   	HappyBottle element = itr.next();
-		     if (element.getEmo() == 1){
-		    	trace += 2; 
-		    	traceline.add(trace); 
-		     } else {
-		    	trace -= 2; 
-			    traceline.add(trace); 
-		     }
-	   } 
-	   return traceline;
 	}
 }

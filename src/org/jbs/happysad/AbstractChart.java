@@ -17,6 +17,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 /*
  * An abstract class for the demo charts to extend.
+ * Note changes for PieChart in method #7 from top.
  */
 public abstract class AbstractChart implements ChartInterface {
 	/*
@@ -132,10 +133,17 @@ public abstract class AbstractChart implements ChartInterface {
 	*/
 	protected CategorySeries buildCategoryDataset(String title, double[] values) {
 		CategorySeries series = new CategorySeries(title);
-	    int k = 0;
+		
+		/*
+		int k = 0;
 	    for (double value : values) {
 	    	series.add("Project " + ++k, value);
 	    }
+	    */
+	    
+		series.add("Happy - " + values [0] + " %", values [0]);
+		series.add("Sad - " + values [1] + " %", values [1]);
+		//series.add("String", values [2]);
 
 	    return series;
 	}
