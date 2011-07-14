@@ -1,10 +1,10 @@
-//new nethelper
 package org.jbs.happysad;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.jbs.happysad.Task;
@@ -40,11 +40,105 @@ public class NetHelper {
 		}
 	}
 	
+	public long getID(String u){
+		long id = tryCheckUser(u);
+		if (id < 0) { 
+			return newUser(u);
+		}
+		return id;
+	}
+	
+	
+	private long tryCheckUser(String name){
+		String page = "error";
+        try {
+          
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://stark-water-134.heroku.com/finduser.json?email=" + name));
+            BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+            request.setHeader(declareAuth);
+            page = connectionHelper(request);
+        }
+        catch( Exception e){
+        	e.printStackTrace();
+        }
+        
+		return searchForID(page);
+	}
+	
+	//Given a jsonarray that might contain a user or might not, return the id of that user.
+	//if the array is empty, return -1
+	private long searchForID(String json){
+		Log.d(TAG, "json = " + json);
+		try {
+			JSONArray jarray = new JSONArray(json);
+			Log.d(TAG, "jarray = " + jarray.toString());
+			Log.d(TAG, "jarray length " + jarray.length());
+			
+			//if the input is empty
+			if (jarray.length() < 1) { 
+				Log.d(TAG, "json array is empty, return -1");
+				return -1;
+				//return null
+			}
+			//else, find the id and return that;
+			JSONObject o = jarray.getJSONObject(0);
+			String bottle = o.getString("user");
+			JSONObject o2 = new JSONObject(bottle);
+			return o2.getLong("id");
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		//in case of error.
+		return -2;
+	}
+
+
+	private long newUser(String u){
+		HttpPost request = new HttpPost();
+		Object[] values = {u};
+		Formatter f = new Formatter();
+		f.format("user[email]=%s&commit=Create User", values);
+		String data = f.toString();
+
+		URI url;
+		try { 
+			url = new URI("http", "stark-water-134.heroku.com", "/users.json", data, null);
+			request.setURI(url);
+			Log.d(TAG, "data: "+ data);
+			Log.d(TAG, "uRL: " + url);
+		} catch (URISyntaxException e1) {
+
+			e1.printStackTrace();
+		}
+		String jsonreturned = connectionHelper(request);
+		
+		try {
+			
+		
+			JSONObject o = new JSONObject(jsonreturned);
+			String user = o.getString("user");
+			JSONObject o2 = new JSONObject(user);
+		
+			return o2.getLong("id");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return -10000;
+
+	}
+	
+	
+	
+	
 	private ArrayList<HappyBottle> download(Task t) {
-        BufferedReader in = null;
+     
         String page = "error";
         try {
-            HttpClient client = new DefaultHttpClient();
+          
             HttpGet request = new HttpGet();
             request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
             if( t.equals(Task.GETMINE)){
@@ -53,32 +147,13 @@ public class NetHelper {
             BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
             request.setHeader(declareAuth);
             
-            HttpResponse response = client.execute(request);
-            in = new BufferedReader
-            (new InputStreamReader(response.getEntity().getContent()));
-            StringBuffer sb = new StringBuffer("");
-            String line = "";
-            String NL = System.getProperty("line.separator");
-            while ((line = in.readLine()) != null) {
-                sb.append(line + NL);
-            }
-            in.close();
-            page = sb.toString();
-            Log.d(TAG, "this is the download dump " + page);
-            }
-        catch (Exception e){
+           page = connectionHelper(request);
+        }
+        catch( Exception e){
         	e.printStackTrace();
         }
-        finally {
-            if (in != null) {
-                try {
-                    in.close();
-                    } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return parse(page);
+        
+        return parse(page);	
     }
     
     
@@ -87,14 +162,13 @@ public class NetHelper {
     
     private String upload(HappyBottle b) {
 		
-		String page = "erorr";
-		HttpClient client = new DefaultHttpClient();
+		
 	    HttpPost request = new HttpPost();
 	    Object[] values = {b.getEmo(), b.getLat(), b.getLong(), b.getMsg(), b.getUID(), b.getTime()};  
 		Formatter f = new Formatter();
 		f.format("bottle[emo]=%s&bottle[lat]=%s&bottle[long]=%s&bottle[msg]=%s&bottle[user_id]=%s&bottle[time]=%s&commit=Create Bottle", values);
 		String data = f.toString();
-		BufferedReader in = null;
+		
 		URI url;
 		try { 
 			url = new URI("http", "stark-water-134.heroku.com", "/bottles", data, null);
@@ -105,14 +179,21 @@ public class NetHelper {
 			
 			e1.printStackTrace();
 		}
-	    try {
-		
-	    BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+	    return connectionHelper(request);
+    
+}
+	
+
+	private String connectionHelper(HttpRequestBase request ){
+		String page = "error";
+		BufferedReader in = null;
+		HttpClient client = new DefaultHttpClient();
+		try{
+		BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 	    request.setHeader(declareAuth);
 	    
 	    HttpResponse response = client.execute(request);
-	    in = new BufferedReader
-	    (new InputStreamReader(response.getEntity().getContent()));
+	    in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 	    StringBuffer sb = new StringBuffer("");
 	    String line = "";
 	    String NL = System.getProperty("line.separator");
@@ -136,13 +217,9 @@ public class NetHelper {
 	            }
 	        }
 	        return page;
-    
-}
+	}
 	
-
-	
-	
-	public ArrayList<HappyBottle> parse(String in){
+	private ArrayList<HappyBottle> parse(String in){
 		   ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		   try {
 
