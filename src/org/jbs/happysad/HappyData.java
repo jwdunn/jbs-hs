@@ -11,17 +11,13 @@ import static org.jbs.happysad.Constants.MSG;
 import static org.jbs.happysad.Constants.TABLE_NAME;
 import static org.jbs.happysad.Constants.TIME;
 import static org.jbs.happysad.Constants.UID;
-
-
-import java.util.ArrayList;
 import org.jbs.happysad.HappyBottle;
 
-
+import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
 import android.util.Log;
 
 /**
