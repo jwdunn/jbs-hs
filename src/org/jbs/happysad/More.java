@@ -130,8 +130,10 @@ public class More extends Activity implements OnClickListener {
 		}
 	} 
 
-	/** Share
-	 * 
+	/**
+	 * Given an emotion and the message that goes with it, share it with others using the various servics (facebook twitter etc) 
+	 * @param emo
+	 * @param text
 	 */
 	public void share(String subject,String text) {
 		final Intent intent = new Intent(Intent.ACTION_SEND);

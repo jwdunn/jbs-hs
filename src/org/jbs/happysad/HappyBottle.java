@@ -57,22 +57,45 @@ public class HappyBottle {
 		values.put(UID, uid);
 		return values;
 	}
-	
+	/**
+	 * 
+	 * @return the longitude of the bottle (float)
+	 */
 	public float getLong(){
 		return longi;
 	}
+	/**
+	 * 
+	 * @return the latitude of the bottle (float)
+	 */
 	public float getLat(){
 		return lati;
 	}
+	/**
+	 * 
+	 * @return the emotion. 1 for happy 0 for sad
+	 */
 	public short getEmo(){
 		return emo;
 	}
+	/**
+	 * 
+	 * @return message (string)
+	 */
 	public String getMsg(){
 		return msg;
 	}
+	/**
+	 * 
+	 * @return time teh bottle was created (by the user) long (milliseconds since the epoch)
+	 */
 	public long getTime(){
 		return time;
 	}
+	/**
+	 * 
+	 * @return the uid in the bottle. 
+	 */
 	public long getUID(){
 		return uid;
 	}
