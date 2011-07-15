@@ -138,6 +138,11 @@ public class MyMap extends MapActivity implements OnClickListener {
 		case R.id.myMap:
 			startActivity(new Intent(this, MyMap.class));
 			break;
+			
+		case R.id.myTrack_button:
+			Intent j = new Intent(this, History.class);
+			startActivity(j);
+			break;
 		
 		}
 	}

@@ -29,7 +29,7 @@ public class Prompt extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
-    	
+    	 
     	//Finds the happy_button view
     	View happyButton = findViewById(R.id.happy_button);
     	happyButton.setOnClickListener(this);
@@ -54,7 +54,7 @@ public class Prompt extends Activity implements OnClickListener{
             	int UID = userNameHash(username);
             	SharedPreferences sp = getSharedPreferences(USER_DATA,0);
             	SharedPreferences.Editor editor = sp.edit();
-            	editor.putInt("usernameint", UID);
+            	editor.putLong("usernameint", UID);
             	editor.putString("usernameString", username); 
             	editor.commit();
             	
@@ -109,6 +109,21 @@ public class Prompt extends Activity implements OnClickListener{
    /* 	for  ( int j = 0; j <= username.length() - 1; j++){
     		  id= id*31+username.charAt(j);
    		}
-    */ 	return id;
+    */return id;
+    }
+    private void addUID(long servUID){
+    	SharedPreferences sp = getSharedPreferences(USER_DATA,0);
+    	SharedPreferences.Editor editor = sp.edit();
+    	editor.putLong("usernameint", servUID);
+    }
+    
+    private boolean checkUID(Long servUID){
+    	SharedPreferences sp = getSharedPreferences(Prompt.USER_DATA,0);
+		if(sp.getLong( "usernameint", 0) != servUID){
+			return false;
+		}
+		else{
+			return true;
+		}
     }
 }

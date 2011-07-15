@@ -17,10 +17,12 @@ import android.widget.TextView;
 //import android.util.Log;
 import android.widget.Toast;
 
+
 /**
  * Creates the More activity
  * @author HS
  */
+
 public class More extends Activity implements OnClickListener {
 	//for debugging purposes, delete after debugging.
 	//private static final String TAG = "there's more screen";
@@ -79,6 +81,7 @@ public class More extends Activity implements OnClickListener {
 		//prevent text edit from being focused onCreate
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
+
 		//this creates the on touch listenter for the photo button
 		View buttonImageCapture = (View) findViewById(R.id.camera_button);
 		buttonImageCapture.setOnClickListener(this);
@@ -91,6 +94,7 @@ public class More extends Activity implements OnClickListener {
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
 	}  	
+
 
 	/**
      * Invoked when a view is clicked
@@ -126,8 +130,10 @@ public class More extends Activity implements OnClickListener {
 		}
 	} 
 
-	/** Share
-	 * 
+	/**
+	 * Given an emotion and the message that goes with it, share it with others using the various servics (facebook twitter etc) 
+	 * @param emo
+	 * @param text
 	 */
 	public void share(String subject,String text) {
 		final Intent intent = new Intent(Intent.ACTION_SEND);
@@ -238,6 +244,7 @@ public class More extends Activity implements OnClickListener {
 		dataHelper.addBottle(b);
 	}
 
+
 	/**
 	 * Disables GPS Managers and Listeners
 	 */
@@ -257,3 +264,4 @@ public class More extends Activity implements OnClickListener {
 		locationStuff();
 	}
 }
+

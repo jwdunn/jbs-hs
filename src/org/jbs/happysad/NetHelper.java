@@ -1,172 +1,262 @@
 package org.jbs.happysad;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.jbs.happysad.Task;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import org.jbs.happysad.HappyBottle;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.util.Base64;
 import android.util.Log;
 
 public class NetHelper {
 	private String TAG = "NETHELPER";
 	private long myid;
+	String username = "dhh";
+	String password = "secret";
+	
 	public NetHelper(long id){
 		myid = id;
 	}
-	
-	
-	public String send(HappyBottle bottle){
-		//Log.v(TAG, "ContentValues c = bottle.getAll()");
-		String d = upload(bottle);
-		return d;
+
+
+	public ArrayList<HappyBottle> doTask(Task t, HappyBottle b){
+		switch(t){
+		case SEND:
+			upload(b);
+			return null;
+		default:
+			return download(t);
+		}
 	}
-	
-	public ArrayList<HappyBottle> doTask(Task task){
-		String result = "connecting...";
-		HttpURLConnection con = null;
+
+	public long getID(String u){
+		long id = tryCheckUser(u);
+		if (id < 0) { 
+			return newUser(u);
+		}
+		return id;
+	}
+
+
+	private long tryCheckUser(String name){
+		String page = "error";
 		try {
-	    
-			URL url = new URL ("http://stark-water-134.heroku.com/bottles.json");
-			
-	          
-	    	  // Check if task has been interrupted
-	    	  if (Thread.interrupted())
-	    		  throw new InterruptedException();
 
-	    	  // Build RESTful query for Google API
-	    	  //     String q = URLEncoder.encode(original, "UTF-8");
-	        
-	         
-	         con = (HttpURLConnection) url.openConnection();
-	         con.setReadTimeout(10000 /* milliseconds */);
-	         con.setConnectTimeout(15000 /* milliseconds */);
-	         con.setRequestMethod("GET");
-	         con.setDoInput(true);
+			HttpGet request = new HttpGet();
+			request.setURI(new URI("http://stark-water-134.heroku.com/finduser.json?email=" + name));
+			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+			request.setHeader(declareAuth);
+			page = connectionHelper(request);
+		}
+		catch( Exception e){
+			e.printStackTrace();
+		}
 
-	         
-	         // Start the query
-	         con.connect();
-
-	         // Check if task has been interrupted
-	         if (Thread.interrupted())
-	            throw new InterruptedException();
-
-	         // Read results from the query
-	         BufferedReader reader = new BufferedReader(
-	        		 new InputStreamReader(con.getInputStream(), "UTF-8"));
-	         String payload = reader.readLine();
-	         reader.close();
-	         Log.d(TAG, "bottles.json: " + payload );
-	         // Parse to get translated text
-	         return parse(payload, task);
-	         
-	      } catch (IOException e) {
-	         Log.e(TAG, "IOException", e);
-	      } catch (InterruptedException e) {
-	         Log.d(TAG, "InterruptedException", e);
-	         result = "interruptedexception";
-	      } finally {
-	         if (con != null) {
-	            con.disconnect();
-	         }
-	      }
-
-	      // All done
-	      Log.d(TAG, "   -> returned " + result);
-	    return new ArrayList<HappyBottle>();
-	      
-	   }
-
-	private String upload(HappyBottle b) {
-		Log.d(TAG, "SENDING THROUGH NETHELPER");  
-		String result = "uploading..";
-		
-		Log.d(TAG, "Time: " +  b.getTime());
-		//String t = Long.toString(b.getTime());
-		Object[] values = {b.getEmo(), b.getLat(), b.getLong(), b.getMsg(), b.getUID(), b.getTime()};  
-		
-		 
-    	Formatter f = new Formatter();
-    	f.format("bottle[emo]=%s&bottle[lat]=%s&bottle[long]=%s&bottle[msg]=%s&bottle[user_id]=%s&bottle[time]=%s&commit=Create Bottle", values);
-    	String data = f.toString();
-		
-    	 try {
-             
-             // Send the request
-             URL url = new URL("http://stark-water-134.heroku.com/bottles");
-             URLConnection conn = url.openConnection();
-             conn.setDoOutput(true);
-             OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-             
-             //write parameters
-             writer.write(data);
-             writer.flush();
-             
-             // Get the response
-             StringBuffer answer = new StringBuffer();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-             String line;
-             while ((line = reader.readLine()) != null) {
-                 answer.append(line);
-             }
-             writer.close();
-             reader.close();
-             
-             //Output the response
-             result = answer.toString();
-             
-         } catch (MalformedURLException ex) {
-        	 Log.v(TAG, "Malformed URL exception in upload");
-        	 ex.printStackTrace();
-         } catch (IOException ex) {
-        	 Log.v(TAG, "IO exception in upload");
-        	 ex.printStackTrace();
-         }
-         catch (Exception e) {
-        	 e.printStackTrace();
-        	 Log.v(TAG, "lame error I don't understand");
-         }
-         Log.d(TAG, "upload result: " + result);
-         return result;
-     }
-		
-	
-	
-	public ArrayList<HappyBottle> parse(String in, Task task){
-		   ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
-		   try {
-
-			  // Log.w(TAG, "Trying to add the new jsonarray");
-			   JSONArray jarray = new JSONArray(in);
-			   //Log.w(TAG, "added new jarray");
-			   for (int i = 0; i<jarray.length(); i++){
-				   JSONObject o = jarray.getJSONObject(i);
-				   HappyBottle b = newparseone(o);
-				   Log.d(TAG, "successfully parsed new happybottle - " + b);
-				   a.add(b);
-			   }  
-		   } catch (JSONException e) {
-			   Log.e(TAG + "array error", e.toString());
-			   a.add(new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONARRAYERROR",1) );
-		   }
-		   catch (Exception e){
-			   Log.e(TAG + "mysterious other error", e.toString());
-		   }
-		   return a;
+		return searchForID(page);
 	}
-	   
-	  
+
+	//Given a jsonarray that might contain a user or might not, return the id of that user.
+	//if the array is empty, return -1
+	private long searchForID(String json){
+		Log.d(TAG, "json = " + json);
+		try {
+			JSONArray jarray = new JSONArray(json);
+			Log.d(TAG, "jarray = " + jarray.toString());
+			Log.d(TAG, "jarray length " + jarray.length());
+
+			//if the input is empty
+			if (jarray.length() < 1) { 
+				Log.d(TAG, "json array is empty, return -1");
+				return -1;
+				//return null
+			}
+			//else, find the id and return that;
+			JSONObject o = jarray.getJSONObject(0);
+			String bottle = o.getString("user");
+			JSONObject o2 = new JSONObject(bottle);
+			return o2.getLong("id");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		//in case of error.
+		return -2;
+	}
+
+	//create a new user on rails server. 
+	private long newUser(String u){
+		//set up the request
+		HttpPost request = new HttpPost();
+		Object[] values = {u};
+		Formatter f = new Formatter();
+		f.format("user[email]=%s&commit=Create User", values);
+		//set up the query
+		String data = f.toString();
+
+		URI url;
+		try { 
+			url = new URI("http", "stark-water-134.heroku.com", "/users.json", data, null); 
+			//visit this url using POST (note, will not work with GET)
+			//http://stark-water-134.heroku.com/users.json?user[email]=sayhar@gmail.com
+			request.setURI(url);
+			Log.d(TAG, "data: "+ data);
+			Log.d(TAG, "uRL: " + url);
+		} catch (URISyntaxException e1) {
+
+			e1.printStackTrace();
+		}
+		//connection helper is our handy tool that makes the POST request (or GET request, at some points) 
+		//and then returns a String representation of the response page.
+		String jsonreturned = connectionHelper(request);
+
+		try {
+			//we asked for a JSON representation of the response, which makes it easy for us to get the user id.
+			JSONObject o = new JSONObject(jsonreturned);
+			String user = o.getString("user");
+			JSONObject o2 = new JSONObject(user);
+			//oh look we got the ID let's return it yay
+			return o2.getLong("id");
+		} catch (JSONException e) {
+			//there should be no error here. The rails server should always return valid json.
+			e.printStackTrace();
+		}
+		//this should never happen.
+		return -10000;
+
+	}
+
+
+
+	//this is how we download bottles. 
+	private ArrayList<HappyBottle> download(Task t) {
+		//notice we take in task t. T could be "GETMINE" or "GETALL". Handy, eh?
+		String page = "error";
+		try {
+			//so we set up the get request as normal
+			HttpGet request = new HttpGet();
+			request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
+			if( t.equals(Task.GETMINE)){
+				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/" + myid+".json"));
+			}
+			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+			request.setHeader(declareAuth);
+			//then let connectionHelper do the heavy lifting for us
+			page = connectionHelper(request);
+		}
+		catch( Exception e){
+			e.printStackTrace();
+		}
+		//EASY! 
+		//parse will turn the json into an arraylist of bottles for us.
+		return parse(page);	
+	}
+
+
+
+
+	//this is how we upload, one bottle at a time.
+	private String upload(HappyBottle b) {
+		//so we set up the request
+		HttpPost request = new HttpPost();
+		Object[] values = {b.getEmo(), b.getLat(), b.getLong(), b.getMsg(), b.getUID(), b.getTime()};  
+		Formatter f = new Formatter();
+		//we input all the information here
+		f.format("bottle[emo]=%s&bottle[lat]=%s&bottle[long]=%s&bottle[msg]=%s&bottle[user_id]=%s&bottle[time]=%s&commit=Create Bottle", values);
+		String data = f.toString();
+
+		URI url;
+		try { 
+			url = new URI("http", "stark-water-134.heroku.com", "/bottles", data, null);
+			//here we add the data to the url (POST) and then of course send it to connectionhelper to do all the heavy lifting 
+			request.setURI(url);
+			Log.d(TAG, "data: "+ data);
+			Log.d(TAG, "uRL: " + url);
+		} catch (URISyntaxException e1) {
+
+			e1.printStackTrace();
+		}
+		//yep, connectionHelper will do all our work for ous
+		return connectionHelper(request);
+	}
+
+	//behold the mighty connectionHelper! It takes in requests, makes a connection, downloads the response, and returns it. 
+	private String connectionHelper(HttpRequestBase request ){
+		String page = "error";
+		BufferedReader in = null;
+		HttpClient client = new DefaultHttpClient();
+		try{
+			//this is how we get past security
+			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString((username+":"+password).getBytes(), Base64.DEFAULT) + "==");
+			request.setHeader(declareAuth);
+			//this is where we send the actual request
+			HttpResponse response = client.execute(request);
+			//the following is all a way to easily read the resopose and put it in a string.
+			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			page = sb.toString();
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+		}}}
+		return page;
+	}
+
+	//ok so now we turn json info useful info
+	private ArrayList<HappyBottle> parse(String in){
+		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
+		try {
+			JSONArray jarray = new JSONArray(in);
+			//ok so rails is annoying in how it sends us json info. It wraps everything into an array
+			//then it contains json objects within json objects. ANNOYING AS HELL
+			//so, within the array:
+			for (int i = 0; i<jarray.length(); i++){
+				//for each object in the array
+				JSONObject o = jarray.getJSONObject(i);
+				//turn the object into a bottle, using the power of newparseone
+				HappyBottle b = newparseone(o);
+				Log.d(TAG, "successfully parsed new happybottle - " + b);
+				a.add(b);
+			}  
+		} catch (JSONException e) {
+			Log.e(TAG,  "array error" + e.toString());
+			a.add(new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONARRAYERROR",1) );
+		}
+		catch (Exception e){
+			Log.e(TAG + "mysterious other error", e.toString());
+		}
+		return a;
+	}
+
+	//This 'unwraps' the object. Object contains another object. 
+	//Call newparsetwo to find the inner object that is a bottle
 	private HappyBottle newparseone(JSONObject o){
 		try{
 			String bottle = o.getString("bottle");
@@ -177,28 +267,29 @@ public class NetHelper {
 			e.printStackTrace();
 			Log.e(TAG, "object error" + e.toString());
 			return new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONOBJECTERROR",1) ;
-	   	}
-		
+		}
+
 	}
-	
-	
+
+	//turns a jsonobject into a bottle
 	private HappyBottle newparsetwo(JSONObject o){
+	//pretty straightforward.
 		try {
-			   float lati = (float) o.getDouble("lat");
-			   float longi = (float) o.getDouble("long");
-			   short emo = (short) o.getInt("emo");
-			   String msg = o.getString("msg");
-			   long time = o.getLong("time");
-			   long uid = o.getLong("user_id");
-			   return new HappyBottle( uid, lati , longi , emo, msg ,time);
-		   	} catch (JSONException e) {
-				e.printStackTrace();
-				Log.e(TAG + "object error", e.toString());
-				return new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONOBJECTERROR",1) ;
-		   	}
+			float lati = (float) o.getDouble("lat");
+			float longi = (float) o.getDouble("long");
+			short emo = (short) o.getInt("emo");
+			String msg = o.getString("msg");
+			long time = o.getLong("time");
+			long uid = o.getLong("user_id");
+			return new HappyBottle( uid, lati , longi , emo, msg ,time);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			Log.e(TAG + "object error", e.toString());
+			return new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONOBJECTERROR",1) ;
+		}
 	}
-	
-	
-	   
-	   
+
+
+
+
 }

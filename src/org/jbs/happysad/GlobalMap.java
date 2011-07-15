@@ -14,6 +14,7 @@ import com.google.android.maps.OverlayItem;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+
 /**
  * Creates a Global Map view with Google Maps API with everyone's HappyBottles
  * @author HappySad
@@ -56,6 +57,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();
+
       
 		//Add ClickListener for the button
 		View sadButton = findViewById(R.id.showSad);
@@ -83,6 +85,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
   	  	myButton.setOnClickListener(this);
 	}
    
+
     /**
      * Invoked when a view is clicked
      */
@@ -208,4 +211,5 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		userLocationOverlay.enableMyLocation();
 	}
 }
+
 
