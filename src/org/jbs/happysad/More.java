@@ -39,7 +39,8 @@ public class More extends Activity implements OnClickListener {
 	private HappyData dataHelper;
 	short emotion = -1;
 	String extradata;
-	long myID =1;
+	private UIDhelper UIDh;
+	private long myID;
 	String shareString = "";
 
 
@@ -60,11 +61,6 @@ public class More extends Activity implements OnClickListener {
 	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		//This updates the userId to the proper id. it must be here because Shared Preferences has to be called after
-		//on create, or it crashes.
-		SharedPreferences sp = getSharedPreferences(Prompt.USER_DATA,0);
-		myID =  sp.getInt( "usernameint", 0);
 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
@@ -93,6 +89,9 @@ public class More extends Activity implements OnClickListener {
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
+		
+		 UIDh = new UIDhelper();
+		 myID =UIDh.getUID();
 	}  	
 
 

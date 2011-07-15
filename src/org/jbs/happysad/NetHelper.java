@@ -31,6 +31,8 @@ public class NetHelper {
 	public NetHelper(long id){
 		myid = id;
 	}
+	public NetHelper(){
+	}
 
 
 	public ArrayList<HappyBottle> doTask(Task t, HappyBottle b){
@@ -64,6 +66,7 @@ public class NetHelper {
 		}
 		catch( Exception e){
 			e.printStackTrace();
+			//set page to be a valid json string with user id = -1
 		}
 
 		return searchForID(page);

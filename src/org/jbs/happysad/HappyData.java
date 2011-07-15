@@ -31,10 +31,12 @@ public class HappyData {
 
 	//fields
 	private HappyDB h;
-	private static final long MyUserID = 1; //this should not be hardcoded to 1
+	//private static final long MyUserID = 1; //this should not be hardcoded to 1
+	private UIDhelper UIDh = new UIDhelper();
+	long myID =UIDh.getUID();
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME, SYNC };
 	private static String ORDER_BY = TIME + " DESC";
-	private NetHelper net = new NetHelper(MyUserID);
+	private NetHelper net = new NetHelper(myID);
 
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
@@ -95,7 +97,7 @@ public class HappyData {
 			long id = cursor.getLong(1);
 			int synced = cursor.getInt(7);
 			//now we check each row in the database to see if it's been synced yet.
-			if ((id == MyUserID) && (synced == 0)) {
+			if ((id == myID) && (synced == 0)) {
 				//if we hit a bottle that has not been synced, and is ours, we upload it.
 				HappyBottle b = createBottle(cursor);
 				Log.e(TAG, "NETSEND");
@@ -184,7 +186,7 @@ public class HappyData {
 		//call the database 
 		while (cursor.moveToNext() ){
 			long id = cursor.getLong(1);
-			if (id == MyUserID) {
+			if (id == myID) {
 				//for each entry in the database, where the user id == MyUserID
 				HappyBottle b = createBottle(cursor);
 				//add the corresponding bottle to the temporary arraylist of bottles to be returned.
