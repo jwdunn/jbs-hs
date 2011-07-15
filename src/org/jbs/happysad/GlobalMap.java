@@ -48,6 +48,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		HappyData datahelper = new HappyData(this); //instantiates HappyData to access local storage
 		ArrayList<HappyBottle> plottables = datahelper.getAllHistory(); //creates an arraylist of all the bottles
 		
+		
 		//adds items to overlays
 		//1 is for sad and 0 is for happy, according to the HappyTrack system
 		emotionOverlayFiller(1,plottables,happyOverlay); //adds all happy bottles to the happy overlay
@@ -137,7 +138,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			
 		case R.id.myMap:
 			startActivity(new Intent(this, MyMap.class));
-			
 			break;
 		
 		}

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MyMap extends MapActivity implements OnClickListener {
 	//fields
 	private MapView map; //setting view
-	private MapController controller; //setting pinch to zoom
+	protected MapController controller; //setting pinch to zoom
 	int checkHappy = 1; //check digits to keep track of whether happy faces are being shown on map - standard binary
 	int checkSad = 1; //check digit to keep track of whether sad faces are being shown on map - standard binary
 	MyLocationOverlay userLocationOverlay; //an overlay that marks users position on the map
@@ -136,7 +136,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 			break;
 			
 		case R.id.globalMap:
-			finish();
+			startActivity(new Intent(this, GlobalMap.class));
 			break;
 		
 		}
@@ -160,13 +160,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map); //creates an overlay with the users current location
 		userLocationOverlay.enableMyLocation(); //enables location detection
-		userLocationOverlay.runOnFirstFix(new Runnable() { //the statements within should only be run when the map is first loaded
-			public void run() {
-				// Zoom in to current location
-				//controller.animateTo(userLocationOverlay.getMyLocation()); //sets the view to centralize the user
-				//controller.setZoom(15); //sets the map zoom level to 15
-			}
-		});
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	
