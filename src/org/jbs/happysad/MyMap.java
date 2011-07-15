@@ -137,7 +137,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 			
 		case R.id.globalMap:
 			finish();
-			startActivity(new Intent(this, GlobalMap.class));
 			break;
 		
 		}
@@ -164,8 +163,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 		userLocationOverlay.runOnFirstFix(new Runnable() { //the statements within should only be run when the map is first loaded
 			public void run() {
 				// Zoom in to current location
-				controller.animateTo(userLocationOverlay.getMyLocation()); //sets the view to centralize the user
-				controller.setZoom(15); //sets the map zoom level to 15
+				//controller.animateTo(userLocationOverlay.getMyLocation()); //sets the view to centralize the user
+				//controller.setZoom(15); //sets the map zoom level to 15
 			}
 		});
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed

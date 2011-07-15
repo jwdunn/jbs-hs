@@ -136,16 +136,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			break;
 			
 		case R.id.myMap:
-			finish();
 			startActivity(new Intent(this, MyMap.class));
+			
 			break;
 		
 		}
 	}
 	
-	/**
-	 * Finds and initializes the map view.
-	 */
+	//Finds and initializes the map view.
 	private void initMapView() {
 		map = (MapView) findViewById(R.id.map); //sets map view from xml
 		controller = map.getController(); //gets pinch to zoom controller for map
@@ -155,9 +153,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
 	}
 	
-	/**
-	 * Starts tracking the users position on the map.
-	 */ 
+	//Starts tracking the users position on the map. 
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map); //creates an overlay with the users current location
 		userLocationOverlay.enableMyLocation(); //enables location detection
@@ -171,8 +167,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	
-	/**
-	 * Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
+	/*Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
 	 * The filter is happy or sad (1 or 0)
 	 * The list is a list of emotion bottles
 	 * The overlay may be an overlay of happy or sad faces
