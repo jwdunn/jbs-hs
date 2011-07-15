@@ -35,7 +35,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map); //sets the view
+		setContentView(R.layout.globalmap); //sets the view
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -48,6 +48,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		//get all HappyBottles from HappyData
 		HappyData datahelper = new HappyData(this); //instantiates HappyData to access local storage
 		ArrayList<HappyBottle> plottables = datahelper.getAllHistory(); //creates an arraylist of all the bottles
+		
 		
 		//adds items to overlays
 		//1 is for sad and 0 is for happy, according to the HappyTrack system
@@ -145,9 +146,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		}
 	}
 	
-	/**
-	 * Finds and initializes the map view.
-	 */
+	//Finds and initializes the map view.
 	private void initMapView() {
 		map = (MapView) findViewById(R.id.map); //sets map view from xml
 		controller = map.getController(); //gets pinch to zoom controller for map
@@ -157,9 +156,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
 	}
 	
-	/**
-	 * Starts tracking the users position on the map.
-	 */ 
+	//Starts tracking the users position on the map. 
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map); //creates an overlay with the users current location
 		userLocationOverlay.enableMyLocation(); //enables location detection
@@ -173,8 +170,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	
-	/**
-	 * Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
+	/*Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
 	 * The filter is happy or sad (1 or 0)
 	 * The list is a list of emotion bottles
 	 * The overlay may be an overlay of happy or sad faces
