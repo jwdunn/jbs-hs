@@ -51,7 +51,6 @@ public class NetHelper {
 		return id;
 	}
 
-
 	private long tryCheckUser(String name){
 		String page = "error";
 		try {
@@ -139,8 +138,6 @@ public class NetHelper {
 
 	}
 
-
-
 	//this is how we download bottles. 
 	private ArrayList<HappyBottle> download(Task t) {
 		//notice we take in task t. T could be "GETMINE" or "GETALL". Handy, eh?
@@ -165,8 +162,7 @@ public class NetHelper {
 		return parse(page);	
 	}
 
-
-
+	
 
 	//this is how we upload, one bottle at a time.
 	private String upload(HappyBottle b) {
