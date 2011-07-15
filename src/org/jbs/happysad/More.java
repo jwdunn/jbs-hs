@@ -32,10 +32,10 @@ public class More extends Activity implements OnClickListener {
 	private LocationManager networkLocationManager;
 	private LocationListener networkLocationListener;
 	private LocationListener gpsLocationListener;
-	private float GPS_latitude;
-	private float GPS_longitude;
-	private float Network_latitude;
-	private float Network_longitude;
+	private int GPS_latitude;
+	private int GPS_longitude;
+	private int Network_latitude;
+	private int Network_longitude;
 	private HappyData dataHelper;
 	short emotion = -1;
 	String extradata;
@@ -211,8 +211,8 @@ public class More extends Activity implements OnClickListener {
 	private void makeUseOfNewLocation(Location location) {		
 
 		if(GPS_longitude == 0 && GPS_latitude == 0){
-			GPS_longitude = (float) location.getLongitude();
-			GPS_latitude = (float) location.getLatitude();
+			GPS_latitude = (int) (location.getLatitude()*1E6);
+			GPS_longitude = (int) (location.getLongitude()*1E6);
 		}
 
 	}
@@ -223,8 +223,8 @@ public class More extends Activity implements OnClickListener {
 	 */
 	private void updateNetworkLocation(Location location) {
 		if(Network_longitude == 0 && Network_latitude == 0){
-			Network_longitude = (float) location.getLongitude();
-			Network_latitude = (float) location.getLatitude();
+			Network_latitude = (int) (location.getLatitude()*1E6);
+			Network_longitude = (int) (location.getLongitude()*1E6);
 		}
 	}
 

@@ -227,8 +227,8 @@ public class HappyData {
 		//given cursor that is pointing to a row in the database, pull the info from that row and create a bottle object.
 		//we are "inflating" rows into objects. 
 		long uid = cursor.getLong(1);
-		float latitude = cursor.getFloat(2);
-		float longitude = cursor.getFloat(3);
+		int latitude = cursor.getInt(2);
+		int longitude = cursor.getInt(3);
 		short emo = cursor.getShort(4);
 		String msg = cursor.getString(5);
 		long time = cursor.getLong(6);

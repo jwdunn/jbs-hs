@@ -17,8 +17,8 @@ import java.sql.Timestamp;
  */
 public class HappyBottle {
 	//fields
-	private float lati;
-	private float longi;
+	private int lati;
+	private int longi;
 	private short emo;
 	private String msg;
 	private long time;
@@ -34,7 +34,7 @@ public class HappyBottle {
 	 * @param t
 	 * @param time
 	 */
-	public HappyBottle(long uid, float lati, float longi, short emo, String msg, long time) {
+	public HappyBottle(long uid, int lati, int longi, short emo, String msg, long time) {
 		this.lati = lati;
 		this.longi = longi;
 		this.emo = emo;
@@ -61,14 +61,14 @@ public class HappyBottle {
 	 * 
 	 * @return the longitude of the bottle (float)
 	 */
-	public float getLong(){
+	public int getLong(){
 		return longi;
 	}
 	/**
 	 * 
 	 * @return the latitude of the bottle (float)
 	 */
-	public float getLat(){
+	public int getLat(){
 		return lati;
 	}
 	/**
