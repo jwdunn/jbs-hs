@@ -27,7 +27,7 @@ public class NetHelper {
 	private long myid;
 	String username = "dhh";
 	String password = "secret";
-	
+
 	public NetHelper(long id){
 		myid = id;
 	}
@@ -162,8 +162,6 @@ public class NetHelper {
 		return parse(page);	
 	}
 
-	
-
 	//this is how we upload, one bottle at a time.
 	private String upload(HappyBottle b) {
 		//so we set up the request
@@ -221,7 +219,7 @@ public class NetHelper {
 					in.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-		}}}
+				}}}
 		return page;
 	}
 
@@ -243,7 +241,7 @@ public class NetHelper {
 			}  
 		} catch (JSONException e) {
 			Log.e(TAG,  "array error" + e.toString());
-			a.add(new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONARRAYERROR",1) );
+			a.add(new HappyBottle(myid , 1,  1,(short) 1, "JSONARRAYERROR",1) );
 		}
 		catch (Exception e){
 			Log.e(TAG + "mysterious other error", e.toString());
@@ -262,17 +260,17 @@ public class NetHelper {
 		catch (JSONException e) {
 			e.printStackTrace();
 			Log.e(TAG, "object error" + e.toString());
-			return new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONOBJECTERROR",1) ;
+			return new HappyBottle(myid ,  1,  1,(short) 1, "JSONOBJECTERROR",1) ;
 		}
 
 	}
 
 	//turns a jsonobject into a bottle
 	private HappyBottle newparsetwo(JSONObject o){
-	//pretty straightforward.
+		//pretty straightforward.
 		try {
-			float lati = (float) o.getDouble("lat");
-			float longi = (float) o.getDouble("long");
+			int lati = o.getInt("lat");
+			int longi = o.getInt("long");
 			short emo = (short) o.getInt("emo");
 			String msg = o.getString("msg");
 			long time = o.getLong("time");
@@ -281,7 +279,7 @@ public class NetHelper {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Log.e(TAG + "object error", e.toString());
-			return new HappyBottle(myid , (float) 1, (float) 1,(short) 1, "JSONOBJECTERROR",1) ;
+			return new HappyBottle(myid ,  1,  1, (short) 1, "JSONOBJECTERROR",1) ;
 		}
 	}
 
