@@ -35,6 +35,7 @@ android:layout_height="match_parent" >
 		
         <EditText android:hint="why are you feeling happy?" 
         android:id="@+id/more_textbox" 
+        android:singleLine="true"
         android:layout_width="wrap_content" 
         android:layout_height="match_parent"
          >
