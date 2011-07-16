@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 /**
  * List for string constants that are used for database related classes 
- * @author HS
+ * @author HappySad
  */
 public interface Constants extends BaseColumns {
    public static final String TABLE_NAME = "localhistory";

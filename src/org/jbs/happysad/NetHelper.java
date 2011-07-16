@@ -287,6 +287,33 @@ public class NetHelper {
 	}
 
 
+	/**
+	 * Return an ArrayList of bottles for the latest <limit> bottles within the specified box of latitude/longitude
+	 * @param minLat
+	 * @param maxLat 
+	 * @param minLong
+	 * @param maxLong
+	 * @param limit the max number of bottles to return
+	 * @return ArrayList of HappyBottles we download.
+	 */
+	public ArrayList<HappyBottle> downloadLocal(int minLat, int maxLat, int minLong, int maxLong, int limit){
+		String page = "error";
+		try{
+			HttpGet request = new HttpGet();
+			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLong + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
+			Log.d(TAG, request.getURI().toString());
+			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
+			request.setHeader(declareAuth);
+			//then let connectionHelper do the heavy lifting for us
+			page = connectionHelper(request); 
+		}
+		catch( Exception e){
+			e.printStackTrace();
+		}
+		//EASY! 
+		//parse will turn the json into an arraylist of bottles for us.
+		return parse(page);	
+	}
 
 
 }

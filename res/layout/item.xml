@@ -6,13 +6,13 @@
      android:orientation="vertical">
  
      <TextView android:id="@+id/item_text1"
-         android:textSize="22px"
+         android:textSize="26px"
          android:textStyle="bold"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"/>
  
      <TextView android:id="@+id/item_text2"
-         android:textSize="20px"
+         android:textSize="22px"
          android:textStyle="italic"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"/>
