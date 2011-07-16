@@ -13,19 +13,19 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 public class UIDhelper{
-	private long myID;
+	
 	private String USER_DATA;
-
 	public UIDhelper(){
-		myID = -1;
+		//
 	}
 	
 	public long getUID(){
-		return myID;
+		return UIDtoken.INSTANCE.getUID();
 	}
 	
 	public long getSetUID(SharedPreferences sp, Context ctx){
-		if (myID >= 0) { return myID;}
+		long tempID = this.getUID(); 
+		if ( tempID >=0 ){ return tempID;}
 		final AccountManager manager = AccountManager.get(ctx);
 		final Account[] accounts = manager.getAccounts();   
 
@@ -37,7 +37,8 @@ public class UIDhelper{
 
 			//is the username is stored in shared preferences, we know that can get the UID
 			//get the ID given the username (this way we can save multiple users
-			long uid = sp.getLong(username, -1);
+			long uid = sp.getLong("usernameLong", -1);
+			UIDtoken.INSTANCE.setUID(uid);
 			if (uid < 0){	
 				NetHelper NH = new NetHelper();
 				long UID = NH.getID(username);
@@ -46,10 +47,12 @@ public class UIDhelper{
 				editor.putString("usernameString", username); 
 				editor.commit();
 				//then we call nethelper methods set the id from the returned thing return
-				myID = UID;
+				UIDtoken.INSTANCE.setUID(UID);
+				return UID;
 			}
 			else{
-				myID =  sp.getLong( "usernameLong", -1);
+				//myID =  sp.getLong( "usernameLong", -1);
+				return -1;
 			}
 		}
 		/*else{
@@ -60,7 +63,8 @@ public class UIDhelper{
 			toast.show()
 
 		}*/
-		return myID;
+		return -5;
+		
 	}
 }
 

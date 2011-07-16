@@ -45,13 +45,13 @@ public class Prompt extends Activity implements OnClickListener{
 
 		UIDh = new UIDhelper();
 		
-		UIDh.getSetUID(getSharedPreferences(USER_DATA,0), this); 
+		myID = UIDh.getSetUID(getSharedPreferences(USER_DATA,-3), this); 
 		//TODO
 		//we need a checker to see if it returns user=-1
 		//if so, how are we going to deal with it?
 		//right now, it set userID to -1 FOREVER and not give you a chance to fix the mistake. 
 		
-		s = new Syncer(myID, this);
+		s = new Syncer( this);
 		t = new Thread(s);
 		t.start();
 	}

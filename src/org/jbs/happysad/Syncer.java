@@ -4,11 +4,11 @@ import android.content.Context;
 
 public class Syncer implements Runnable {
 	private UIDhelper UIDh = new UIDhelper();
-	protected long myID =UIDh.getUID();
+	protected long myID;
 	private boolean running;
 	private HappyData h;
-	public Syncer(long myID2, Context ctx){
-		myID = myID2;
+	public Syncer(Context ctx){
+		myID = UIDh.getUID();
 		running = true;
 		h = new HappyData(ctx);
 	}

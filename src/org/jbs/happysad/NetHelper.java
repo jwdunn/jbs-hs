@@ -24,14 +24,14 @@ import android.util.Log;
 
 public class NetHelper {
 	private String TAG = "NETHELPER";
-	private long myid;
+	private long myID;
 	String username = "dhh";
 	String password = "secret";
+	private UIDhelper UIDh =  new UIDhelper();
 
-	public NetHelper(long id){
-		myid = id;
-	}
+	
 	public NetHelper(){
+		myID = UIDh.getUID();
 	}
 
 
@@ -150,7 +150,7 @@ public class NetHelper {
 			HttpGet request = new HttpGet();
 			request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
 			if( t.equals(Task.GETMINE)){
-				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/" + myid+".json"));
+				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/" + myID+".json"));
 			}
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
@@ -244,7 +244,7 @@ public class NetHelper {
 			}  
 		} catch (JSONException e) {
 			Log.e(TAG,  "array error" + e.toString());
-			a.add(new HappyBottle(myid , 1,  1,(short) 1, "JSONARRAYERROR",1) );
+			a.add(new HappyBottle(myID , 1,  1,(short) 1, "JSONARRAYERROR",1) );
 		}
 		catch (Exception e){
 			Log.e(TAG + "mysterious other error", e.toString());
@@ -263,7 +263,7 @@ public class NetHelper {
 		catch (JSONException e) {
 			e.printStackTrace();
 			Log.e(TAG, "object error" + e.toString());
-			return new HappyBottle(myid ,  1,  1,(short) 1, "JSONOBJECTERROR",1) ;
+			return new HappyBottle(myID ,  1,  1,(short) 1, "JSONOBJECTERROR",1) ;
 		}
 
 	}
@@ -282,7 +282,7 @@ public class NetHelper {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Log.e(TAG + "object error", e.toString());
-			return new HappyBottle(myid ,  1,  1, (short) 1, "JSONOBJECTERROR",1) ;
+			return new HappyBottle(myID ,  1,  1, (short) 1, "JSONOBJECTERROR",1) ;
 		}
 	}
 

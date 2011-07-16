@@ -32,15 +32,19 @@ public class HappyData {
 	//fields
 	private HappyDB h;
 	//private static final long MyUserID = 1; //this should not be hardcoded to 1
-	private UIDhelper UIDh = new UIDhelper();
-	long myID =UIDh.getUID();
+	private UIDhelper UIDh =  new UIDhelper();
+	
+
+	long myID = -1; 
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME, SYNC };
 	private static String ORDER_BY = TIME + " DESC";
-	private NetHelper net = new NetHelper(myID);
+	private NetHelper net = new NetHelper();
 
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
 		//mainThread = new Handler();
+		
+		myID = UIDh.getUID();
 	}
 
 	/**
