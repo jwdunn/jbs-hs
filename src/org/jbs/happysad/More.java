@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,19 +12,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
-//import android.util.Log;
 import android.widget.Toast;
-
-
 /**
  * Creates the More activity
- * @author HS
+ * @author HappyTrack
  */
-
 public class More extends Activity implements OnClickListener {
-	//for debugging purposes, delete after debugging.
-	//private static final String TAG = "there's more screen";
-
 	//fields
 	private LocationManager gpsLocationManager;
 	private LocationManager networkLocationManager;
@@ -40,21 +31,6 @@ public class More extends Activity implements OnClickListener {
 	short emotion = -1;
 	String extradata;
 	long myID =1;
-	String shareString = "";
-
-	Matrix matrix = new Matrix();
-	Matrix savedMatrix = new Matrix();
-	
-	// We can be in one of these 3 states for the zooming
-	static final int NONE = 0;
-	static final int DRAG = 1;
-	static final int ZOOM = 2;
-	int mode = NONE;
-	
-	// Remember some things for zooming
-	PointF start = new PointF();
-	PointF mid = new PointF();
-	float oldDist = 1f;
 
 	/**
 	 * Initializes activity
@@ -82,20 +58,10 @@ public class More extends Activity implements OnClickListener {
 		//prevent text edit from being focused onCreate
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
-
-		//this creates the on touch listenter for the photo button
-		View buttonImageCapture = (View) findViewById(R.id.camera_button);
-		buttonImageCapture.setOnClickListener(this);
-		
-		//Finds the share_button view
-		View shareButton = findViewById(R.id.share);
-		shareButton.setOnClickListener(this);
-
 		//Finds the submit_button view
 		View submitButton = findViewById(R.id.more_to_dash);
 		submitButton.setOnClickListener(this);
-	}  	
-
+	}
 
 	/**
      * Invoked when a view is clicked
@@ -114,45 +80,13 @@ public class More extends Activity implements OnClickListener {
 				toast.show();
 			}
 			break;
-		case R.id.camera_button:
-			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-			startActivityForResult(intent, 0);
-			break;	
-		case R.id.share:
-			if (emotion == 1){
-				shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-				share("Happy", shareString);
-			}
-			else{
-				shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-				share("Sad", shareString);
-			}
-			break;	
 		}
-	} 
-
-	/**
-	 * Given an emotion and the message that goes with it, share it with others using the various servics (facebook twitter etc) 
-	 * @param emo
-	 * @param text
-	 */
-	public void share(String subject,String text) {
-		final Intent intent = new Intent(Intent.ACTION_SEND);
-
-		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-		intent.putExtra(Intent.EXTRA_TEXT, text);
-
-		startActivity(Intent.createChooser(intent, getString(R.string.share)));
 	}
-
-
-
+	
 	/**
 	 * Helper method to deal with location.
 	 */
 	private void locationStuff(){
-
 		// Acquire a reference to the system Location Manager
 		gpsLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		networkLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
