@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MyMap extends MapActivity implements OnClickListener {
 	//fields
 	private MapView map; //setting view
-	private MapController controller; //setting pinch to zoom
+	protected MapController controller; //setting pinch to zoom
 	int checkHappy = 1; //check digits to keep track of whether happy faces are being shown on map - standard binary
 	int checkSad = 1; //check digit to keep track of whether sad faces are being shown on map - standard binary
 	MyLocationOverlay userLocationOverlay; //an overlay that marks users position on the map
@@ -34,7 +34,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map); //sets the view
+		setContentView(R.layout.mymap); //sets the view
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -79,7 +79,7 @@ public class MyMap extends MapActivity implements OnClickListener {
   	  	histButton.setOnClickListener(this);
   	  	
   	  	//Finds the my_map view
-  	  	View myButton = findViewById(R.id.myMap);
+  	  	View myButton = findViewById(R.id.globalMap);
   	  	myButton.setOnClickListener(this);
 	}
    
@@ -135,8 +135,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 			map.invalidate(); //redraws the map with the new overlay settings
 			break;
 			
-		case R.id.myMap:
-			startActivity(new Intent(this, MyMap.class));
+		case R.id.globalMap:
+			startActivity(new Intent(this, GlobalMap.class));
 			break;
 			
 		case R.id.myTrack_button:
@@ -165,13 +165,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map); //creates an overlay with the users current location
 		userLocationOverlay.enableMyLocation(); //enables location detection
-		userLocationOverlay.runOnFirstFix(new Runnable() { //the statements within should only be run when the map is first loaded
-			public void run() {
-				// Zoom in to current location
-				controller.animateTo(userLocationOverlay.getMyLocation()); //sets the view to centralize the user
-				controller.setZoom(15); //sets the map zoom level to 15
-			}
-		});
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	
@@ -185,8 +178,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 		for(int i = 0; i<plottables.size();i++) { //loops for every bottle in the list
 			HappyBottle element = plottables.get(i); //sets the element to the current bottle for easy reference
 			if (element.getEmo()==emotion){ //enters only id the bottle passes the filter
-				int latitude =  element.getLat(); //converts latitude from float to integer in microdegrees
-				int longitude =  element.getLong(); //converts longitude from float to integer in microdegrees
+				int latitude =  element.getLat(); 
+				int longitude =  element.getLong(); 
 				GeoPoint point = new GeoPoint(latitude,longitude); //creates geopoint (a type of point required for map overlays)
 				String S = (String) new Timestamp(element.getTime()).toLocaleString(); //creates a string of bottle time that is human readable
 				itemizedoverlay.addToOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay	- emotion is appended to date in the title        

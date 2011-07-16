@@ -42,14 +42,15 @@ public class More extends Activity implements OnClickListener {
 	long myID =1;
 	String shareString = "";
 
-
 	Matrix matrix = new Matrix();
 	Matrix savedMatrix = new Matrix();
+	
 	// We can be in one of these 3 states for the zooming
 	static final int NONE = 0;
 	static final int DRAG = 1;
 	static final int ZOOM = 2;
 	int mode = NONE;
+	
 	// Remember some things for zooming
 	PointF start = new PointF();
 	PointF mid = new PointF();
@@ -72,7 +73,7 @@ public class More extends Activity implements OnClickListener {
 		emotion = (short) sender.getExtras().getInt("Emotion");
 
 		if(emotion == 1){
-			setContentView(R.layout.more);
+			setContentView(R.layout.morehappy);
 		}
 		else if(emotion == 0){
 			setContentView(R.layout.moresad);

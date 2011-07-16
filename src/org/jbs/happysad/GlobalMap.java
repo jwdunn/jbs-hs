@@ -1,5 +1,4 @@
 package org.jbs.happysad;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 
 /**
  * Creates a Global Map view with Google Maps API with everyone's HappyBottles
@@ -35,7 +33,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map); //sets the view
+		setContentView(R.layout.globalmap); //sets the view
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -49,28 +47,26 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		HappyData datahelper = new HappyData(this); //instantiates HappyData to access local storage
 		ArrayList<HappyBottle> plottables = datahelper.getAllHistory(); //creates an arraylist of all the bottles
 		
+		
 		//adds items to overlays
-		//1 is for sad and 0 is for happy, according to the HappyTrack system
 		emotionOverlayFiller(1,plottables,happyOverlay); //adds all happy bottles to the happy overlay
 		emotionOverlayFiller(0,plottables,sadOverlay); //adds all sad bottles to the sad overlay
 			
 		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();
-
       
-		//Add ClickListener for the button
+		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
 		sadButton.setOnClickListener(this);
       
-		// Add ClickListener for the button
+		//Finds the show_happy view
 		View happyButton = findViewById(R.id.showHappy);
 		happyButton.setOnClickListener(this); 
       
-		// Add ClickListener for the button
+		//Finds the switch_view
 		View switchButton = findViewById(R.id.switchView);
 		switchButton.setOnClickListener(this); 
-		
 		
 		//Finds the chart_button view
   	  	View chartButton = findViewById(R.id.myTrack_button);
@@ -105,8 +101,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			break;
 		
 		//used to show/hide the happy faces
-		//checks the check digit to note whether the user wants to show or hide the happy faces
-		//acts accordingly and updates the check digit
 		case R.id.showHappy:
 			if (checkHappy==0){ //checks if happy faces are visible, goes here if not visible
 				map.getOverlays().add(happyOverlay); //adds happy face overlay to visible overlays 
@@ -142,12 +136,13 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			startActivity(new Intent(this, MyMap.class));
 			break;
 		
+		case R.id.myTrack_button:
+			startActivity(new Intent(this, History.class));
+			break;
 		}
 	}
 	
-	/**
-	 * Finds and initializes the map view.
-	 */
+	//Finds and initializes the map view.
 	private void initMapView() {
 		map = (MapView) findViewById(R.id.map); //sets map view from xml
 		controller = map.getController(); //gets pinch to zoom controller for map
@@ -157,9 +152,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
 	}
 	
-	/**
-	 * Starts tracking the users position on the map.
-	 */ 
+	//Starts tracking the users position on the map. 
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map); //creates an overlay with the users current location
 		userLocationOverlay.enableMyLocation(); //enables location detection
@@ -173,8 +166,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	
-	/**
-	 * Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
+	/*Given a filter, a list of items and an overlay, it filters the items and then adds the filtrate to the overlay
 	 * The filter is happy or sad (1 or 0)
 	 * The list is a list of emotion bottles
 	 * The overlay may be an overlay of happy or sad faces

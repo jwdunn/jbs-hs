@@ -53,7 +53,7 @@ public class History extends ListActivity implements OnClickListener{
 			Log.d("History", "adding bottle with msg " + b.getMsg());
 			HashMap<String, String> m = new HashMap<String, String>();
 			String e = (b.getEmo()>0)?"Happy":"Sad";
-			m.put("line1", e + " : " +  b.getMsg());
+			m.put("line1", e + ": " +  b.getMsg());
 			m.put("line2", new Timestamp(b.getTime()).toLocaleString() );
 
 			newList.add(m);
