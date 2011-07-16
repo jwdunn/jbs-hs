@@ -1,5 +1,4 @@
 package org.jbs.happysad;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 
 /**
  * Creates a Global Map view with Google Maps API with everyone's HappyBottles
@@ -51,16 +49,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		
 		//adds items to overlays
-		//1 is for sad and 0 is for happy, according to the HappyTrack system
 		emotionOverlayFiller(1,plottables,happyOverlay); //adds all happy bottles to the happy overlay
 		emotionOverlayFiller(0,plottables,sadOverlay); //adds all sad bottles to the sad overlay
 			
 		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();
-
       
-		//Add ClickListener for the button
+		// for the button
 		View sadButton = findViewById(R.id.showSad);
 		sadButton.setOnClickListener(this);
       
