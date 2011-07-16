@@ -34,7 +34,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map); //sets the view
+		setContentView(R.layout.mymap); //sets the view
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -178,8 +178,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 		for(int i = 0; i<plottables.size();i++) { //loops for every bottle in the list
 			HappyBottle element = plottables.get(i); //sets the element to the current bottle for easy reference
 			if (element.getEmo()==emotion){ //enters only id the bottle passes the filter
-				int latitude =  element.getLat(); //converts latitude from float to integer in microdegrees
-				int longitude =  element.getLong(); //converts longitude from float to integer in microdegrees
+				int latitude =  element.getLat(); 
+				int longitude =  element.getLong(); 
 				GeoPoint point = new GeoPoint(latitude,longitude); //creates geopoint (a type of point required for map overlays)
 				String S = (String) new Timestamp(element.getTime()).toLocaleString(); //creates a string of bottle time that is human readable
 				itemizedoverlay.addToOverlay(new OverlayItem(point, S+emotion, element.getMsg())); //adds the bottle to the overlay	- emotion is appended to date in the title        
