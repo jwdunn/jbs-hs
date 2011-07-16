@@ -56,18 +56,17 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		initMapView();
 		initMyLocation();
       
-		// for the button
+		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
 		sadButton.setOnClickListener(this);
       
-		// Add ClickListener for the button
+		//Finds the show_happy view
 		View happyButton = findViewById(R.id.showHappy);
 		happyButton.setOnClickListener(this); 
       
-		// Add ClickListener for the button
+		//Finds the switch_view
 		View switchButton = findViewById(R.id.switchView);
 		switchButton.setOnClickListener(this); 
-		
 		
 		//Finds the chart_button view
   	  	View chartButton = findViewById(R.id.myTrack_button);
@@ -102,8 +101,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			break;
 		
 		//used to show/hide the happy faces
-		//checks the check digit to note whether the user wants to show or hide the happy faces
-		//acts accordingly and updates the check digit
 		case R.id.showHappy:
 			if (checkHappy==0){ //checks if happy faces are visible, goes here if not visible
 				map.getOverlays().add(happyOverlay); //adds happy face overlay to visible overlays 
@@ -139,6 +136,9 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			startActivity(new Intent(this, MyMap.class));
 			break;
 		
+		case R.id.myTrack_button:
+			startActivity(new Intent(this, History.class));
+			break;
 		}
 	}
 	
