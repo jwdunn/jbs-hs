@@ -134,10 +134,14 @@ public class More extends Activity implements OnClickListener {
 			makeUseOfNewLocation(locationGPS);
 			updateNetworkLocation(locationNetwork);
 
-		}
-		catch (Exception e){
-		}
-
+		} catch (Exception e){}
+	}
+	
+	private void removeLocation() {
+		gpsLocationManager.removeUpdates(gpsLocationListener);
+		networkLocationManager.removeUpdates(networkLocationListener);
+		gpsLocationManager = null;
+		networkLocationManager = null;
 	}
 
 	/**
@@ -145,12 +149,10 @@ public class More extends Activity implements OnClickListener {
 	 * @param location
 	 */
 	private void makeUseOfNewLocation(Location location) {		
-
 		if(GPS_longitude == 0 && GPS_latitude == 0){
 			GPS_latitude = (int) (location.getLatitude()*1E6);
 			GPS_longitude = (int) (location.getLongitude()*1E6);
 		}
-
 	}
 
 	/**
@@ -173,28 +175,19 @@ public class More extends Activity implements OnClickListener {
 			GPS_longitude = Network_longitude;
 			GPS_latitude = Network_latitude;
 		}
-
 		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
 	}
 
-
-	/**
-	 * Disables GPS Managers and Listeners
-	 */
-	public void onPause() {
+	//Disables GPS Managers and Listeners
+	protected void onPause() {
 		super.onPause();
-		gpsLocationManager.removeUpdates(gpsLocationListener);
-		networkLocationManager.removeUpdates(networkLocationListener);
-		gpsLocationManager = null;
-		networkLocationManager = null;
+		removeLocation();
 	}
 
-	/**
-	 * Enables GPS Managers and Listeners
-	 */
-	public void onResume() {
+	//Enables GPS Managers and Listeners
+	protected void onResume() {
 		super.onResume();
 		locationStuff();
 	}

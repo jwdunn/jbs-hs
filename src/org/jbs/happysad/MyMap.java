@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * Creates a Personal Map view with Google Maps API with users personal HappyBottles
- * @author HappySad
+ * @author HappyTrack
  */
 public class MyMap extends MapActivity implements OnClickListener {
 	//fields
@@ -143,7 +143,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 			Intent j = new Intent(this, History.class);
 			startActivity(j);
 			break;
-		
 		}
 	}
 	
@@ -153,7 +152,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private void initMapView() {
 		map = (MapView) findViewById(R.id.map); //sets map view from xml
 		controller = map.getController(); //gets pinch to zoom controller for map
-		map.setStreetView(true); //sets default view to screen view
 		map.getOverlays().add(sadOverlay); //adds the sad faces to the map
 		map.getOverlays().add(happyOverlay); //adds the happy faces to the map
 		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons

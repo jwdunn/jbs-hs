@@ -1,5 +1,3 @@
-//new happydata
-
 package org.jbs.happysad;
 
 import static android.provider.BaseColumns._ID;
@@ -11,19 +9,16 @@ import static org.jbs.happysad.Constants.MSG;
 import static org.jbs.happysad.Constants.TABLE_NAME;
 import static org.jbs.happysad.Constants.TIME;
 import static org.jbs.happysad.Constants.UID;
-import org.jbs.happysad.HappyBottle;
-
 import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import org.jbs.happysad.HappyBottle;
 import android.util.Log;
-
 /**
- * HappyData is a helper class that serves as a layer of abstraction between you and the database. It deals with the logic of
- * using local or web storage so that you
- * @author Sahar
+ * helper class that serves as a layer of abstraction between the user and the database.
+ * @author HappyTrack
  */
 public class HappyData {
 	//for debugging purposes, delete when no longer needed
@@ -38,35 +33,27 @@ public class HappyData {
 
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
-		//mainThread = new Handler();
 	}
 
-	/**
-	 * Tries to add a bottle to the local db. Return true/false if it was successful or not.
-	 * @param b
-	 * @return Did our attempt to add the bottle succeed?
-	 */
-	public boolean addBottle(HappyBottle b){
+	//Return true/false if the application can add HappyBottle b
+	protected boolean addBottle(HappyBottle b){
 		return addBottle(b, false);
 	}
 
 	/**
 	 * Tries to add a bottle to the local db. Return true/false if it was successful or not.
-	 * @param b
-	 * @param isSynced - Has this bottle been uploaded to the server?
+	 * @param b HappyBottle
+	 * @param isSynced Has this bottle been uploaded to the server?
 	 * @return
 	 */
 	public synchronized boolean addBottle(HappyBottle b, boolean isSynced){
 		boolean toreturn = false;
-		//notice this is synchronized. Thread safety ftw. 
 		//get the db
 		SQLiteDatabase db = h.getWritableDatabase();
 		ContentValues values = b.getAll();
 		int z = isSynced?1:0;
-		//since sync isn't in the contentvalues of bottles, we have to add it manually. 
 		values.put(SYNC, z);
-		Log.e(TAG, "about to add bottle");
-		//now we use the handy insertOrThrow method to add a bottle. 
+		//add a bottle. 
 		try {
 			db.insertOrThrow(TABLE_NAME, null, values);
 			toreturn = true;	
@@ -82,32 +69,22 @@ public class HappyData {
 	}
 
 	
-	/**
-	 *for each entry that isn't synced, send to database. 
-	 */
-	public void syncUp(){
-		//note that this method is written BADLY. See below for details
-		Log.w(TAG, "SYNCUP");
+	//for each entry that isn't synced, send to database. 
+	protected void syncUp(){
 		SQLiteDatabase db = h.getReadableDatabase();
 		Cursor cursor = getCursor(db);
-		//cursor is an easy way to iterate through a database
+		//iterate through the database
 		while (cursor.moveToNext() ){
 			long id = cursor.getLong(1);
 			int synced = cursor.getInt(7);
-			//now we check each row in the database to see if it's been synced yet.
+			//if the row hasn't been synced yet
 			if ((id == MyUserID) && (synced == 0)) {
-				//if we hit a bottle that has not been synced, and is ours, we upload it.
 				HappyBottle b = createBottle(cursor);
-				Log.e(TAG, "NETSEND");
 				net.doTask(Task.SEND, b);
-				Log.e(TAG, "REMOVEBYID");
 				//after we upload it, we remove it!
 				removeByID(cursor.getLong(0));
 				//and then we add an identical bottle with synced set to true
 				addBottle(b, true);
-				//we do two HORRIBLY WRONG things here.
-				//a. instead of deleting a row in the db only to insert an almost-identical one, we should just alter the row in the db instead.
-				//b. instead of looping through the cursor, we should make the appropriate call and let the server find the matching rows for us.
 			}
 
 		} 
@@ -115,9 +92,8 @@ public class HappyData {
 		db.close(); 
 	}
 
-	//temporary method for testing uses only.
 	//syncs down everything.
-	public void syncDown(){
+	protected void syncDown(){
 		//syncMyDown();
 		syncAllDown();
 		Log.d(TAG, "synced down");
@@ -125,56 +101,46 @@ public class HappyData {
 	}
 
 	//same as syncAllDown, but just for my bottles
-	private void syncMyDown(){
+	protected void syncMyDown(){
 		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE, null);
 		addAvoidDupes(b);
 	}
 
-	//use nethelper to sync all down
-	//then add the bottles to the database, avoiding duplicates of course.
+	//sync all down, then add the bottles to the database, avoiding duplicates
 	private void syncAllDown(){
 		ArrayList<HappyBottle> b = net.doTask(Task.GETALL, null);
 		addAvoidDupes(b);
 	}
 
-	//given the id of a row in the local database of a bottle, delete it.
-	//NOTE that this id is very different from other ids. It's not the user id, it's not the row id in the server. 
-	private void removeByID(long id){
+	//given the rowid of a row in the local database of a bottle, delete it.
+	private void removeByID(long rowid){
 		Log.e(TAG, "REMOVEBYID STARTED");
 		SQLiteDatabase db = h.getWritableDatabase();
-		db.delete(TABLE_NAME, "_ID==" + id, null );
+		db.delete(TABLE_NAME, "_ID==" + rowid, null );
 		db.close();
 	}
 
-	//addAvoidDupes = takes an arraylist of bottles. Adds them to the database but only if they are not dupes
+	//add bottles to the database but only if they are not dupes
 	private void addAvoidDupes(ArrayList<HappyBottle> a){
-		//for each bottle
-		//if there is nothing with the same uid and time as the bottle in your localdb
-		//add it to the db
-
 		for (HappyBottle b : a){
-			long t = b.getTime();
-			long u = b.getUID();
+			long time = b.getTime();
+			long userId = b.getUID();
 			SQLiteDatabase db = h.getReadableDatabase();
 			String[] columns = {_ID, MSG};
-			Cursor c = db.query(TABLE_NAME, columns, UID+"=\'"+u+"\' AND "+TIME+"="+t, null, null, null, null);
+			//if there is nothing with the same uid and time as the bottle in your localdb add it to the db
+			Cursor c = db.query(TABLE_NAME, columns, UID+"=\'"+userId+"\' AND "+TIME+"="+time, null, null, null, null);
 			if (c.getCount() == 0){
 
-				//ie if there are no rows in the local table that match the uid and time of the bottle
 				Log.d(TAG, "adding bottle fromthe internets!");
 				this.addBottle(b, true); //was true
 			}
 			c.close();
 			db.close();
-
 		}
-
-
 	}
 
 	/**
-	 * This method creates an ArrayList of HappyBottles that id == MyUserID
-	 * Calls the local database. Doesn't call the server.
+	 * This method creates an ArrayList of HappyBottles that id == MyUserID form the local database
 	 * @return the ArrayList of HappyBottles
 	 */
 	public ArrayList<HappyBottle> getMyHistory(){
@@ -187,19 +153,16 @@ public class HappyData {
 			if (id == MyUserID) {
 				//for each entry in the database, where the user id == MyUserID
 				HappyBottle b = createBottle(cursor);
-				//add the corresponding bottle to the temporary arraylist of bottles to be returned.
 				a.add(b);
-		}}
+			}
+		}
 		cursor.close();
 		db.close();
 		return a;
 	}
 
-
-
 	/**
-	 * This method creates an ArrayList of HappyBottles to create AllHistory
-	 * Calls the local database. Doesn't call the server.
+	 * This method creates an ArrayList of HappyBottles to create AllHistory from the local database
 	 * @return an ArrayList of HappyBottles
 	 */
 	public ArrayList<HappyBottle> getAllHistory(){
@@ -216,14 +179,11 @@ public class HappyData {
 		return a;
 	}
 
-	/**
-	 * Creates a Bottle
-	 * @param cursor
-	 * @return return the created bottle
+	/* 
+	 * Given the cursor that is pointing to a row in the database
+	 * Pull the info from that row and create a bottle object
 	 */
 	private HappyBottle createBottle(Cursor cursor){
-		//given cursor that is pointing to a row in the database, pull the info from that row and create a bottle object.
-		//we are "inflating" rows into objects. 
 		long uid = cursor.getLong(1);
 		int latitude = cursor.getInt(2);
 		int longitude = cursor.getInt(3);
@@ -235,10 +195,7 @@ public class HappyData {
 		return b;
 	}
 
-	/**
-	 * Provides random read-write access to the result set returned by a database query.
-	 * @return Cursor object
-	 */
+	//Provides random read-write access to the result set returned by a database query.
 	private Cursor getCursor(SQLiteDatabase db){
 		Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
 				null, ORDER_BY);

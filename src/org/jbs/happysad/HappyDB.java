@@ -17,7 +17,7 @@ import static org.jbs.happysad.Constants.UID;
 
 /**
  * Creates the Database
- * @author Sahar
+ * @author HappyTrack
  *
  */
 public class HappyDB extends SQLiteOpenHelper {

@@ -37,9 +37,8 @@ android:background="@drawable/promptback">
         android:id="@+id/more_textbox" 
         android:singleLine="true"
         android:layout_width="wrap_content" 
-        android:layout_height="match_parent"
-         >
-         </EditText>
+        android:layout_height="match_parent" >
+        </EditText>
          
         <FrameLayout android:gravity="center" 
         android:layout_height="wrap_content" 
@@ -51,18 +50,15 @@ android:background="@drawable/promptback">
         
             <LinearLayout android:id="@+id/linearLayout1" 
             android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
-             </LinearLayout>
+            android:layout_height="wrap_content">
+            </LinearLayout>
             <ImageView android:layout_height="200dip" 
             
             android:layout_width="200dip" 
             android:scaleType="matrix" 
             android:layout_gravity="center"
             android:id="@+id/imageView" 
-            android:src="@drawable/frown"
-            />
-            
-         
+            android:src="@drawable/frown" />
         	</FrameLayout>
     	</TableLayout>
   	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 

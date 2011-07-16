@@ -10,19 +10,17 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
 /**
- * Class used to create itemized overlays of emotion bottles
- * @author tahaalibak
- *
+ * Creates an itemized overlay of emotion bottles
+ * @author HappyTrack
  */
 public class ItemizedEmotionOverlay extends ItemizedOverlay<OverlayItem> {
-	
-	private ArrayList<OverlayItem> overlay = new ArrayList<OverlayItem>(); //creates a new overlay that
-	Context context; //creates a reference to the context of this item
+	private ArrayList<OverlayItem> overlay = new ArrayList<OverlayItem>();
+	Context context;
 	
 	/**
-	 * default constructor that sets a face image for every item in the overlay
-	 * also sets context
-	 * @param defaultMarker
+	 * Sets a face image and context for every item in the overlay
+	 * @param face
+	 * @param context 
 	 */
 	public ItemizedEmotionOverlay(Drawable face, Context context) {
 		  super(boundCenterBottom(face)); //places image so that the point it marks is at the center of its base
@@ -35,49 +33,44 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay<OverlayItem> {
 	 * @param item
 	 */
 	public void addToOverlay(OverlayItem item) {
-	    overlay.add(item); //adds item to overlay
+	    overlay.add(item);
 	    populate();
 	}
 	
-	/**
-	 * method used to create an item given an overlay and a reference index number
-	 */
-	@Override
+	//method used to create an item given an overlay and a reference index number
 	protected OverlayItem createItem(int i) {
 	  return overlay.get(i);
 	}
 	
 	/**
-	 * method used to return the number of items in an overlay
+	 * Returns the number of items in an overlay
+	 * @return the number of itmes in an overlay
 	 */
-	@Override
 	public int size() {
 	  return overlay.size();
 	}
 
-	/**
-	 * method used to create a dialog box every time an overlay item is tapped
-	 */
-	@Override
+	//method used to create a dialog box every time an overlay item is tapped
 	protected boolean onTap(int index) {
+		//set up helper statements for the dialog box
+		OverlayItem item = overlay.get(index);
+		String date = item.getTitle().substring(0, item.getTitle().length()-1);
+		char emotion = item.getTitle().charAt(item.getTitle().length()-1);
+		 
+		//Builds the dialog box
+		AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(context);
+		//sets the image that appears in the dialog box
+		if (emotion == '1')
+			dialogbuilder.setIcon(R.drawable.mapsmile); 
+		else
+			dialogbuilder.setIcon(R.drawable.mapfrown);
+		dialogbuilder.setTitle(date);
+		dialogbuilder.setMessage(item.getSnippet());
 		  
-		OverlayItem item = overlay.get(index); //gets an item from the overlay by using the index number of the item
-		String date = item.getTitle().substring(0, item.getTitle().length()-1); //creates the date string which had been passed into the item title
-		char emotion = item.getTitle().charAt(item.getTitle().length()-1); //gets the emotion character which was also in the item title
-		  
-		AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(context); //creates a blueprint for the dialog
-		if (emotion == '1'){
-			dialogbuilder.setIcon(R.drawable.mapsmile); //sets the image that appears in the dialog box for a happy face
-		}
-		else{
-			dialogbuilder.setIcon(R.drawable.mapfrown); //sets the image that appears in the dialog box for a sad face
-		}
-		dialogbuilder.setTitle(date); //sets the date as the title of the dialog box
-		dialogbuilder.setMessage(item.getSnippet()); //sets the message as part of the dialog box
-		  
-		Dialog dialog = dialogbuilder.create(); //uses the blueprint to create the dialog box
-		dialog.setCanceledOnTouchOutside(true); //sets a property that dismisses the dialog box if a region outside it is tapped
-		dialog.show();  //displays the dialog box
+		//Creates and shows the dialog box
+		Dialog dialog = dialogbuilder.create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 		
 		return true;
 	}
