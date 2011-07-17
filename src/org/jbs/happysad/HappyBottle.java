@@ -7,18 +7,15 @@ import static org.jbs.happysad.Constants.LONG;
 import static org.jbs.happysad.Constants.MSG;
 import static org.jbs.happysad.Constants.TIME;
 import static org.jbs.happysad.Constants.UID;
-
-import java.sql.Timestamp;
-
 /**
  * Happy Bottle is the object used to express 1 row in the database, or 1 update.
- * @author HS
+ * @author HappyTrack
  * 
  */
 public class HappyBottle {
 	//fields
-	private float lati;
-	private float longi;
+	private int lati;
+	private int longi;
 	private short emo;
 	private String msg;
 	private long time;
@@ -27,14 +24,14 @@ public class HappyBottle {
 	
 	/**
 	 * Constructs a HappyBottle object to retrieve and save updates
-	 * @param id
-	 * @param la
-	 * @param lo
-	 * @param e
-	 * @param t
-	 * @param time
+	 * @param uid user ID of type long
+	 * @param lati latitude coordinate of type int
+	 * @param longi longitude coordinate of type int
+	 * @param emo emotion value of type short
+	 * @param msg message of type string
+	 * @param time time stamp of type long
 	 */
-	public HappyBottle(long uid, float lati, float longi, short emo, String msg, long time) {
+	public HappyBottle(long uid, int lati, int longi, short emo, String msg, long time) {
 		this.lati = lati;
 		this.longi = longi;
 		this.emo = emo;
@@ -57,37 +54,46 @@ public class HappyBottle {
 		values.put(UID, uid);
 		return values;
 	}
-	
-	public float getLong(){
+	/**
+	 * Returns the longitude in type int
+	 * @return the longitude in type int
+	 */
+	public int getLong(){
 		return longi;
 	}
-	public float getLat(){
+	/**
+	 * Returns the latitude in type int
+	 * @return the latitude in type int
+	 */
+	public int getLat(){
 		return lati;
 	}
+	/**
+	 * Returns the emotion value of type short
+	 * @return the emotion value of type short
+	 */
 	public short getEmo(){
 		return emo;
 	}
+	/**
+	 * Returns the message in type string
+	 * @return the message in type string
+	 */
 	public String getMsg(){
 		return msg;
 	}
+	/**
+	 * Returns the time in type long
+	 * @return the time in type long
+	 */
 	public long getTime(){
 		return time;
 	}
+	/**
+	 * Returns the user integer value in type long
+	 * @return the user integer value in type long
+	 */
 	public long getUID(){
 		return uid;
 	}
-	
-	public String toString(){
-		String s = "";
-		//s+= "bottle:: ";
-
-		s += UID + ": "+ uid + " ";
-		s += "lat: " + lati + " ";
-		s += "long: " + longi + " ";
-		s += "emo: " + emo + " ";
-		s += "msg: " + msg + " ";
-		s += "time: " + new Timestamp( time) + " ";	
-
-		return s;
-	}	
 }

@@ -31,7 +31,7 @@ android:gravity="center"
     	android:layout_height="wrap_content" 
     	android:layout_width="match_parent">
     	
-        <EditText android:hint="@string/whySad" 
+        <EditText android:hint="@string/whyHappy" 
         android:id="@+id/more_textbox" 
         android:singleLine="true"
         android:layout_width="wrap_content" 
@@ -45,7 +45,7 @@ android:gravity="center"
 			<Button 
 			android:id="@+id/more_to_map"  
 			android:layout_gravity="center"
-			android:background="@drawable/frown"
+			android:background="@drawable/smile"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" /> 
 			

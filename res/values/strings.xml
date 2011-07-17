@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HappySad</string>
-    <string name="happysad_name">How Are You Feeling?</string>
-    <string name="login_message">User Account: </string>
-	<string name="login_message_title">Your Logged In!</string>
-    <string name="error_login_message">We seemed to have a problem logging you in. go into settings, accounts and log into your Gmail account</string>
-    
-	<string name="more_text">Why?</string>
-	<string name="share">Share</string>
-    <string name="submit_to_dash">Submit</string>
-    
-    <string name="myMap">MyMap</string>
-	<string name="globalMap">GlobalMap</string>
-	<string name ="dashboard_name">Dashboard</string>
-	<string name="update_name">Update</string>
-	<string name="history_name">History</string>
-	<string name="global_name">Global</string>
-	<string name="chart_name">Chart</string>
+	<string name="app_name">HappyTrack</string>
 	
-	<string name="settings_label">Settings</string>
-	<string name="settings_title">Happy Sad Settings</string>
-	<string name="exit_name">Exit</string>
+	<string name="happysad_name">How Are You?</string>
+	<string name="login_message">User Account: </string>
+	<string name="login_message_title">Your Logged In!</string>
+	<string name="error_login_message">We seemed to have a problem logging you in. go into settings, accounts and log into your Gmail account</string>
+	
+	<string name="more">Why?</string>
+	<string name="whyHappy">why are you happy?</string>
+	<string name="whySad">why are you sad?</string>
+	<string name="share">Share</string>
+	<string name="submit_to_dash">Submit</string>
+	
+	<string name="globalMap">GlobalMap</string>
+	<string name="myMap">MyMap</string>
+	<string name="update_name">Update</string>
+	<string name="myTrack_name">MyTrack</string>
+	<string name="myChart_name">MyChart</string>
 	
 	<string name="empty">No events!</string>
 	<string name="refresh_name">Refresh</string>
 	
-	<string name="happy_overlay">Toggle Sad</string>
-	<string name="sad_overlay">Toggle Happy</string>
+	<string name="happy_overlay">Switch Sad</string>
+	<string name="sad_overlay">Switch Happy</string>
 	<string name="switch_view">Switch View</string>
-	
-	<string name="globavg_name">Global Avg</string>
-	<string name="add_values">Add values to the chart</string>    
-	<string name="x">X</string>    
-	<string name="y">Y</string>
-	<string name="add">Add</string>
-	<string name="new_series">New series</string>
 </resources>
-

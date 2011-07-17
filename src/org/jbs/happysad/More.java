@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,55 +12,31 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
-//import android.util.Log;
 import android.widget.Toast;
-
 /**
  * Creates the More activity
- * @author HS
+ * @author HappyTrack
  */
 public class More extends Activity implements OnClickListener {
-	//for debugging purposes, delete after debugging.
-	//private static final String TAG = "there's more screen";
-
 	//fields
 	private LocationManager gpsLocationManager;
 	private LocationManager networkLocationManager;
 	private LocationListener networkLocationListener;
 	private LocationListener gpsLocationListener;
-	private float GPS_latitude;
-	private float GPS_longitude;
-	private float Network_latitude;
-	private float Network_longitude;
+	private int GPS_latitude;
+	private int GPS_longitude;
+	private int Network_latitude;
+	private int Network_longitude;
 	private HappyData dataHelper;
 	short emotion = -1;
 	String extradata;
-	long myID =1;
-	String shareString = "";
-
-
-	Matrix matrix = new Matrix();
-	Matrix savedMatrix = new Matrix();
-	// We can be in one of these 3 states for the zooming
-	static final int NONE = 0;
-	static final int DRAG = 1;
-	static final int ZOOM = 2;
-	int mode = NONE;
-	// Remember some things for zooming
-	PointF start = new PointF();
-	PointF mid = new PointF();
-	float oldDist = 1f;
-
+	private UIDhelper UIDh;
+	private long myID;
 	/**
 	 * Initializes activity
 	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		//This updates the userId to the proper id. it must be here because Shared Preferences has to be called after
-		//on create, or it crashes.
-		SharedPreferences sp = getSharedPreferences(Prompt.USER_DATA,0);
-		myID =  sp.getInt( "usernameint", 0);
 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
 		Intent sender = getIntent();
@@ -70,7 +44,7 @@ public class More extends Activity implements OnClickListener {
 		emotion = (short) sender.getExtras().getInt("Emotion");
 
 		if(emotion == 1){
-			setContentView(R.layout.more);
+			setContentView(R.layout.morehappy);
 		}
 		else if(emotion == 0){
 			setContentView(R.layout.moresad);
@@ -79,17 +53,12 @@ public class More extends Activity implements OnClickListener {
 		//prevent text edit from being focused onCreate
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
-		//this creates the on touch listenter for the photo button
-		View buttonImageCapture = (View) findViewById(R.id.camera_button);
-		buttonImageCapture.setOnClickListener(this);
-		
-		//Finds the share_button view
-		View shareButton = findViewById(R.id.share);
-		shareButton.setOnClickListener(this);
-
 		//Finds the submit_button view
-		View submitButton = findViewById(R.id.more_to_dash);
+		View submitButton = findViewById(R.id.more_to_map);
 		submitButton.setOnClickListener(this);
+		
+		 UIDh = new UIDhelper();
+		 myID =UIDh.getUID();
 	}  	
 
 	/**
@@ -97,55 +66,25 @@ public class More extends Activity implements OnClickListener {
      */
 	public void onClick(View v) {		
 		switch (v.getId()) {
-		case R.id.more_to_dash:
+		case R.id.more_to_map:
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
-			Intent i = new Intent(this, Dashboard.class);
+			Intent i = new Intent(this, GlobalMap.class);
 			saveUpdate(shareString); 
 			finish();
 			startActivity(i);
 			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 500);
+				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 100);
 				toast.show();
 			}
 			break;
-		case R.id.camera_button:
-			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-			startActivityForResult(intent, 0);
-			break;	
-		case R.id.share:
-			if (emotion == 1){
-				shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-				share("Happy", shareString);
-			}
-			else{
-				shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
-				share("Sad", shareString);
-			}
-			break;	
 		}
-	} 
-
-	/** Share
-	 * 
-	 */
-	public void share(String subject,String text) {
-		final Intent intent = new Intent(Intent.ACTION_SEND);
-
-		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-		intent.putExtra(Intent.EXTRA_TEXT, text);
-
-		startActivity(Intent.createChooser(intent, getString(R.string.share)));
 	}
-
-
-
+	
 	/**
 	 * Helper method to deal with location.
 	 */
 	private void locationStuff(){
-
 		// Acquire a reference to the system Location Manager
 		gpsLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		networkLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -193,10 +132,14 @@ public class More extends Activity implements OnClickListener {
 			makeUseOfNewLocation(locationGPS);
 			updateNetworkLocation(locationNetwork);
 
-		}
-		catch (Exception e){
-		}
-
+		} catch (Exception e){}
+	}
+	
+	private void removeLocation() {
+		gpsLocationManager.removeUpdates(gpsLocationListener);
+		networkLocationManager.removeUpdates(networkLocationListener);
+		gpsLocationManager = null;
+		networkLocationManager = null;
 	}
 
 	/**
@@ -204,12 +147,10 @@ public class More extends Activity implements OnClickListener {
 	 * @param location
 	 */
 	private void makeUseOfNewLocation(Location location) {		
-
 		if(GPS_longitude == 0 && GPS_latitude == 0){
-			GPS_longitude = (float) location.getLongitude();
-			GPS_latitude = (float) location.getLatitude();
+			GPS_latitude = (int) (location.getLatitude()*1E6);
+			GPS_longitude = (int) (location.getLongitude()*1E6);
 		}
-
 	}
 
 	/**
@@ -218,8 +159,8 @@ public class More extends Activity implements OnClickListener {
 	 */
 	private void updateNetworkLocation(Location location) {
 		if(Network_longitude == 0 && Network_latitude == 0){
-			Network_longitude = (float) location.getLongitude();
-			Network_latitude = (float) location.getLatitude();
+			Network_latitude = (int) (location.getLatitude()*1E6);
+			Network_longitude = (int) (location.getLongitude()*1E6);
 		}
 	}
 
@@ -232,28 +173,42 @@ public class More extends Activity implements OnClickListener {
 			GPS_longitude = Network_longitude;
 			GPS_latitude = Network_latitude;
 		}
-
+		//Sahar added this - if it still thinks we are at 0,0:
+		if (GPS_longitude == 0 && GPS_latitude ==0){
+			//then find the last known gps and network location, and set the gps to the most recent of these two locations.
+			Location lastKnownGPSLocation = gpsLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			Location lastKnownNetworkLocation = networkLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			Location lastBestKnownLocation;
+			try{
+			if(lastKnownGPSLocation.getTime() > lastKnownNetworkLocation.getTime()){
+				lastBestKnownLocation = lastKnownGPSLocation;
+			}
+			else{
+				lastBestKnownLocation = lastKnownNetworkLocation;
+			}
+			GPS_latitude = (int) (lastBestKnownLocation.getLatitude()*1E6);
+			GPS_longitude = (int) (lastBestKnownLocation.getLongitude()*1E6);
+			}
+			catch (Exception e){
+				//this will happen if either last known locations are null. In that case, then you'll have to resign yourself to 0,0 sorry.
+				//TODD ADD STUFF HERE
+			}
+		}
 		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
 	}
 
-	/**
-	 * Disables GPS Managers and Listeners
-	 */
-	public void onPause() {
+	//Disables GPS Managers and Listeners
+	protected void onPause() {
 		super.onPause();
-		gpsLocationManager.removeUpdates(gpsLocationListener);
-		networkLocationManager.removeUpdates(networkLocationListener);
-		gpsLocationManager = null;
-		networkLocationManager = null;
+		removeLocation();
 	}
 
-	/**
-	 * Enables GPS Managers and Listeners
-	 */
-	public void onResume() {
+	//Enables GPS Managers and Listeners
+	protected void onResume() {
 		super.onResume();
 		locationStuff();
 	}
 }
+
