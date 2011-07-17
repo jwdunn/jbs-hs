@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="app_name">HappyTrack</string>
+	
 	<string name="happysad_name">How Are You?</string>
 	<string name="login_message">User Account: </string>
 	<string name="login_message_title">Your Logged In!</string>
