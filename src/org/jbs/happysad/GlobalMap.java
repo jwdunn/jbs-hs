@@ -45,11 +45,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		checkHappy = getIntent().getExtras().getInt("Happy");
 		checkSad = getIntent().getExtras().getInt("Sad");
 		run = getIntent().getExtras().getBoolean("Run");
-		if (check) {
-			streetView = true;
-			map.setStreetView(true);
-		} else
-			streetView = getIntent().getExtras().getBoolean("Sreet");
+		streetView = getIntent().getExtras().getBoolean("Sreet");
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -70,6 +66,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		//initialize and display map view and user location
 		initMapView();
 		goToMyLocation();
+		
+		if (streetView) {
+			map.setStreetView(true);
+			map.setSatellite(false);
+		} else {
+			map.setSatellite(true);
+			map.setStreetView(false);
+		}
 		
 		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
@@ -93,7 +97,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
-		((Button) myButton).setText("MyMap");
+		((Button) myButton).setText("GlobalMap");
 		myButton.setOnClickListener(this);
 	}
 
@@ -149,7 +153,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		case R.id.map:
 			Intent j = new Intent(this, MyMap.class);
-			j.putExtra("Street", streetView);
 			j.putExtra("Run", false);
 			j.putExtra("Happy", checkHappy);
 			j.putExtra("Sad", checkSad);

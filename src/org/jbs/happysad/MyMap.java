@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
- * Creates a Global Map view with Google Maps API with everyone's HappyBottles
+ * Creates a My Map view with Google Maps API with everyone's HappyBottles
  * @author HappyTrack
  */
 public class MyMap extends MapActivity implements OnClickListener {
@@ -26,8 +26,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private MapView map; 
 	int checkHappy;
 	int checkSad;
-	boolean check;
 	boolean run;
+	boolean check;
 	boolean streetView;
 	MyLocationOverlay userLocationOverlay;
 	private MapController controller;
@@ -46,11 +46,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 		checkSad = getIntent().getExtras().getInt("Sad");
 		run = getIntent().getExtras().getBoolean("Run");
 		streetView = getIntent().getExtras().getBoolean("Sreet");
-		if (check) {
-			streetView = true;
-			map.setStreetView(true);
-		} else
-			streetView = getIntent().getExtras().getBoolean("Sreet");
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -71,6 +66,14 @@ public class MyMap extends MapActivity implements OnClickListener {
 		//initialize and display map view and user location
 		initMapView();
 		goToMyLocation();
+		
+		if (streetView ) {
+			map.setStreetView(true);
+			map.setSatellite(false);
+		} else {
+			map.setSatellite(true);
+			map.setStreetView(false);
+		}
 		
 		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
@@ -94,7 +97,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
-		((Button) myButton).setText("GlobalMap");
+		((Button) myButton).setText("MyMap");
 		myButton.setOnClickListener(this);
 	}
 
@@ -107,7 +110,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		
 		//checks what current view is, then switches it off and starts the alternate view
 		case R.id.switchView:
-			if (streetView==false){
+			if (streetView==false) {
 				map.setStreetView(true);
 				streetView = true;
 				map.setSatellite(false);  
@@ -150,8 +153,6 @@ public class MyMap extends MapActivity implements OnClickListener {
 		
 		case R.id.map:
 			Intent j = new Intent(this, GlobalMap.class);
-			j.putExtra("Check", "");
-			j.putExtra("Street", streetView);
 			j.putExtra("Run", false);
 			j.putExtra("Happy", checkHappy);
 			j.putExtra("Sad", checkSad);
@@ -186,7 +187,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	}
 	
 	private void goToMyLocation() {
-		if (run) {
+		if (run == true) {
 			userLocationOverlay.runOnFirstFix(new Runnable() {
 				public void run() {
 					// Zoom in to current location
@@ -213,6 +214,11 @@ public class MyMap extends MapActivity implements OnClickListener {
 		}
 	}
 	
+	//Required method to make the map work
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -228,14 +234,10 @@ public class MyMap extends MapActivity implements OnClickListener {
 	    	run = true;
 	        goToMyLocation();
 	        return true;
+	        
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
-	}
-	
-	//Required method to make the map work
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 	
 	//Disables MyLocation
