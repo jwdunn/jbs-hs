@@ -179,6 +179,7 @@ public class More extends Activity implements OnClickListener {
 			Location lastKnownGPSLocation = gpsLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			Location lastKnownNetworkLocation = networkLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 			Location lastBestKnownLocation;
+			try{
 			if(lastKnownGPSLocation.getTime() > lastKnownNetworkLocation.getTime()){
 				lastBestKnownLocation = lastKnownGPSLocation;
 			}
@@ -187,7 +188,11 @@ public class More extends Activity implements OnClickListener {
 			}
 			GPS_latitude = (int) (lastBestKnownLocation.getLatitude()*1E6);
 			GPS_longitude = (int) (lastBestKnownLocation.getLongitude()*1E6);
-			
+			}
+			catch (Exception e){
+				//this will happen if either last known locations are null. In that case, then you'll have to resign yourself to 0,0 sorry.
+				//TODD ADD STUFF HERE
+			}
 		}
 		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
