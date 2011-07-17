@@ -1,6 +1,5 @@
 package org.jbs.happysad;
 
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
