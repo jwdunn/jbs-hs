@@ -99,14 +99,18 @@ public class HappyData {
 				//if we hit a bottle that has not been synced, and is ours, we upload it.
 				HappyBottle b = createBottle(cursor);
 				Log.e(TAG, "NETSEND");
+				int rowid = cursor.getInt(0);
 				net.doTask(Task.SEND, b);
 				Log.e(TAG, "REMOVEBYID");
-				//after we upload it, we remove it!
-				removeByID(cursor.getLong(0));
-				//and then we add an identical bottle with synced set to true
-				addBottle(b, true);
+				SQLiteDatabase dbwrite = h.getWritableDatabase();
+				ContentValues c = new ContentValues();
+				c.put(SYNC, 1);
+				Log.d(TAG, "update query is: "+ _ID+"="+rowid);
+				Log.d(TAG, "for msg: " + cursor.getString(5));
+				dbwrite.update(TABLE_NAME, c, _ID+"="+rowid , null);
+				dbwrite.close();
 				//we do two HORRIBLY WRONG things here.
-				//a. instead of deleting a row in the db only to insert an almost-identical one, we should just alter the row in the db instead.
+				//a. DONE instead of deleting a row in the db only to insert an almost-identical one, we should just alter the row in the db instead. 
 				//b. instead of looping through the cursor, we should make the appropriate call and let the server find the matching rows for us.
 			}
 
