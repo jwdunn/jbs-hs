@@ -21,37 +21,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".More"
-           		  android:screenOrientation="portrait" 	>
-        </activity>
+           		  android:screenOrientation="portrait" 	/>
         <activity android:name=".MyMap"   
         	      android:launchMode="singleTask"
-      	          android:screenOrientation="portrait" >
-        </activity>
+      	          android:screenOrientation="portrait" />
         <activity android:name=".GlobalMap"
         	      android:launchMode="singleTask"
-        	      android:screenOrientation="portrait" >
-        </activity>
+        	      android:screenOrientation="portrait" />
         <activity android:name=".History"
-        	      android:screenOrientation="portrait"  >
-        </activity>
-        <activity android:name=".Prefs"
-        	      android:screenOrientation="portrait" >
-        </activity>
-		<activity android:name=".ChartList"
-                  android:label="Happiness Chart"
-                  android:screenOrientation="portrait" >
-        </activity>
-        
+        	      android:screenOrientation="portrait"  />
         <activity 
-        		android:name=".UIDhelper" >
-        </activity>
-  
-		<activity android:name="org.achartengine.chartdemo.demo.chart.XYChartBuilder" />
-        <activity android:name="org.achartengine.GraphicalActivity" />
-		<activity android:name=".GeneratedChartDemo" />
-
-		
-
+        		android:name=".UIDhelper" />
 	</application>
-
 </manifest>
