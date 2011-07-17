@@ -14,7 +14,6 @@
 			android:orientation="vertical" 
 			android:layout_marginTop="75dip">
 			
-			<!-- How are you feeling? -->
 			<TextView 
 				android:id="@+id/welcome_title"  
 				android:layout_height="match_parent" 
