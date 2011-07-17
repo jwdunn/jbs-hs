@@ -54,7 +54,7 @@ public class More extends Activity implements OnClickListener {
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
 		//Finds the submit_button view
-		View submitButton = findViewById(R.id.more_to_dash);
+		View submitButton = findViewById(R.id.more_to_map);
 		submitButton.setOnClickListener(this);
 		
 		 UIDh = new UIDhelper();
@@ -66,7 +66,7 @@ public class More extends Activity implements OnClickListener {
      */
 	public void onClick(View v) {		
 		switch (v.getId()) {
-		case R.id.more_to_dash:
+		case R.id.more_to_map:
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
 			Intent i = new Intent(this, GlobalMap.class);
@@ -74,7 +74,7 @@ public class More extends Activity implements OnClickListener {
 			finish();
 			startActivity(i);
 			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 500);
+				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 100);
 				toast.show();
 			}
 			break;
