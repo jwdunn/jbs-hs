@@ -39,9 +39,8 @@ public class More extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
-		Intent sender = getIntent();
-		extradata = sender.getExtras().getString("Clicked");
-		emotion = (short) sender.getExtras().getInt("Emotion");
+		extradata = getIntent().getExtras().getString("Clicked");
+		emotion = (short) getIntent().getExtras().getInt("Emotion");
 
 		if(emotion == 1){
 			setContentView(R.layout.morehappy);
