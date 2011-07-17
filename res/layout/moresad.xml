@@ -33,13 +33,12 @@ android:background="@drawable/promptback">
     	android:layout_width="match_parent">
     	
 		
-        <EditText android:hint="why are you feeling sad" 
+        <EditText android:hint="why are you feeling sad?"
         android:id="@+id/more_textbox" 
         android:singleLine="true"
         android:layout_width="wrap_content" 
-        android:layout_height="match_parent"
-         >
-         </EditText>
+        android:layout_height="match_parent" >
+        </EditText>
          
         <FrameLayout android:gravity="center" 
         android:layout_height="wrap_content" 
@@ -51,51 +50,27 @@ android:background="@drawable/promptback">
         
             <LinearLayout android:id="@+id/linearLayout1" 
             android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
-             </LinearLayout>
+            android:layout_height="wrap_content">
+            </LinearLayout>
             <ImageView android:layout_height="200dip" 
             
             android:layout_width="200dip" 
             android:scaleType="matrix" 
             android:layout_gravity="center"
             android:id="@+id/imageView" 
-            android:src="@drawable/frown"
-            />
-            
-         
+            android:src="@drawable/frown" />
         	</FrameLayout>
     	</TableLayout>
   	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     	android:layout_width="match_parent" 
     	android:background="#000000" 
     	android:layout_height="match_parent"> 
-    
-		<ImageButton 
-			android:id="@+id/camera_button" 
-			android:src="@drawable/camera" 
-			android:layout_centerHorizontal="true" 
-			android:layout_width="110dip" 
-			android:layout_alignParentLeft="true" 
-			android:layout_height="wrap_content">
-		</ImageButton> 
-		
-		<Button
-		 android:text="@string/share" 
-		android:id="@+id/share" 
-		android:layout_centerHorizontal="true" 
-		android:layout_width="110dip" 
-		android:layout_toRightOf="@id/camera_button" 
-		android:layout_alignTop="@id/camera_button" 
-		android:layout_height="60dip">
-		</Button>
 		
 		<Button 
 		android:text="@string/submit_to_dash" 
 		android:id="@+id/more_to_dash" 
 		android:layout_centerHorizontal="true" 
 		android:layout_width="110dip" 
-		android:layout_toRightOf="@id/share" 
-		android:layout_alignTop="@id/camera_button" 
 		android:layout_height="60dip">
 		</Button> 
 		    

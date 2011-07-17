@@ -17,12 +17,14 @@ import static org.jbs.happysad.Constants.UID;
 
 /**
  * Creates the Database
- * @author Sahar
+ * @author HappyTrack
  *
  */
 public class HappyDB extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "happy.db";
-	private static final int DATABASE_VERSION = 4;
+
+	private static final int DATABASE_VERSION = 4; //5
+
 	private static final String TAG = "HappyDB"; 
 	
 	/**
