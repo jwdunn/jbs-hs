@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
+import android.widget.Button;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class GlobalMap extends MapActivity implements OnClickListener {
 	//fields
 	private MapView map; 
-	private MapController controller;
 	int checkHappy = 1;
 	int checkSad = 1;
 	MyLocationOverlay userLocationOverlay;
@@ -33,7 +32,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.globalmap);
+		setContentView(R.layout.map);
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -45,7 +44,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		//instantiates HappyData and creates an arraylist of all the bottles
 		HappyData datahelper = new HappyData(this);
-		ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
+		ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 		
 		//adds items to overlays
 		emotionOverlayFiller(1,plottables,happyOverlay);
@@ -76,7 +75,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		histButton.setOnClickListener(this);
 		
 		//Finds the my_map view
-		View myButton = findViewById(R.id.myMap);
+		View myButton = findViewById(R.id.map);
+		((Button) myButton).setText("MyMap");
 		myButton.setOnClickListener(this);
 	}
 
@@ -128,7 +128,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			newOverlay(); //method call
 			break;
 		
-		case R.id.myMap:
+		case R.id.map:
 			startActivity(new Intent(this, MyMap.class));
 			break;
 		
@@ -146,9 +146,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	
 	//Finds and initializes the map view.
 	private void initMapView() {
-		map = (MapView) findViewById(R.id.map);
-		controller = map.getController();
-		map.setStreetView(true); //sets default view to street view
+		map = (MapView) findViewById(R.id.themap);
 		//adds the sad and happy overlays to the map
 		map.getOverlays().add(sadOverlay);
 		map.getOverlays().add(happyOverlay);
@@ -159,13 +157,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
 		userLocationOverlay.enableMyLocation();
-		userLocationOverlay.runOnFirstFix(new Runnable() {
-			public void run() {
-				// Zoom in to current location
-				controller.animateTo(userLocationOverlay.getMyLocation());
-				controller.setZoom(15); //sets the map zoom level to 15
-			}
-		});
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 	

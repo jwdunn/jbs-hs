@@ -9,6 +9,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
+import android.widget.Button;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mymap);
+		setContentView(R.layout.map);
 		
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
@@ -74,7 +75,8 @@ public class MyMap extends MapActivity implements OnClickListener {
 		histButton.setOnClickListener(this);
 		
 		//Finds the my_map view
-		View myButton = findViewById(R.id.globalMap);
+		View myButton = findViewById(R.id.map);
+		((Button) myButton).setText("GlobalMap");
 		myButton.setOnClickListener(this);
 	}
 
@@ -126,7 +128,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 			newOverlay(); //method call
 			break;
 		
-		case R.id.globalMap:
+		case R.id.map:
 			startActivity(new Intent(this, GlobalMap.class));
 			break;
 		
@@ -144,7 +146,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	
 	//Finds and initializes the map view.
 	private void initMapView() {
-		map = (MapView) findViewById(R.id.map);
+		map = (MapView) findViewById(R.id.themap);
 		//adds the sad and happy overlays to the map
 		map.getOverlays().add(sadOverlay);
 		map.getOverlays().add(happyOverlay);

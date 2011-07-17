@@ -8,7 +8,7 @@
 
 <!-- Sahar's API key: 0_9Pks7VkRuhX3CGkkeQsPHyWtt26wWT8sI_Sig
 	Todd's API Key: 0daBwQHl-_TXlY02LntDucoHZUZ3ER3mjky_jWQ -->
-   <view android:id="@+id/map"
+   <view android:id="@+id/themap"
         class="com.google.android.maps.MapView"
   		android:apiKey="0daBwQHl-_TXlY02LntDucoHZUZ3ER3mjky_jWQ" 
   		android:layout_width="fill_parent"
@@ -52,8 +52,8 @@
 		android:stretchColumns="*" > 
 		<TableRow> 
 			<Button
-				android:id="@+id/myMap"
-				android:text="@string/myMap"
+				android:id="@+id/map"
+				android:text=""
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 
