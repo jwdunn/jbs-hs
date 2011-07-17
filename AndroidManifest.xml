@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 	<application android:icon="@drawable/happysad"
-		android:label="@string/app_name"
 		android:theme="@android:style/Theme.NoTitleBar" >
 		<uses-library android:name="com.google.android.maps" />
         <activity android:name=".Prompt"
