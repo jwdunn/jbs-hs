@@ -212,5 +212,7 @@ public class HappyData {
 		return cursor;
 	}
 
-
+	protected ArrayList<HappyBottle> getLocalRecent(int minLat, int maxLat, int minLong, int maxLong, int limit){
+		return net.downloadLocal(minLat, maxLat, minLong, maxLong, limit);
+	}
 }

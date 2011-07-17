@@ -97,7 +97,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
-		((Button) myButton).setText("MyMap");
+		((Button) myButton).setText("GlobalMap");
 		myButton.setOnClickListener(this);
 	}
 
