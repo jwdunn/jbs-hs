@@ -37,6 +37,14 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay<OverlayItem> {
 	    populate();
 	}
 	
+	/**
+	 * method to empty out overlay
+	 */
+	protected void emptyOverlay(){
+		this.overlay = new ArrayList<OverlayItem>();
+		populate();
+	}
+	
 	//method used to create an item given an overlay and a reference index number
 	protected OverlayItem createItem(int i) {
 	  return overlay.get(i);

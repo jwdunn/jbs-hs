@@ -300,7 +300,7 @@ public class NetHelper {
 		String page = "error";
 		try{
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLong + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
+			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
 			Log.d(TAG, request.getURI().toString());
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
