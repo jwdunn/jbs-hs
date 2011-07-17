@@ -68,10 +68,14 @@ public class More extends Activity implements OnClickListener {
 		case R.id.more_to_map:
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
-			Intent i = new Intent(this, GlobalMap.class);
+			Intent j = new Intent(this, GlobalMap.class);
+			j.putExtra("Street", true);
+			j.putExtra("Run", true);
+			j.putExtra("Happy", 1);
+			j.putExtra("Sad", 1);
 			saveUpdate(shareString); 
+			startActivity(j);
 			finish();
-			startActivity(i);
 			} else {
 				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 100);
 				toast.show();
