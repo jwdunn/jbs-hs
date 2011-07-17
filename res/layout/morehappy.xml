@@ -15,13 +15,12 @@ android:background="@drawable/promptback">
     android:layout_height="wrap_content" 
     android:layout_width="match_parent"
     android:layout_marginBottom="30dip" >
-    
-    
-        <TextView android:text="@string/more" 
-        android:id="@+id/textView1" 
-        android:layout_width="wrap_content" 
-        android:textSize="34.5sp" 
-        android:gravity="center"
+
+	<TextView android:text="@string/more" 
+	android:id="@+id/textView1" 
+	android:layout_width="wrap_content" 
+	android:textSize="34.5sp" 
+android:gravity="center"
         android:layout_height="wrap_content" 
         android:layout_weight="1"  >
         </TextView>
@@ -36,22 +35,19 @@ android:background="@drawable/promptback">
         android:id="@+id/more_textbox" 
         android:singleLine="true"
         android:layout_width="wrap_content" 
-        android:layout_height="match_parent"
-         />
+        android:layout_height="match_parent" />
          
         <FrameLayout android:gravity="center" 
         android:layout_height="wrap_content" 
         android:id="@+id/frameLayout1" 
         android:layout_width="match_parent"
-        android:layout_marginRight="50dip"
         android:layout_marginTop="100dip">
 			<Button 
-			android:id="@+id/more_to_map" 
-			android:layout_centerHorizontal="true" 
+			android:id="@+id/more_to_map"  
+			android:layout_gravity="center"
 			android:background="@drawable/smile"
 			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content">
-			</Button> 
+			android:layout_height="wrap_content" /> 
 			
         	</FrameLayout>
     	</TableLayout>	
