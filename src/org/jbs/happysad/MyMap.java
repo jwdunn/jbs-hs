@@ -43,7 +43,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		
 		//instantiates HappyData and creates an arraylist of all the bottles
 		HappyData datahelper = new HappyData(this);
-		ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
+		ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 		
 		//adds items to overlays
 		emotionOverlayFiller(1,plottables,happyOverlay);
@@ -74,7 +74,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		histButton.setOnClickListener(this);
 		
 		//Finds the my_map view
-		View myButton = findViewById(R.id.myMap);
+		View myButton = findViewById(R.id.globalMap);
 		myButton.setOnClickListener(this);
 	}
 
