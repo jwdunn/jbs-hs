@@ -173,6 +173,22 @@ public class More extends Activity implements OnClickListener {
 			GPS_longitude = Network_longitude;
 			GPS_latitude = Network_latitude;
 		}
+		//Sahar added this - if it still thinks we are at 0,0:
+		if (GPS_longitude == 0 && GPS_latitude ==0){
+			//then find the last known gps and network location, and set the gps to the most recent of these two locations.
+			Location lastKnownGPSLocation = gpsLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			Location lastKnownNetworkLocation = networkLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			Location lastBestKnownLocation;
+			if(lastKnownGPSLocation.getTime() > lastKnownNetworkLocation.getTime()){
+				lastBestKnownLocation = lastKnownGPSLocation;
+			}
+			else{
+				lastBestKnownLocation = lastKnownNetworkLocation;
+			}
+			GPS_latitude = (int) (lastBestKnownLocation.getLatitude()*1E6);
+			GPS_longitude = (int) (lastBestKnownLocation.getLongitude()*1E6);
+			
+		}
 		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);

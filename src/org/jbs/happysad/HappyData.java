@@ -79,34 +79,28 @@ public class HappyData {
 	//for each entry that isn't synced, send to database. 
 	protected void syncUp(){
 		SQLiteDatabase db = h.getReadableDatabase();
+		//now we check each row in the database to see if it's been synced yet. For those that haven't, and that belong to you:
 		Cursor cursor = db.query(TABLE_NAME, null, UID+"="+myID+" AND " + SYNC + "=0", null, null, null, null);
 		//iterate through the database
 		while (cursor.moveToNext() ){
-			long id = cursor.getLong(1);
-			int synced = cursor.getInt(7);
-			//now we check each row in the database to see if it's been synced yet.
-			if ((id == myID) && (synced == 0)) {
-				//if we hit a bottle that has not been synced, and is ours, we upload it.
-				HappyBottle b = createBottle(cursor);
-				Log.e(TAG, "NETSEND");
-				int rowid = cursor.getInt(0);
-
-				net.doTask(Task.SEND, b);
-				Log.e(TAG, "REMOVEBYID");
-				SQLiteDatabase dbwrite = h.getWritableDatabase();
-				ContentValues c = new ContentValues();
-				c.put(SYNC, 1);
-				Log.d(TAG, "update query is: "+ _ID+"="+rowid);
-				Log.d(TAG, "for msg: " + cursor.getString(5));
-				dbwrite.update(TABLE_NAME, c, _ID+"="+rowid , null);
-				dbwrite.close();
-				
-			}
-
+			//if we hit a bottle that has not been synced, and is ours, we upload it.
+			HappyBottle b = createBottle(cursor);
+			net.doTask(Task.SEND, b);
+			//we just uploaded it.
+			SQLiteDatabase dbwrite = h.getWritableDatabase();
+			ContentValues c = new ContentValues();
+			int rowid = cursor.getInt(0);
+			c.put(SYNC, 1);
+			Log.d(TAG, "update query is: "+ _ID+"="+rowid);
+			Log.d(TAG, "for msg: " + cursor.getString(5));
+			//with rowid, we find the unique identifier for this row
+			//then with update, we change SYNC to 1, but only for the column with our id.
+			dbwrite.update(TABLE_NAME, c, _ID+"="+rowid , null);
+			dbwrite.close();
 		} 
-		cursor.close();
-		db.close(); 
-	}
+	cursor.close();
+	db.close(); 
+}
 
 	//syncs down everything.
 	protected void syncDown(){
