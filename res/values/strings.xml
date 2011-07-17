@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="happysad_name">How Are You Feeling?</string>
+	<string name="happysad_name">How Are You?</string>
 	<string name="login_message">User Account: </string>
 	<string name="login_message_title">Your Logged In!</string>
 	<string name="error_login_message">We seemed to have a problem logging you in. go into settings, accounts and log into your Gmail account</string>
