@@ -79,7 +79,7 @@ public class HappyData {
 	//for each entry that isn't synced, send to database. 
 	protected void syncUp(){
 		SQLiteDatabase db = h.getReadableDatabase();
-		Cursor cursor = getCursor(db);
+		Cursor cursor = db.query(TABLE_NAME, null, UID+"="+myID+" AND " + SYNC + "=0", null, null, null, null);
 		//iterate through the database
 		while (cursor.moveToNext() ){
 			long id = cursor.getLong(1);
@@ -100,9 +100,7 @@ public class HappyData {
 				Log.d(TAG, "for msg: " + cursor.getString(5));
 				dbwrite.update(TABLE_NAME, c, _ID+"="+rowid , null);
 				dbwrite.close();
-				//we do two HORRIBLY WRONG things here.
-				//a. DONE instead of deleting a row in the db only to insert an almost-identical one, we should just alter the row in the db instead. 
-				//b. instead of looping through the cursor, we should make the appropriate call and let the server find the matching rows for us.
+				
 			}
 
 		} 
