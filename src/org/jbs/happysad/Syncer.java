@@ -3,11 +3,12 @@ package org.jbs.happysad;
 import android.content.Context;
 
 public class Syncer implements Runnable {
-	protected int myID;
+	private UIDhelper UIDh = new UIDhelper();
+	protected long myID;
 	private boolean running;
 	private HappyData h;
-	public Syncer(int id, Context ctx){
-		myID = id;
+	public Syncer(Context ctx){
+		myID = UIDh.getUID();
 		running = true;
 		h = new HappyData(ctx);
 	}
