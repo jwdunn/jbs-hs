@@ -15,7 +15,9 @@
  */
 package org.jbs.happysad;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.achartengine.ChartFactory;
@@ -28,7 +30,7 @@ import android.graphics.Color;
 /**
  * Budget demo pie chart.
  */
-public class Chart extends AbstractChart {
+public class ChartMonth extends AbstractChart {
   /**
    * Returns the chart name.
    * 
@@ -58,7 +60,11 @@ public class Chart extends AbstractChart {
 	HappyData datahelper = new HappyData(context);
 	ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
 	
-    double[] values = percentages(plottables);
+    //Testers.
+	int x = test(plottables);
+    String y = Integer.toString(x); 
+	
+	double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
     int[] colors = new int[] { Color.YELLOW, Color.BLUE };
     
@@ -88,12 +94,23 @@ public class Chart extends AbstractChart {
 		while(itr.hasNext()) {     
 		   	
 			HappyBottle element = itr.next();
+			
+			int x = new Timestamp (element.getTime()).getMonth() + 1;
+			
+			int y = new Timestamp (element.getTime()).getYear();
+			
+			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+			
+			int year = Calendar.getInstance().get(Calendar.YEAR);
 		     
-		   	if (element.getEmo() == 1){
-		    	happy += 1; 
-		     } else {
-		    	sad += 1; 
-		     }
+		   	if (x == month){
+		   		
+		   		if (element.getEmo() == 1){
+			    	happy += 1; 
+			     } else {
+			    	sad += 1; 
+			     }		
+		   	}	
 		} 
 		
 		double happyprctg = (happy * 100) / (happy + sad);
@@ -110,4 +127,16 @@ public class Chart extends AbstractChart {
 		
 		return values;
 	}
+  
+  //Tester.
+  public int test(ArrayList<HappyBottle> plottables){
+	  
+	  Iterator<HappyBottle> itr = plottables.iterator(); 
+   
+	  HappyBottle element = itr.next();
+			
+	  int x = new Timestamp (element.getTime()).getMonth();
+	  
+	  return x;
+  }
 }	

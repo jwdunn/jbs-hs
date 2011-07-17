@@ -15,7 +15,9 @@
  */
 package org.jbs.happysad;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.achartengine.ChartFactory;
@@ -28,7 +30,7 @@ import android.graphics.Color;
 /**
  * Budget demo pie chart.
  */
-public class Chart extends AbstractChart {
+public class ChartDay extends AbstractChart {
   /**
    * Returns the chart name.
    * 
@@ -60,7 +62,7 @@ public class Chart extends AbstractChart {
 	
     double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
-    int[] colors = new int[] { Color.YELLOW, Color.BLUE };
+    int[] colors = new int[] { Color.YELLOW, Color.CYAN };
     
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
@@ -88,12 +90,19 @@ public class Chart extends AbstractChart {
 		while(itr.hasNext()) {     
 		   	
 			HappyBottle element = itr.next();
+			
+			int x = new Timestamp (element.getTime()).getDate();
+			
+			int date = Calendar.getInstance().get(Calendar.DATE);
 		     
-		   	if (element.getEmo() == 1){
-		    	happy += 1; 
-		     } else {
-		    	sad += 1; 
-		     }
+		   	if (x == date){
+		   		
+		   		if (element.getEmo() == 1){
+			    	happy += 1; 
+			     } else {
+			    	sad += 1; 
+			     }		
+		   	}	
 		} 
 		
 		double happyprctg = (happy * 100) / (happy + sad);

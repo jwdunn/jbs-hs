@@ -15,7 +15,9 @@
  */
 package org.jbs.happysad;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.achartengine.ChartFactory;
@@ -28,7 +30,7 @@ import android.graphics.Color;
 /**
  * Budget demo pie chart.
  */
-public class Chart extends AbstractChart {
+public class ChartYear extends AbstractChart {
   /**
    * Returns the chart name.
    * 
@@ -60,7 +62,7 @@ public class Chart extends AbstractChart {
 	
     double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
-    int[] colors = new int[] { Color.YELLOW, Color.BLUE };
+    int[] colors = new int[] { Color.YELLOW, Color.CYAN };
     
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
@@ -88,12 +90,19 @@ public class Chart extends AbstractChart {
 		while(itr.hasNext()) {     
 		   	
 			HappyBottle element = itr.next();
+			
+			int x = new Timestamp (element.getTime()).getYear() + 1900;
+			
+			int year = Calendar.getInstance().get(Calendar.YEAR);
 		     
-		   	if (element.getEmo() == 1){
-		    	happy += 1; 
-		     } else {
-		    	sad += 1; 
-		     }
+		   	if (x == year){
+		   		
+		   		if (element.getEmo() == 1){
+			    	happy += 1; 
+			     } else {
+			    	sad += 1; 
+			     }		
+		   	}	
 		} 
 		
 		double happyprctg = (happy * 100) / (happy + sad);
@@ -110,4 +119,28 @@ public class Chart extends AbstractChart {
 		
 		return values;
 	}
+  
+  /*
+  public ArrayList<Integer> getYears(ArrayList<HappyBottle> plottables){
+		Iterator<HappyBottle> itr = plottables.iterator(); 
+		ArrayList<Integer> year = new ArrayList<Integer>();
+		while(itr.hasNext()) {     
+		   	HappyBottle element = itr.next();
+		   	
+		   	String date = new Timestamp (element.getTime()).toString();
+		   	
+		   	String a = date.substring(0, 4);
+		   	
+		   	int x = Integer.parseInt(a);
+		   	
+		   	int w = new Timestamp (element.getTime()).getYear();
+		   	
+		   	year.add(w);
+		     
+		} 
+		
+		return year;
+	}
+	*/
+  
 }	
