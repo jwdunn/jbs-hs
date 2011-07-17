@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
@@ -23,6 +24,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	int checkHappy = 1;
 	int checkSad = 1;
 	MyLocationOverlay userLocationOverlay;
+	private MapController controller;
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay; 
 	
@@ -147,17 +149,24 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	//Finds and initializes the map view.
 	private void initMapView() {
 		map = (MapView) findViewById(R.id.themap);
+		controller = map.getController();
 		//adds the sad and happy overlays to the map
 		map.getOverlays().add(sadOverlay);
 		map.getOverlays().add(happyOverlay);
 		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
 	}
 	
-	//Starts tracking the users position on the map. 
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
 		userLocationOverlay.enableMyLocation();
-		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
+		userLocationOverlay.runOnFirstFix(new Runnable() {
+			public void run() {
+				// Zoom in to current location
+				controller.setZoom(15);
+				controller.animateTo(userLocationOverlay.getMyLocation());
+			}
+		});
+		map.getOverlays().add(userLocationOverlay);
 	}
 	
 	
