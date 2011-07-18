@@ -29,7 +29,7 @@ public class UIDhelper{
 		final AccountManager manager = AccountManager.get(ctx);
 		final Account[] accounts = manager.getAccounts();   
 
-		if (accounts.length > 1){
+		if (accounts.length >= 1){
 
 			//ok so we know there's at least one account being used. 
 			//let's use it.
