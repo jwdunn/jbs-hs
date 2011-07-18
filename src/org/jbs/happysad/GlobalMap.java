@@ -120,12 +120,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		
-		//updateToView();
-		//adds items to overlays
-		//emotionOverlayFiller(1,plottables,happyOverlay);
-		//emotionOverlayFiller(0,plottables,sadOverlay);
-		
 		switch(v.getId()){
 		
 		//checks what current view is, then switches it off and starts the alternate view

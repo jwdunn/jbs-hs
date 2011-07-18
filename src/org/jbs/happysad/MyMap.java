@@ -234,6 +234,9 @@ public class MyMap extends MapActivity implements OnClickListener {
 	    	run = true;
 	        goToMyLocation();
 	        return true;
+	    case R.id.new_update:
+	    	startActivity(new Intent(this, Prompt.class));
+	        return true;
 	        
 	    default:
 	        return super.onOptionsItemSelected(item);
