@@ -237,8 +237,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		return null;
 	}
 
-	private void startStabilizeLatLong(){
-
+	private void stablePainter(){
+		//Creates a new runnable that stabalizes the screen
 		Runnable runnable = new Runnable(){
 			@Override
 			public void run(){
@@ -251,9 +251,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 							Thread.sleep(80);
 						}catch (InterruptedException ex){
 							ex.printStackTrace();
-						}}
-					else {//OK that means the map has stabilized and if we get height and width will have be real values. 
-						handler.removeCallbacks(latestThread); //if you have another of these tasks queued for the handler, remove it. 
+						}
+				//map is stabilized and if we get height and width will have be real values. 
+				} else {
+						//remove other tasks if queued for the handler
+						handler.removeCallbacks(latestThread); 
+						//new Runnable that updates the overlay
 						latestThread = new Runnable(){
 							@Override
 							public void run(){
@@ -265,8 +268,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 								}
 							}
 						};
-						handler.postDelayed(latestThread, 10); //delay the posing of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
-						maxcount = 0; //we are sure to exit this infernal loop
+						handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
+						maxcount = 0; //exit internal loop
 						return;
 					}	};}};
 
@@ -279,7 +282,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		protected Void doInBackground(Void... params) {
 			while(true){
 				if(isMoved()){
-					startStabilizeLatLong();
+					stablePainter();
 				}
 				try {
 					Thread.sleep(100);
@@ -324,7 +327,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		zpl = new ZoomPanListener();
 		zpl.execute(null);
 		center = new GeoPoint(-1,-1); //fake a move so that updater thinks we've moved and populates the initial screen.
-		startStabilizeLatLong();
+		stablePainter();
 		
 		
 	}
