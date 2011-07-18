@@ -5,26 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
-import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
-import org.achartengine.chartdemo.demo.chart.BudgetDoughnutChart;
-import org.achartengine.chartdemo.demo.chart.BudgetPieChart;
-import org.achartengine.chartdemo.demo.chart.CombinedTemperatureChart;
-import org.achartengine.chartdemo.demo.chart.ChartInterface;
-import org.achartengine.chartdemo.demo.chart.MultipleTemperatureChart;
-import org.achartengine.chartdemo.demo.chart.ProjectStatusBubbleChart;
-import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
-import org.achartengine.chartdemo.demo.chart.SalesBarChart;
-import org.achartengine.chartdemo.demo.chart.SalesComparisonChart;
-import org.achartengine.chartdemo.demo.chart.SalesStackedBarChart;
-import org.achartengine.chartdemo.demo.chart.ScatterChart;
-import org.achartengine.chartdemo.demo.chart.SensorValuesChart;
-import org.achartengine.chartdemo.demo.chart.TemperatureChart;
-import org.achartengine.chartdemo.demo.chart.TrigonometricFunctionsChart;
-import org.achartengine.chartdemo.demo.chart.WeightDialChart;
-import org.achartengine.chartdemo.demo.chart.XYChartBuilder;
-*/
-
 import org.jbs.happysad.ChartOverall;
 import android.app.ListActivity;
 import android.content.Intent;
