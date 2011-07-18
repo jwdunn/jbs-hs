@@ -333,6 +333,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	    	run = true;
 	        goToMyLocation();
 	        return true;
+	    case R.id.new_update:
+	    	startActivity(new Intent(this, GlobalMap.class));
 	        
 	    default:
 	        return super.onOptionsItemSelected(item);
