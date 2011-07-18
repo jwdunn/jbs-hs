@@ -7,6 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Creates a Global Map view with Google Maps API with everyone's HappyBottles
@@ -29,11 +33,14 @@ import java.util.ArrayList;
 public class GlobalMap extends MapActivity implements OnClickListener {
 	//fields
 	private static final String TAG = "GlobalMap";
-	private MapView map;
-	private MapController controller;
-	int checkHappy = 1;
-	int checkSad = 1;
+	private MapView map; 
+	int checkHappy;
+	int checkSad;
+	boolean run;
+	boolean check;
+	int streetView;
 	MyLocationOverlay userLocationOverlay;
+	private MapController controller;
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay;
 	HappyData datahelper = new HappyData(this);
@@ -52,6 +59,11 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
 
+		checkHappy = getIntent().getExtras().getInt("Happy");
+		checkSad = getIntent().getExtras().getInt("Sad");
+		run = getIntent().getExtras().getBoolean("Run");
+		streetView = getIntent().getExtras().getInt("Street");
+
 		//Defines the drawable items for the happy and sad overlays
 		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
 		Drawable sadface = this.getResources().getDrawable(R.drawable.pinsad);
@@ -59,14 +71,11 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		//initializes the happy and sad overlays
 		happyOverlay = new ItemizedEmotionOverlay(happyface, this);	
 		sadOverlay = new ItemizedEmotionOverlay(sadface, this);
-
 		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();	
 
-		//adds items to overlays
-		//emotionOverlayFiller(1,plottables,happyOverlay);
-		//emotionOverlayFiller(0,plottables,sadOverlay);
+		
 
 		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
@@ -83,17 +92,16 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		//Finds the chart_button view
 		View chartButton = findViewById(R.id.myTrack_button);
 		chartButton.setOnClickListener(this);  	
-
-		//Finds the history_button view
+		
 		View histButton = findViewById(R.id.myChart_button);
 		histButton.setOnClickListener(this);
-
+		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
 		((Button) myButton).setText("MyMap");
 		myButton.setOnClickListener(this);
 
-		center = new GeoPoint(0,0);
+		center = new GeoPoint(-1,-1);
 		zoomLevel = -1;
 		handler = new Handler();
 
@@ -104,18 +112,20 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-
 		switch(v.getId()){
 
 		//checks what current view is, then switches it off and starts the alternate view
 		case R.id.switchView:
-			if (map.isStreetView()==false){
+			if (streetView==0) {
 				map.setStreetView(true);
+				streetView = 1;
 				map.setSatellite(false);  
 			} else{
 				map.setStreetView(false);
+				streetView = 0;
 				map.setSatellite(true);
 			}
+			map.invalidate();
 			break;
 
 			//used to show/hide the happy faces
@@ -129,8 +139,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 					map.getOverlays().add(sadOverlay);  //if sad faces should be visible, it adds them back
 				}
 				checkHappy = 0;
-				newOverlay(); //method call
 			}
+			invalidateOverlay(); //method call
 			break;
 
 			//used to show/hide the sad faces
@@ -140,22 +150,30 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 				checkSad = 1; 
 			} else{
 				map.getOverlays().clear(); //clears all overlays
-				if (this.checkHappy==1){
+				if (checkHappy==1) {
 					map.getOverlays().add(happyOverlay); //if happy faces should be visible, it adds them back
 				}
 				checkSad = 0;
-				newOverlay(); //method call
 			}
+			invalidateOverlay(); //method call
 			break;
 
 		case R.id.map:
-			startActivity(new Intent(this, MyMap.class));
+			Intent j = new Intent(this, MyMap.class);
+			j.putExtra("Street", streetView);
+			j.putExtra("Run", false);
+			j.putExtra("Happy", checkHappy);
+			j.putExtra("Sad", checkSad);
+			startActivity(j);
+			finish();
 			break;
 
 		case R.id.myTrack_button:
 			startActivity(new Intent(this, History.class));
 			break;
+		
 		case R.id.myChart_button:
+			startActivity(new Intent(this, ChartList.class));
 			break;
 		}
 
@@ -163,7 +181,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	}
 
 	//helper method for showHappy and showSad onClick cases
-	private void newOverlay() {
+	private void invalidateOverlay() {
 		map.getOverlays().add(userLocationOverlay);
 	}
 
@@ -171,24 +189,43 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private void initMapView() {
 		map = (MapView) findViewById(R.id.themap);
 		controller = map.getController();
-		map.setStreetView(true); //sets default view to street view
+		
+		//checks streetView
+		if (streetView == 1) {
+			map.setStreetView(true);
+			map.setSatellite(false);
+		} else {
+			map.setStreetView(false);
+			map.setSatellite(true);	
+		}
+		map.invalidate();	
+
 		//adds the sad and happy overlays to the map
-		map.getOverlays().add(sadOverlay);
-		map.getOverlays().add(happyOverlay);
+		if (checkSad == 1)
+			map.getOverlays().add(sadOverlay);
+		if (checkHappy == 1) 
+			map.getOverlays().add(happyOverlay);
 		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
+
 	}
 
 	//Starts tracking the users position on the map. 
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
 		userLocationOverlay.enableMyLocation();
-		userLocationOverlay.runOnFirstFix(new Runnable() {
-			public void run() {
-				// Zoom in to current location
-				controller.animateTo(userLocationOverlay.getMyLocation());
-				controller.setZoom(15); //sets the map zoom level to 15
-			}
-		});
+	}
+	
+	private void goToMyLocation() {
+		if (run == true) {
+			map.getOverlays().add(userLocationOverlay);
+			userLocationOverlay.runOnFirstFix(new Runnable() {
+				public void run() {
+					// Zoom in to current location
+					controller.animateTo(userLocationOverlay.getMyLocation());
+					controller.setZoom(15); //sets the map zoom level to 15
+				}
+			});
+		}
 		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
 	}
 
@@ -231,6 +268,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	//to sync and update bottles with mapview
 	private ArrayList<HappyBottle> updater(){
 		if(isMoved()){
+			center = map.getMapCenter();
+			zoomLevel = map.getZoomLevel();
 			Log.d(TAG, "updatetoview from updater");
 			return updateToView();
 		}
@@ -295,13 +334,13 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		return false;
 	}
 
+
 	public boolean isMoved() {
 		GeoPoint trueCenter =map.getMapCenter();
 		int trueZoom = map.getZoomLevel();
 
 		if(!((trueCenter.equals(center)) && (trueZoom == zoomLevel))){
-			center = map.getMapCenter();
-			zoomLevel = map.getZoomLevel();
+			
 			Log.d(TAG, "You moved!:" + center.toString() + " zoom: " + zoomLevel);
 			return true;
 		}
@@ -309,6 +348,32 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			return false;
 		}
 	}
+
+
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.current_location:
+	    	run = true;
+	        goToMyLocation();
+	        return true;
+	    case R.id.new_update:
+	    	startActivity(new Intent(this, GlobalMap.class));
+	        
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 
 	//Disables MyLocation
 	@Override
@@ -324,11 +389,13 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		userLocationOverlay.enableMyLocation();
+		Random r = new Random();
+		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
 		zpl = new ZoomPanListener();
 		zpl.execute(null);
-		center = new GeoPoint(-1,-1); //fake a move so that updater thinks we've moved and populates the initial screen.
+		
 		stablePainter();
 		
-		
+	
 	}
 }

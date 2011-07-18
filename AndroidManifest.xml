@@ -5,32 +5,50 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET"/> 
+	<uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 	<application android:icon="@drawable/happysad"
-		android:label="@string/app_name"
-		android:theme="@android:style/Theme.NoTitleBar" >
+		android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+		android:label="@string/app_name">
 		<uses-library android:name="com.google.android.maps" />
-		
         <activity android:name=".Prompt"
-        		  android:screenOrientation="portrait" >
+                  android:screenOrientation="portrait" >
            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MyMap"
+        	      android:screenOrientation="portrait" >
+        </activity>
         <activity android:name=".More"
            		  android:screenOrientation="portrait" 	/>
         <activity android:name=".MyMap"   
-        	      android:launchMode="singleTask"
       	          android:screenOrientation="portrait" />
         <activity android:name=".GlobalMap"
-        	      android:launchMode="singleTask"
         	      android:screenOrientation="portrait" />
         <activity android:name=".History"
         	      android:screenOrientation="portrait"  />
+       	<activity android:name=".ChartList"
+        	      android:screenOrientation="portrait"  />
         <activity 
         		android:name=".UIDhelper" />
+        <activity 
+        		android:name="org.achartengine.GraphicalActivity"
+       	      android:screenOrientation="portrait" />
+        <activity android:name=".History"
+        	      android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".GlobalMap"
+        	      android:screenOrientation="portrait" >
+        </activity>
+		<activity android:name=".ChartList"
+                  android:screenOrientation="portrait" >
+        </activity>
+
+		<activity android:name=".GeneratedChartDemo" />
 	</application>
+
 </manifest>

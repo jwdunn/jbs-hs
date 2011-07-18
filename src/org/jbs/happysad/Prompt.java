@@ -39,7 +39,7 @@ public class Prompt extends Activity implements OnClickListener{
 		sadButton.setOnClickListener(this);
 
 		//Finds the submit_button view
-		View submitButton = findViewById(R.id.more_to_dash);
+		View submitButton = findViewById(R.id.more_to_map);
 		submitButton.setOnClickListener(this);
 
 		UIDh = new UIDhelper();
@@ -54,12 +54,6 @@ public class Prompt extends Activity implements OnClickListener{
 		t = new Thread(s);
 		t.start();
 	}
-
-	
-		
-		
-
-
 
 		/**
 		 * Invoked when a view is clicked
@@ -78,16 +72,22 @@ public class Prompt extends Activity implements OnClickListener{
 				i.putExtra("Emotion", 0);
 				startActivity(i);
 				break;
-			case R.id.more_to_dash:
-				startActivity(new Intent(this, GlobalMap.class));
+			case R.id.more_to_map:
+				Intent j = new Intent(this, MyMap.class);
+				j.putExtra("Street", 1);
+				j.putExtra("Run", true);
+				j.putExtra("Happy", 1);
+				j.putExtra("Sad", 1);
+				startActivity(j);
 				break;
 			}
 		}
 
 		//Safes 
+		@Override
 		public void onDestroy(){
-			s.safeShutdown();
 			super.onDestroy();
+			s.safeShutdown();
 		}
 
 		// here is the has function. it inputs the username and turns it into an integer.
