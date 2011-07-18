@@ -28,7 +28,11 @@
         	      android:screenOrientation="portrait" />
         <activity android:name=".History"
         	      android:screenOrientation="portrait"  />
+       	<activity android:name=".ChartList"
+        	      android:screenOrientation="portrait"  />
         <activity 
         		android:name=".UIDhelper" />
+        <activity 
+        		android:name="org.achartengine.GraphicalActivity"/>
 	</application>
 </manifest>

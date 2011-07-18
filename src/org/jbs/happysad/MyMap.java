@@ -87,13 +87,13 @@ public class MyMap extends MapActivity implements OnClickListener {
 		View switchButton = findViewById(R.id.switchView);
 		switchButton.setOnClickListener(this); 
 		
-		//Finds the chart_button view
-		View chartButton = findViewById(R.id.myTrack_button);
-		chartButton.setOnClickListener(this);  	
+		//Finds the history_button view
+		View histButton = findViewById(R.id.myTrack_button);
+		histButton.setOnClickListener(this);  	
 		
 		//Finds the history_button view
-		View histButton = findViewById(R.id.myChart_button);
-		histButton.setOnClickListener(this);
+		View chartButton = findViewById(R.id.myChart_button);
+		chartButton.setOnClickListener(this);
 		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
@@ -163,13 +163,18 @@ public class MyMap extends MapActivity implements OnClickListener {
 		case R.id.myTrack_button:
 			startActivity(new Intent(this, History.class));
 			break;
+		
+		case R.id.myChart_button:
+			startActivity(new Intent(this, ChartList.class));
+			break;
 		}
+		map.invalidate();
+
 	}
 	
 	//helper method for showHappy and showSad onClick cases
 	private void invalidateOverlay() {
 		map.getOverlays().add(userLocationOverlay);
-		map.invalidate();
 	}
 	
 	//Finds and initializes the map view.
