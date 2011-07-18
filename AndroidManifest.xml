@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 	<application android:icon="@drawable/happysad"
-		android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+		android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
 		android:label="@string/app_name">
 		<uses-library android:name="com.google.android.maps" />
         <activity android:name=".Prompt"
