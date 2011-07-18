@@ -36,8 +36,8 @@
         <activity 
         		android:name=".UIDhelper" />
         <activity 
-        		android:name="org.achartengine.GraphicalActivity"/>
-       	      android:screenOrientation="portrait" >
+        		android:name="org.achartengine.GraphicalActivity"
+       	      android:screenOrientation="portrait" />
         <activity android:name=".History"
         	      android:screenOrientation="portrait" >
         </activity>
