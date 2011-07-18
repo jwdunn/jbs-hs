@@ -53,7 +53,7 @@
 				android:layout_width="fill_parent" >
 				
 				<Button 
-					android:text="Skip to Dashboard" 
+					android:text="@string/skip" 
 					android:id="@+id/more_to_map" 
 					android:layout_centerHorizontal="true" 
 					android:layout_marginTop="50dip" 

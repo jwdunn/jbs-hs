@@ -43,7 +43,7 @@ public class ChartYear extends AbstractChart {
   public Intent execute(Context context) {
 	  
 	HappyData datahelper = new HappyData(context);
-	ArrayList<HappyBottle> plottables = datahelper.getAllHistory();
+	ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 	
     double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
