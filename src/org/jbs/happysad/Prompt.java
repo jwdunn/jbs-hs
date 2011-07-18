@@ -74,8 +74,7 @@ public class Prompt extends Activity implements OnClickListener{
 				break;
 			case R.id.more_to_map:
 				Intent j = new Intent(this, MyMap.class);
-				j.putExtra("Check", true);
-				j.putExtra("Street", true);
+				j.putExtra("Street", 1);
 				j.putExtra("Run", true);
 				j.putExtra("Happy", 1);
 				j.putExtra("Sad", 1);
