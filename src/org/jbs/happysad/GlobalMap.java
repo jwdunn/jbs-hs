@@ -367,7 +367,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	        goToMyLocation();
 	        return true;
 	    case R.id.new_update:
-	    	startActivity(new Intent(this, GlobalMap.class));
+	    	startActivity(new Intent(this, Prompt.class));
 	        
 	    default:
 	        return super.onOptionsItemSelected(item);
