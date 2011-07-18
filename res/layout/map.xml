@@ -11,7 +11,7 @@
 	Taha's: 0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ  -->
    <view android:id="@+id/themap"
         class="com.google.android.maps.MapView"
-  		android:apiKey="0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ" 
+  		android:apiKey="0_9Pks7VkRuhX3CGkkeQsPHyWtt26wWT8sI_Sig" 
   		android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
   		 android:enabled="true"
