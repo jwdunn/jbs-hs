@@ -82,19 +82,19 @@ public class ChartMonth extends AbstractChart {
 			
 			int x = new Timestamp (element.getTime()).getMonth() + 1;
 			
-			int y = new Timestamp (element.getTime()).getYear();
+			int y = new Timestamp (element.getTime()).getYear() + 1900;
 			
 			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 			
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 		     
-		   	if (x == month){
+		   	if (y == year && x == month){
 		   		
 		   		if (element.getEmo() == 1){
 			    	happy += 1; 
 			     } else {
 			    	sad += 1; 
-			     }		
+			     }					
 		   	}	
 		} 
 		
@@ -120,7 +120,7 @@ public class ChartMonth extends AbstractChart {
    
 	  HappyBottle element = itr.next();
 			
-	  int x = new Timestamp (element.getTime()).getMonth();
+	  int x = new Timestamp (element.getTime()).getYear();
 	  
 	  return x;
   }
