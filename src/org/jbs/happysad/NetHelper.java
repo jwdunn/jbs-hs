@@ -58,7 +58,7 @@ public class NetHelper {
 		try {
 
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/finduser.json?email=" + name));
+			request.setURI(new URI("http://happytrack.heroku.com/finduser.json?email=" + name));
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
 			page = connectionHelper(request);
@@ -111,9 +111,9 @@ public class NetHelper {
 
 		URI url;
 		try { 
-			url = new URI("http", "stark-water-134.heroku.com", "/users.json", data, null); 
+			url = new URI("http", "happytrack.heroku.com", "/users.json", data, null); 
 			//visit this url using POST (note, will not work with GET)
-			//http://stark-water-134.heroku.com/users.json?user[email]=sayhar@gmail.com
+			//http://happytrack.heroku.com/users.json?user[email]=sayhar@gmail.com
 			request.setURI(url);
 			Log.d(TAG, "data: "+ data);
 			Log.d(TAG, "uRL: " + url);
@@ -148,9 +148,9 @@ public class NetHelper {
 		try {
 			//so we set up the get request as normal
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
+			request.setURI(new URI("http://happytrack.heroku.com/bottles.json"));
 			if( t.equals(Task.GETMINE)){
-				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/" + myID+".json"));
+				request.setURI(new URI("http://happytrack.heroku.com/bottles/" + myID+".json"));
 			}
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
@@ -177,7 +177,7 @@ public class NetHelper {
 
 		URI url;
 		try { 
-			url = new URI("http", "stark-water-134.heroku.com", "/bottles", data, null);
+			url = new URI("http", "happytrack.heroku.com", "/bottles", data, null);
 			//here we add the data to the url (POST) and then of course send it to connectionhelper to do all the heavy lifting 
 			request.setURI(url);
 			Log.d(TAG, "data: "+ data);
@@ -300,7 +300,7 @@ public class NetHelper {
 		String page = "error";
 		try{
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
+			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
 			Log.d(TAG, request.getURI().toString());
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
