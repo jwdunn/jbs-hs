@@ -22,25 +22,16 @@
 		android:layout_gravity="top"  
 		android:layout_marginTop="3dp"
 		android:stretchColumns="*" 
-		android:layout_height="100dp" 
+		android:layout_height="50dp" 
 		android:layout_width="wrap_content" 
 		android:background="@drawable/toolbar" > 
 		<TableRow>
 			<Button android:id="@+id/arrowLeft"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:textSize="12sp" 
-            android:text="Left Arrow" />
-            
-        <Button android:id="@+id/arrowRight"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:textSize="12sp" 
-            android:text="Right Arrow" />
-		</TableRow> 
-		<TableRow> 
+            	android:layout_width="fill_parent"
+            	android:layout_height="wrap_content"
+            	android:layout_weight="1.0"
+            	android:textSize="12sp" 
+            	android:text=" L " />
 			<Button
 				android:id="@+id/date_button" 
 				android:text="@string/setDate_name"
@@ -55,6 +46,12 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 
 				android:textSize="12sp" /> 
+			<Button android:id="@+id/arrowRight"
+            	android:layout_width="fill_parent"
+            	android:layout_height="wrap_content"
+            	android:layout_weight="1.0"
+            	android:textSize="12sp" 
+            	android:text=" R " /> 
 		</TableRow>
 	</TableLayout>
 
