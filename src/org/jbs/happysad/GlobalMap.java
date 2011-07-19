@@ -67,7 +67,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	//---------------For Date and Time------------------------------------------------------------------------------------//
 	  
 	private Time timeForView = new Time();
-	private long epochChecker;
+	private long epochChecker; // used to check if time changed
+	private long timeReference = 0; //used to move forward in time
 	
 	private int year;
 	private int month;
@@ -298,13 +299,18 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			HappyData newdatahelper = new HappyData(this);
 			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
 			if(temp != null && temp.size()!=0){
-				epochTime = temp.get(newBottles.size()-1).getTime();
-				timeForView.set(epochTime+1);
+				if (newBottles == null || newBottles.size() == 0){
+					epochTime = timeReference;
+				}
+				else{
+					epochTime = temp.get(temp.size()-1).getTime();
+				}
+				timeForView.set(epochTime);
 				setTimeObjectValues();
 				dateTimeUpdate();
 			}			
 			else{
-				Toast.makeText(getBaseContext(), "No more entries exist.", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "No future entries exist for this view.", Toast.LENGTH_LONG).show();
 			}
 			break;
 			
@@ -419,7 +425,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	}
 
 	private void stablePainter(){
-		//Creates a new runnable that stabalizes the screen
+		//Creates a new runnable that stabilizes the screen
 		Runnable runnable = new Runnable(){
 			@Override
 			public void run(){
@@ -444,6 +450,9 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 								Log.d(TAG, "running the thread that updates the overlays");
 								ArrayList<HappyBottle> temp = newBottles;
 								newBottles = updater();
+								if (newBottles != null && newBottles.size() != 0){
+									timeReference = newBottles.get(0).getTime();
+								}
 								if (!(newBottles.equals(temp))){
 									emotionOverlayAdder(1,newBottles,happyOverlay);
 									emotionOverlayAdder(0,newBottles,sadOverlay);
