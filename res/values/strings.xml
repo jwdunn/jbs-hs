@@ -19,6 +19,8 @@
 	<string name="update_name">Update</string>
 	<string name="myTrack_name">MyTrack</string>
 	<string name="myChart_name">MyChart</string>
+	<string name="setDate_name">Set Date</string>
+	<string name="setTime_name">Set Time</string>
 	
 	<string name="empty">No events!</string>
 	<string name="refresh_name">Refresh</string>
