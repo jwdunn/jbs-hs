@@ -84,6 +84,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		histButton.setOnClickListener(this);  	
 		
 		//Finds the history_button view
+
 		View chartButton = findViewById(R.id.myChart_button);
 		chartButton.setOnClickListener(this);
 		
