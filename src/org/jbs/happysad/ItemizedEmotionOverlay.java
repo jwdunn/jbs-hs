@@ -41,7 +41,8 @@ public class ItemizedEmotionOverlay extends ItemizedOverlay<OverlayItem> {
 	 * method to empty out overlay
 	 */
 	protected void emptyOverlay(){
-		this.overlay = new ArrayList<OverlayItem>();
+		overlay.clear();
+		setLastFocusedIndex(-1);
 		populate();
 	}
 	

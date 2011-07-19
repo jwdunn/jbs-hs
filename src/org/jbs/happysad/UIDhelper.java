@@ -28,8 +28,10 @@ public class UIDhelper{
 		if ( tempID >=0 ){ return tempID;}
 		final AccountManager manager = AccountManager.get(ctx);
 		final Account[] accounts = manager.getAccounts();   
+
         String username = getGmail(accounts); 
 		if (!username.equals("no")){
+
 
 			//ok so we know there's at least one account being used. 
 			//let's use it.

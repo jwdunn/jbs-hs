@@ -6,6 +6,7 @@
 	<string name="login_message">User Account: </string>
 	<string name="login_message_title">Your Logged In!</string>
 	<string name="error_login_message">We seemed to have a problem logging you in. go into settings, accounts and log into your Gmail account</string>
+	<string name="skip">Skip</string>
 	
 	<string name="more">Why?</string>
 	<string name="whyHappy">why are you happy?</string>

@@ -39,9 +39,8 @@ public class More extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		//Intent to figure out whether they clicked happy or sad from Prompt.java
-		Intent sender = getIntent();
-		extradata = sender.getExtras().getString("Clicked");
-		emotion = (short) sender.getExtras().getInt("Emotion");
+		extradata = getIntent().getExtras().getString("Clicked");
+		emotion = (short) getIntent().getExtras().getInt("Emotion");
 
 		if(emotion == 1){
 			setContentView(R.layout.morehappy);
@@ -69,10 +68,14 @@ public class More extends Activity implements OnClickListener {
 		case R.id.more_to_map:
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
-			Intent i = new Intent(this, GlobalMap.class);
+			Intent j = new Intent(this, MyMap.class);
+			j.putExtra("Street", true);
+			j.putExtra("Run", true);
+			j.putExtra("Happy", 1);
+			j.putExtra("Sad", 1);
 			saveUpdate(shareString); 
+			startActivity(j);
 			finish();
-			startActivity(i);
 			} else {
 				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 100);
 				toast.show();
