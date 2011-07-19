@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -59,12 +60,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	Runnable latestThread;
 	ZoomPanListener zpl;
 	boolean enableChart;
+	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
+	int bottlesPerView = 10;
 	//private volatile long timelatestbottle;
 
 	//---------------For Date and Time------------------------------------------------------------------------------------//
 	  
 	private Time timeForView = new Time();
-	private Time timeForCheck = new Time();
+	private long epochChecker;
 	
 	private int year;
 	private int month;
@@ -259,29 +262,31 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			
 		case R.id.date_button:
 			showDialog(DATE_DIALOG_ID);
+			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 	
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
+			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 			
 		case R.id.arrowLeft:
 			if (newBottles == null){
-				Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
 			}
 			else if (newBottles.size()==0){
-				Toast.makeText(getBaseContext(), "newBottles has size 0", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "newBottles has size 0", Toast.LENGTH_LONG).show();
 			}
 			if(newBottles != null && newBottles.size()>0){
 				epochTime = newBottles.get(newBottles.size()-1).getTime();
 				//epochTime = newBottles.get(0).getTime();
 				timeForView.set(epochTime);
 				setTimeObjectValues();
+				//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			}
 			break;	
 			
 		case R.id.arrowRight:
-			
 			int centerLat = center.getLatitudeE6(); //finds center's latitude
 			int centerLong = center.getLongitudeE6(); //finds center's longitude
 			int width = map.getLongitudeSpan(); //gets width of view in terms of longitudes shown on screen
@@ -291,17 +296,19 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			int maxLat = centerLat+height/2; //gets the top most latitude shown
 			int minLat = centerLat-height/2; //gets the bottom most latitude shown
 			HappyData newdatahelper = new HappyData(this);
-			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,10,epochTime);
-			epochTime = temp.get(newBottles.size()-1).getTime();
-			timeForView.set(epochTime+1);
-			setTimeObjectValues();
-			dateTimeUpdate();
-			
-			
+			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
+			if(temp != null && temp.size()!=0){
+				epochTime = temp.get(newBottles.size()-1).getTime();
+				timeForView.set(epochTime+1);
+				setTimeObjectValues();
+				dateTimeUpdate();
+			}			
+			else{
+				Toast.makeText(getBaseContext(), "No more entries exist.", Toast.LENGTH_LONG).show();
+			}
 			break;
 			
 		}
-
 		map.invalidate();
 	}
 
@@ -357,14 +364,17 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	}
 
 
+	
+	
 	//creates an emotion overlay
-	private static synchronized void emotionOverlaySetter(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
-
+	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
+		
 		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
-		overlay.emptyOverlay();
+		//overlay.emptyOverlay();
 		for(HappyBottle bottle : toshow) {
-
-			if (bottle.getEmo()==emotion) { //happy or sad filter
+			if( !filter.contains(bottle) && bottle.getEmo() == emotion){
+				//happy or sad filter^
+				filter.add(bottle);
 				int latitude = bottle.getLat();
 				int longitude = bottle.getLong();
 				GeoPoint point = new GeoPoint(latitude,longitude);
@@ -379,6 +389,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	 */
 	private ArrayList<HappyBottle> updateToView(){
 		//Log.w("updateToView", "ERROR in new method");
+		epochChecker = epochTime;
 		GeoPoint center = map.getMapCenter(); //gets coordinates for map view's center
 		int centerLat = center.getLatitudeE6(); //finds center's latitude
 		int centerLong = center.getLongitudeE6(); //finds center's longitude
@@ -390,7 +401,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d("Coordinates", "minLong: "+minLong+"minLat: "+minLat+"maxLong"+maxLong+"maxLat"+maxLat);
 		//return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
-		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,10,epochTime);
+		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
 	}
 
 	//to sync and update bottles with mapview
@@ -401,7 +412,10 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			Log.d(TAG, "updatetoview from updater");
 			return updateToView();
 		}
-		return newBottles;
+		else{
+			//Toast.makeText(getBaseContext(), "OldBottles: ", Toast.LENGTH_LONG).show();
+			return newBottles;	
+		}
 	}
 
 	private void stablePainter(){
@@ -431,9 +445,10 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 								ArrayList<HappyBottle> temp = newBottles;
 								newBottles = updater();
 								if (!(newBottles.equals(temp))){
-									emotionOverlaySetter(1,newBottles,happyOverlay);
-									emotionOverlaySetter(0,newBottles,sadOverlay);
+									emotionOverlayAdder(1,newBottles,happyOverlay);
+									emotionOverlayAdder(0,newBottles,sadOverlay);
 								}
+								map.invalidate();
 							}
 						};
 						handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
@@ -471,6 +486,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		@Override
 		protected Void doInBackground(Void... params) {
 			while(true){
+				if(zoomLevel != map.getZoomLevel()) {
+					map.getOverlays().clear();
+					map.invalidate();
+					zoomLevel = map.getZoomLevel();
+					filter.clear();
+				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
 				}
@@ -540,7 +561,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		timeForView.setToNow();
-		timeForCheck.setToNow();
+		epochChecker = timeForView.normalize(true);
 		userLocationOverlay.enableMyLocation();
 		Random r = new Random();
 		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
@@ -611,12 +632,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
     }
     
     protected boolean isTimeChanged(){
-    	if(!(timeForCheck.equals(timeForView))){
-    		timeForCheck = timeForView;
+    	if(!(epochChecker == epochTime)){
     		return true;
     	}
-    	
-    	return false;
+    	else{
+    		return false;
+    	}
     }
 	
     //-----------DONE DATE AND TIME STUFF----------------------------------------------------	
