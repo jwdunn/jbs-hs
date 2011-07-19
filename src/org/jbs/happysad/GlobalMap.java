@@ -239,7 +239,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			if (enableChart){
 				startActivity(new Intent(this, ChartList.class));
 			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts", 100);
+				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts.", 100);
 				toast.show();
 			}
 			break;
