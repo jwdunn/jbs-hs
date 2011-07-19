@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +42,9 @@ public class MyMap extends MapActivity implements OnClickListener {
 	ItemizedEmotionOverlay sadOverlay; 
 	
 	//---------------For Date and Time------------------------------------------------------------------------------------//
-	  
+	
+	private Time timeForView = new Time();
+	
 	private int year;
 	private int month;
 	private int day;
@@ -332,14 +335,16 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		timeForView.setToNow();
 		userLocationOverlay.enableMyLocation();
 	}
 	
 	//-----------DATE AND TIME STUFF---------------------------------------------------------
 	
-    // updates the date in the TextView
+    // updates the timeForView Time object
     private void dateTimeUpdate() {
-    	//throw something here to create new epoch time string
+    	timeForView.set(0,minute,hour,day,month,year);
+    	//Toast.makeText(getBaseContext(), "Time reference: "+timeForView.toString(), Toast.LENGTH_LONG).show();
     }
     
     @Override

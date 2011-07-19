@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,6 +60,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 
 	//---------------For Date and Time------------------------------------------------------------------------------------//
 	  
+	private Time timeForView = new Time();
+	
 	private int year;
 	private int month;
 	private int day;
@@ -455,6 +458,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		timeForView.setToNow();
 		userLocationOverlay.enableMyLocation();
 		Random r = new Random();
 		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
@@ -470,7 +474,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	
     // updates the date in the TextView
     private void dateTimeUpdate() {
-    	//throw something here to create new epoch time string
+    	timeForView.set(0,minute,hour,day,month,year);
+    	//Toast.makeText(getBaseContext(), "Time reference: "+timeForView.toString(), Toast.LENGTH_LONG).show();
     }
     
     @Override
