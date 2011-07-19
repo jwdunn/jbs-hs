@@ -32,6 +32,8 @@ public class More extends Activity implements OnClickListener {
 	String extradata;
 	private UIDhelper UIDh;
 	private long myID;
+	private Syncer s;
+	private Thread t;
 	/**
 	 * Initializes activity
 	 */
@@ -74,6 +76,9 @@ public class More extends Activity implements OnClickListener {
 			j.putExtra("Happy", 1);
 			j.putExtra("Sad", 1);
 			saveUpdate(shareString); 
+			s = new Syncer( this); //here we are starting a new "Syncer" thread. All syncer does is upload your recent update(s) and calls getMyHistory
+			t = new Thread(s);
+			t.start();
 			startActivity(j);
 			finish();
 			} else {
@@ -213,5 +218,6 @@ public class More extends Activity implements OnClickListener {
 		super.onResume();
 		locationStuff();
 	}
+	
 }
 
