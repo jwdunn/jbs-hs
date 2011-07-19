@@ -239,7 +239,6 @@ public class NetHelper {
 				JSONObject o = jarray.getJSONObject(i);
 				//turn the object into a bottle, using the power of newparseone
 				HappyBottle b = newparseone(o);
-				Log.d(TAG, "successfully parsed new happybottle - " + b);
 				a.add(b);
 			}  
 		} catch (JSONException e) {
@@ -300,6 +299,10 @@ public class NetHelper {
 		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -5);
 	}
 
+	
+	public ArrayList<HappyBottle> downloadLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
+		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -1 * timeafter);
+	}
 	/**
 	 * The same as downloadLocalBefore, except we have a new parameter: timebefore. Only return bottles created before time timebefore. 
 	 * It will download the most recent <limit> number of bottles, within the view defined by min/max lat/long, but only those before timebefore.
@@ -312,12 +315,14 @@ public class NetHelper {
 	 * @param timebefore
 	 * @return ArrayList of HappyBottles we download.
 	 */
-	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, int timebefore){
+	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long timebefore){
 		String page = "error";
+		timebefore = timebefore * -1; //to fit the syntax of the call: - = before, + = after
 		try{
 			HttpGet request = new HttpGet();
 			if (timebefore < 0){
 				request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + ".json"));
+				
 			} else{
 			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));
 			}
