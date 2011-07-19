@@ -17,8 +17,7 @@ import android.widget.Toast;
  */
 public class Prompt extends Activity implements OnClickListener{
 
-	private Syncer s;
-	private Thread t;
+
 	private long myID;
 	public static final String USER_DATA = "userdata";
 	private UIDhelper UIDh;
@@ -50,9 +49,7 @@ public class Prompt extends Activity implements OnClickListener{
 		//if so, how are we going to deal with it?
 		//right now, it set userID to -1 FOREVER and not give you a chance to fix the mistake. 
 		
-		s = new Syncer( this);
-		t = new Thread(s);
-		t.start();
+		
 	}
 
 		/**
@@ -87,7 +84,6 @@ public class Prompt extends Activity implements OnClickListener{
 		@Override
 		public void onDestroy(){
 			super.onDestroy();
-			s.safeShutdown();
 		}
 
 		// here is the has function. it inputs the username and turns it into an integer.
@@ -98,19 +94,5 @@ public class Prompt extends Activity implements OnClickListener{
    		}
 			 */return id;
 		}
-		private void addUID(long servUID){
-			SharedPreferences sp = getSharedPreferences(USER_DATA,0);
-			SharedPreferences.Editor editor = sp.edit();
-			editor.putLong("usernameint", servUID);
-		}
-
-		private boolean checkUID(Long servUID){
-			SharedPreferences sp = getSharedPreferences(Prompt.USER_DATA,0);
-			if(sp.getLong( "usernameint", 0) != servUID){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
+	
 	}

@@ -76,11 +76,19 @@ public class ChartDay extends AbstractChart {
 		   	
 			HappyBottle element = itr.next();
 			
-			int x = new Timestamp (element.getTime()).getDate();
+			int x = new Timestamp (element.getTime()).getMonth() + 1;
+			
+			int y = new Timestamp (element.getTime()).getYear() + 1900;
+			
+			int z = new Timestamp (element.getTime()).getDate();
+			
+			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+			
+			int year = Calendar.getInstance().get(Calendar.YEAR);
 			
 			int date = Calendar.getInstance().get(Calendar.DATE);
 		     
-		   	if (x == date){
+		   	if (x == month && y == year && z == date){
 		   		
 		   		if (element.getEmo() == 1){
 			    	happy += 1; 

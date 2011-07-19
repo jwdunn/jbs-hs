@@ -35,15 +35,6 @@ public class NetHelper {
 	}
 
 
-	public ArrayList<HappyBottle> doTask(Task t, HappyBottle b){
-		switch(t){
-		case SEND:
-			upload(b);
-			return null;
-		default:
-			return download(t);
-		}
-	}
 
 	public long getID(String u){
 		long id = tryCheckUser(u);
@@ -142,7 +133,7 @@ public class NetHelper {
 	}
 
 	//this is how we download bottles. 
-	private ArrayList<HappyBottle> download(Task t) {
+	protected ArrayList<HappyBottle> download(Task t) {
 		//notice we take in task t. T could be "GETMINE" or "GETALL". Handy, eh?
 		String page = "error";
 		try {
@@ -165,8 +156,12 @@ public class NetHelper {
 		return parse(page);	
 	}
 
-	//this is how we upload, one bottle at a time.
-	private String upload(HappyBottle b) {
+	//
+	/**
+	 *this is how we upload, one bottle at a time.
+	 *@return result: if there was an error, and the bottle wasn't uploaded: false. Otherwise, if the upload went through, return true; 
+	 */
+	protected boolean upload(HappyBottle b) {
 		//so we set up the request
 		HttpPost request = new HttpPost();
 		Object[] values = {b.getEmo(), b.getLat(), b.getLong(), b.getMsg(), b.getUID(), b.getTime()};  
@@ -187,12 +182,17 @@ public class NetHelper {
 			e1.printStackTrace();
 		}
 		//yep, connectionHelper will do all our work for ous
-		return connectionHelper(request);
+		String result =  connectionHelper(request);
+		if (result.equals("error")){
+			return false;
+		}
+		//NOTICE that was are assuming that any result != "error" is succesful. This seams like a reasonable assumption but it could change.
+		return true;
 	}
 
 	//behold the mighty connectionHelper! It takes in requests, makes a connection, downloads the response, and returns it. 
 	private String connectionHelper(HttpRequestBase request ){
-		String page = "error";
+		String page = "error"; //NOTICE: if you ever change this, change the code in upload() that checks for "error" to see if this worked or not. 
 		BufferedReader in = null;
 		HttpClient client = new DefaultHttpClient();
 		try{
@@ -297,10 +297,30 @@ public class NetHelper {
 	 * @return ArrayList of HappyBottles we download.
 	 */
 	public ArrayList<HappyBottle> downloadLocal(int minLat, int maxLat, int minLong, int maxLong, int limit){
+		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -5);
+	}
+
+	/**
+	 * The same as downloadLocalBefore, except we have a new parameter: timebefore. Only return bottles created before time timebefore. 
+	 * It will download the most recent <limit> number of bottles, within the view defined by min/max lat/long, but only those before timebefore.
+	 * If timebefore < 0, it ignores that parameter. 
+	 * @param minLat
+	 * @param maxLat
+	 * @param minLong
+	 * @param maxLong
+	 * @param limit
+	 * @param timebefore
+	 * @return ArrayList of HappyBottles we download.
+	 */
+	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, int timebefore){
 		String page = "error";
 		try{
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
+			if (timebefore < 0){
+				request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + ".json"));
+			} else{
+			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));
+			}
 			Log.d(TAG, request.getURI().toString());
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
@@ -315,5 +335,7 @@ public class NetHelper {
 		return parse(page);	
 	}
 
+		
+	
 
 }

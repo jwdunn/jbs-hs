@@ -11,69 +11,93 @@
 	Taha's: 0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ  -->
    <view android:id="@+id/themap"
         class="com.google.android.maps.MapView"
-  		android:apiKey="0_9Pks7VkRuhX3CGkkeQsPHyWtt26wWT8sI_Sig" 
+  		android:apiKey="0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ" 
   		android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
   		 android:enabled="true"
   		android:layout_weight="1" 
   		android:clickable="true" />
 
-		<TableLayout 
-		android:layout_gravity="top" 
-		android:layout_height="wrap_content" 
-		android:layout_width="wrap_content" 
+	<TableLayout 
+		android:layout_gravity="top"  
 		android:layout_marginTop="3dp"
-		android:stretchColumns="*" > 
+		android:stretchColumns="*" 
+		android:layout_height="50dp" 
+		android:layout_width="wrap_content" 
+		android:background="@drawable/toolbar" > 
 		<TableRow>
-			<Button android:id="@+id/showHappy"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:textSize="12sp" 
-            android:text="@string/sad_overlay" />
-
-        <Button android:id="@+id/showSad"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0" 
-            android:textSize="12sp"   
-            android:text="@string/happy_overlay" />
-            
-        <Button android:id="@+id/switchView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:textSize="12sp" 
-            android:text="@string/switch_view" />
-		</TableRow> 
+			<Button android:id="@+id/arrowLeft"
+            	android:layout_width="fill_parent"
+            	android:layout_height="wrap_content"
+            	android:layout_weight="1.0"
+            	android:textSize="12sp" 
+            	android:text=" L " />
+			<Button
+				android:id="@+id/date_button" 
+				android:text="@string/setDate_name"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0" 
+				android:textSize="12sp" />
+			<Button
+				android:id="@+id/time_button"
+				android:text="@string/setTime_name"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0" 
+				android:textSize="12sp" /> 
+			<Button android:id="@+id/arrowRight"
+            	android:layout_width="fill_parent"
+            	android:layout_height="wrap_content"
+            	android:layout_weight="1.0"
+            	android:textSize="12sp" 
+            	android:text=" R " /> 
+		</TableRow>
 	</TableLayout>
+
 	<TableLayout 
 		android:layout_gravity="bottom" 
-		android:layout_height="wrap_content" 
+		android:layout_height="55dp" 
 		android:layout_width="wrap_content" 
-		android:stretchColumns="*" > 
+		android:background="@drawable/toolbar" > 
 		<TableRow> 
-			<Button
+		  	<Button
 				android:id="@+id/map"
 				android:text=""
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 
-				android:textSize="12sp" />
+				android:textSize="12sp" /> 
+				
+			<Button android:id="@+id/showHappy"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:textSize="12sp" 
+           		    android:background="@drawable/happytoggle"/>
+
+        	<Button android:id="@+id/showSad"
+           		    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sadtoggle"
+                    android:textSize="12sp"/>
+            
+          <Button android:id="@+id/switchView"
+                  android:layout_width="wrap_content"
+           		  android:layout_height="wrap_content"
+          		  android:background="@drawable/mapswtch"
+                  android:textSize="12sp" />
 			<Button
-				android:id="@+id/myTrack_button" 
-				android:text="@string/myTrack_name"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_weight="1.0" 
-				android:textSize="12sp" />
+				   android:id="@+id/myTrack_button" 
+				   android:background="@drawable/history"
+				   android:layout_width="wrap_content"
+				   android:layout_height="wrap_content"
+		           android:textSize="12sp" />
 			<Button
 				android:id="@+id/myChart_button"
-				android:text="@string/myChart_name"
-				android:layout_width="fill_parent"
+				android:background="@drawable/pichart"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_weight="1.0" 
-				android:textSize="12sp" /> 
+		        android:textSize="12sp" /> 
 		</TableRow>  
 	</TableLayout>
 </FrameLayout>

@@ -1,7 +1,11 @@
 package org.jbs.happysad;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,8 +18,14 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
+import android.widget.Toast;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+
 
 /**
  * Creates a My Map view with Google Maps API with everyone's HappyBottles
@@ -32,6 +42,49 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private MapController controller;
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay; 
+	boolean enableChart;
+
+	
+	//---------------For Date and Time------------------------------------------------------------------------------------//
+	
+	private Time timeForView = new Time();
+	
+	private int year;
+	private int month;
+	private int day;
+	private int hour;
+	private int minute;
+	private long epochTime;
+	
+	static final int DATE_DIALOG_ID = 0;
+	static final int TIME_DIALOG_ID = 1;
+	
+	View setDate;// = findViewById(R.id.date_button);
+	View setTime;// = findViewById(R.id.time_button);
+	
+	// the callback received when the user "sets" the date in the dialog
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+		public void onDateSet(DatePicker view, int new_year, int new_month,
+				int new_day) {
+			year = new_year;
+			month = new_month;
+			day = new_day;
+			dateTimeUpdate();
+		}
+	};
+
+	// the callback received when the user "sets" the time in the dialog
+	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+		public void onTimeSet(TimePicker view, int new_hour, int new_minute) {
+			hour = new_hour;
+			minute = new_minute;
+			dateTimeUpdate();
+		}
+	};
+	
+	//---------------Done for Date and Time-------------------------------------------------------------------------------//	
+	
 	
 	/**
 	 * Initializes Activity
@@ -84,8 +137,25 @@ public class MyMap extends MapActivity implements OnClickListener {
 		histButton.setOnClickListener(this);  	
 		
 		//Finds the history_button view
+
 		View chartButton = findViewById(R.id.myChart_button);
 		chartButton.setOnClickListener(this);
+		
+		setDate = findViewById(R.id.date_button);
+		setDate.setOnClickListener(this);
+		
+		setTime = findViewById(R.id.time_button);
+		setTime.setOnClickListener(this);
+		
+        // get the current date
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+        
+        dateTimeUpdate();		
 		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
@@ -159,8 +229,25 @@ public class MyMap extends MapActivity implements OnClickListener {
 			break;
 		
 		case R.id.myChart_button:
-			startActivity(new Intent(this, ChartList.class));
+			HappyData datahelper = new HappyData(this);
+			ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
+			chartEnable(plottables);
+			if (enableChart){
+				startActivity(new Intent(this, ChartList.class));
+			} else {
+				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts.", 100);
+				toast.show();
+			}
 			break;
+			
+		case R.id.date_button:
+			showDialog(DATE_DIALOG_ID);
+			break;
+	
+		case R.id.time_button:
+			showDialog(TIME_DIALOG_ID);
+			break;	
+			
 		}
 		map.invalidate();
 
@@ -230,6 +317,28 @@ public class MyMap extends MapActivity implements OnClickListener {
 		return false;
 	}
 	
+	public void chartEnable(ArrayList<HappyBottle> plottables) {
+		Iterator<HappyBottle> itr = plottables.iterator(); 
+		
+		while(itr.hasNext()) {     
+			HappyBottle element = itr.next();
+			
+			int x = new Timestamp (element.getTime()).getMonth() + 1;
+			int y = new Timestamp (element.getTime()).getYear() + 1900;
+			int z = new Timestamp (element.getTime()).getDate();
+			
+			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			int date = Calendar.getInstance().get(Calendar.DATE);
+		     
+		   	if (x == month && y == year && z == date){
+		   		this.enableChart = true;
+		   		break;
+		   	}	
+		   	this.enableChart = false;
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -265,6 +374,57 @@ public class MyMap extends MapActivity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		timeForView.setToNow();
 		userLocationOverlay.enableMyLocation();
 	}
+	
+	//-----------DATE AND TIME STUFF---------------------------------------------------------
+	
+    // updates the timeForView Time object
+    private void dateTimeUpdate() {
+    	timeForView.set(0,minute,hour,day,month,year);
+    	epochTime = timeForView.normalize(true);
+    	((Button) setDate).setText(new StringBuilder().append(month + 1).append(" - ").append(day).append(" - ").append(year).append(" "));
+    	((Button) setTime).setText(new StringBuilder().append(pad(convertAMPM(hour))).append(":").append(pad(minute)).append(" "+checkAMPM(hour)));
+    	//Toast.makeText(getBaseContext(), "Time reference: "+timeForView.toString(), Toast.LENGTH_LONG).show();
+    }
+    
+    private static int convertAMPM (int convertedhour){
+    	if(convertedhour>12){
+    		convertedhour = convertedhour-12;
+    	}
+    	return (convertedhour);
+    }
+    
+    private static String checkAMPM (int hour){
+    	if(hour<12){
+    		return ("AM");
+    	}
+    	else{
+    		return ("PM");
+    	}
+    }
+    
+    private static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case TIME_DIALOG_ID:
+            return new TimePickerDialog(this,
+                    timeSetListener, hour, minute, false);
+        case DATE_DIALOG_ID:
+    		return new DatePickerDialog(this,
+                    dateSetListener,
+                    year, month, day);
+        }
+        return null;
+    }
+	
+    //-----------DONE DATE AND TIME STUFF----------------------------------------------------	
 }
