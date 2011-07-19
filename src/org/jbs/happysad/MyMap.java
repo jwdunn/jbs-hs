@@ -36,7 +36,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private MapView map; 
 	int checkHappy;
 	int checkSad;
-	boolean run;
+	boolean goToMyLocation;
 	int streetView;
 	MyLocationOverlay userLocationOverlay;
 	private MapController controller;
@@ -96,7 +96,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		
 		checkHappy = getIntent().getExtras().getInt("Happy");
 		checkSad = getIntent().getExtras().getInt("Sad");
-		run = getIntent().getExtras().getBoolean("Run");
+		goToMyLocation = getIntent().getExtras().getBoolean("GoToMyLocation");
 		streetView = getIntent().getExtras().getInt("Street");
 
 		
@@ -284,8 +284,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	}
 	
 	private void goToMyLocation() {
-		if (run == true) {
-			map.getOverlays().add(userLocationOverlay);
+		if (goToMyLocation == true) {
 			userLocationOverlay.runOnFirstFix(new Runnable() {
 				public void run() {
 					// Zoom in to current location
@@ -351,7 +350,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.current_location:
-	    	run = true;
+	    	goToMyLocation = true;
 	        goToMyLocation();
 	        return true;
 	    case R.id.new_update:

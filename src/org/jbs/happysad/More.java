@@ -71,7 +71,7 @@ public class More extends Activity implements OnClickListener {
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
 			Intent j = new Intent(this, MyMap.class);
-			j.putExtra("Street", true);
+			j.putExtra("GoToMyLocation", true);
 			j.putExtra("Run", true);
 			j.putExtra("Happy", 1);
 			j.putExtra("Sad", 1);

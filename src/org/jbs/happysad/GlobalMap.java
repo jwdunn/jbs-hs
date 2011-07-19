@@ -44,7 +44,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private MapView map; 
 	int checkHappy;
 	int checkSad;
-	boolean run;
+	boolean goToMyLocation;
 	boolean check;
 	int streetView;
 	MyLocationOverlay userLocationOverlay;
@@ -115,7 +115,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 
 		checkHappy = getIntent().getExtras().getInt("Happy");
 		checkSad = getIntent().getExtras().getInt("Sad");
-		run = getIntent().getExtras().getBoolean("Run");
+		goToMyLocation = getIntent().getExtras().getBoolean("GoToMyLocation");
 		streetView = getIntent().getExtras().getInt("Street");
 
 		//Defines the drawable items for the happy and sad overlays
@@ -178,7 +178,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		myButton.setOnClickListener(this);
 
 		center = new GeoPoint(-1,-1);
-		zoomLevel = -1;
+		zoomLevel = map.getZoomLevel();
 		handler = new Handler();
 
 	}
@@ -282,6 +282,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 				//epochTime = newBottles.get(0).getTime();
 				timeForView.set(epochTime);
 				setTimeObjectValues();
+				happyOverlay.emptyOverlay();
+				sadOverlay.emptyOverlay();
 				//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			}
 			break;	
@@ -345,13 +347,11 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
 		userLocationOverlay.enableMyLocation();
-		map.getOverlays().add(userLocationOverlay);  
-		//adds the users location overlay to the overlays being displayed
+		map.getOverlays().add(userLocationOverlay);  //adds the users location overlay to the overlays being displayed
 	}
 	
 	private void goToMyLocation() {
-		if (run == true) {
-			map.getOverlays().add(userLocationOverlay);
+		if (goToMyLocation == true) {
 			userLocationOverlay.runOnFirstFix(new Runnable() {
 				public void run() {
 					// Zoom in to current location
@@ -487,10 +487,15 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		protected Void doInBackground(Void... params) {
 			while(true){
 				if(zoomLevel != map.getZoomLevel()) {
-					map.getOverlays().clear();
-					map.invalidate();
-					zoomLevel = map.getZoomLevel();
-					filter.clear();
+					handler.post(new Runnable(){
+						@Override
+						public void run(){
+						happyOverlay.emptyOverlay();
+						sadOverlay.emptyOverlay();
+						zoomLevel = map.getZoomLevel();
+						filter.clear();	}
+					});
+					
 				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
@@ -535,7 +540,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.current_location:
-	    	run = true;
+	    	goToMyLocation = true;
 	        goToMyLocation();
 	        return true;
 	    case R.id.new_update:
