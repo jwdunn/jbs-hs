@@ -28,7 +28,7 @@ public class HappyData {
 	private HappyDB h;
 	//private static final long MyUserID = 1; //this should not be hardcoded to 1
 	private UIDhelper UIDh =  new UIDhelper();
-	
+
 
 	long myID = -1; 
 	private static String[] FROM = { _ID, UID, LAT, LONG, EMO, MSG, TIME, SYNC };
@@ -38,7 +38,7 @@ public class HappyData {
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
 		//mainThread = new Handler();
-		
+
 		myID = UIDh.getUID();
 	}
 
@@ -75,7 +75,7 @@ public class HappyData {
 		return toreturn;
 	}
 
-	
+
 	//for each entry that isn't synced, send to database. 
 	protected void syncUp(){
 		SQLiteDatabase db = h.getReadableDatabase();
@@ -85,24 +85,29 @@ public class HappyData {
 		while (cursor.moveToNext() ){
 			//if we hit a bottle that has not been synced, and is ours, we upload it.
 			HappyBottle b = createBottle(cursor);
-			net.doTask(Task.SEND, b);
+			boolean result = net.upload(b);
 			//we just uploaded it.
-			SQLiteDatabase dbwrite = h.getWritableDatabase();
-			ContentValues c = new ContentValues();
-			int rowid = cursor.getInt(0);
-			c.put(SYNC, 1);
-			Log.d(TAG, "update query is: "+ _ID+"="+rowid);
-			Log.d(TAG, "for msg: " + cursor.getString(5));
-			//with rowid, we find the unique identifier for this row
-			//then with update, we change SYNC to 1, but only for the column with our id.
-			dbwrite.update(TABLE_NAME, c, _ID+"="+rowid , null);
-			dbwrite.close();
-		} 
-	cursor.close();
-	db.close(); 
-}
+			if (result){
+				SQLiteDatabase dbwrite = h.getWritableDatabase();
+				ContentValues c = new ContentValues();
+				int rowid = cursor.getInt(0);
+				c.put(SYNC, 1);
+				Log.d(TAG, "update query is: "+ _ID+"="+rowid);
+				Log.d(TAG, "for msg: " + cursor.getString(5));
+				//with rowid, we find the unique identifier for this row
+				//then with update, we change SYNC to 1, but only for the column with our id.
+				dbwrite.update(TABLE_NAME, c, _ID+"="+rowid , null);
+				dbwrite.close();}
+			else{ 
+				//the update didn't go through. Probably because we don't have a network connection. That's fine.
+				//So don't update the row saying that it is synced. This lets us try to update later when we have a network connection.
+			}
+		}
+		cursor.close();
+		db.close(); 
+	}
 
-	//syncs down everything.
+	//syncs down everything. Temp - get rid of it.
 	protected void syncDown(){
 		//syncMyDown();
 		syncAllDown();
@@ -112,13 +117,13 @@ public class HappyData {
 
 	//same as syncAllDown, but just for my bottles
 	protected void syncMyDown(){
-		ArrayList<HappyBottle> b = net.doTask(Task.GETMINE, null);
+		ArrayList<HappyBottle> b = net.download(Task.GETMINE);
 		addAvoidDupes(b);
 	}
 
 	//sync all down, then add the bottles to the database, avoiding duplicates
 	private void syncAllDown(){
-		ArrayList<HappyBottle> b = net.doTask(Task.GETALL, null);
+		ArrayList<HappyBottle> b = net.download(Task.GETALL);
 		addAvoidDupes(b);
 	}
 
