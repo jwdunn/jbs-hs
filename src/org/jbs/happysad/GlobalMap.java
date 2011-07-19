@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -59,6 +60,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	Runnable latestThread;
 	ZoomPanListener zpl;
 	boolean enableChart;
+	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
 	//private volatile long timelatestbottle;
 
 	//---------------For Date and Time------------------------------------------------------------------------------------//
@@ -281,7 +283,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			break;	
 			
 		case R.id.arrowRight:
-			
 			int centerLat = center.getLatitudeE6(); //finds center's latitude
 			int centerLong = center.getLongitudeE6(); //finds center's longitude
 			int width = map.getLongitudeSpan(); //gets width of view in terms of longitudes shown on screen
@@ -301,7 +302,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			break;
 			
 		}
-
 		map.invalidate();
 	}
 
@@ -357,14 +357,17 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	}
 
 
+	
+	
 	//creates an emotion overlay
-	private static synchronized void emotionOverlaySetter(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
-
+	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
+		
 		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
-		overlay.emptyOverlay();
+		//overlay.emptyOverlay();
 		for(HappyBottle bottle : toshow) {
-
-			if (bottle.getEmo()==emotion) { //happy or sad filter
+			if( !filter.contains(bottle) && bottle.getEmo() == emotion){
+				//happy or sad filter^
+				filter.add(bottle);
 				int latitude = bottle.getLat();
 				int longitude = bottle.getLong();
 				GeoPoint point = new GeoPoint(latitude,longitude);
@@ -431,9 +434,10 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 								ArrayList<HappyBottle> temp = newBottles;
 								newBottles = updater();
 								if (!(newBottles.equals(temp))){
-									emotionOverlaySetter(1,newBottles,happyOverlay);
-									emotionOverlaySetter(0,newBottles,sadOverlay);
+									emotionOverlayAdder(1,newBottles,happyOverlay);
+									emotionOverlayAdder(0,newBottles,sadOverlay);
 								}
+								map.invalidate();
 							}
 						};
 						handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
@@ -471,6 +475,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		@Override
 		protected Void doInBackground(Void... params) {
 			while(true){
+				if(zoomLevel != map.getZoomLevel()) {
+					map.getOverlays().clear();
+					map.invalidate();
+					zoomLevel = map.getZoomLevel();
+					filter.clear();
+				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
 				}
