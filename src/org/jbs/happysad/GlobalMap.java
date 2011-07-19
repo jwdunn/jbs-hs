@@ -52,6 +52,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	ItemizedEmotionOverlay sadOverlay;
 	HappyData datahelper = new HappyData(this);
 	//	private volatile ArrayList<HappyBottle>  plottables;
+	ArrayList<HappyBottle> newBottles;
 	int zoomLevel;
 	GeoPoint center;
 	private Handler handler;
@@ -143,6 +144,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		View histButton = findViewById(R.id.myChart_button);
 		histButton.setOnClickListener(this);
+		
+		View backButton = findViewById(R.id.arrowLeft);
+		backButton.setOnClickListener(this);
+		
+		View forwardButton = findViewById(R.id.arrowRight);
+		forwardButton.setOnClickListener(this);
 		
 		setDate = findViewById(R.id.date_button);
 		setDate.setOnClickListener(this);
@@ -256,6 +263,13 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			showDialog(TIME_DIALOG_ID);
 			break;
 			
+		case R.id.arrowLeft:
+			epochTime = newBottles.get(newBottles.size()-1).getTime();
+			timeForView.set(epochTime);
+			setTimeObjectValues();
+			dateTimeUpdate();
+			break;	
+			
 		}
 
 		map.invalidate();
@@ -346,7 +360,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d(TAG, "we are now using local pins with updateToView");
 		//return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
-		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,5,epochTime);
+		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,20,epochTime);
 	}
 
 	//to sync and update bottles with mapview
@@ -384,7 +398,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 							@Override
 							public void run(){
 								Log.d(TAG, "running the thread that updates the overlays");
-								ArrayList<HappyBottle> newBottles = updater();
+								newBottles = updater();
 								if (newBottles != null){
 									emotionOverlaySetter(1,newBottles,happyOverlay);
 									emotionOverlaySetter(0,newBottles,sadOverlay);
@@ -515,6 +529,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
     	((Button) setDate).setText(new StringBuilder().append(month + 1).append(" - ").append(day).append(" - ").append(year).append(" "));
     	((Button) setTime).setText(new StringBuilder().append(pad(convertAMPM(hour))).append(":").append(pad(minute)).append(" "+checkAMPM(hour)));
     	//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
+    }
+    
+    private void setTimeObjectValues(){
+    	month = timeForView.month;
+    	year = timeForView.year;
+    	day = timeForView.monthDay;
+    	hour = timeForView.hour;
+    	minute = timeForView.minute;
     }
     
     private static int convertAMPM (int convertedhour){
