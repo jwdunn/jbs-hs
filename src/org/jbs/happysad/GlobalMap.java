@@ -2,6 +2,9 @@
 
 package org.jbs.happysad;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -20,10 +23,13 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -51,6 +57,40 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	Runnable latestThread;
 	ZoomPanListener zpl;
 
+	//---------------For Date and Time------------------------------------------------------------------------------------//
+	  
+	private int year;
+	private int month;
+	private int day;
+	private int hour;
+	private int minute;
+	
+	static final int DATE_DIALOG_ID = 0;
+	static final int TIME_DIALOG_ID = 1;
+	
+	// the callback received when the user "sets" the date in the dialog
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+		public void onDateSet(DatePicker view, int new_year, int new_month,
+				int new_day) {
+			year = new_year;
+			month = new_month;
+			day = new_day;
+			dateTimeUpdate();
+		}
+	};
+
+	// the callback received when the user "sets" the time in the dialog
+	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+		public void onTimeSet(TimePicker view, int new_hour, int new_minute) {
+			hour = new_hour;
+			minute = new_minute;
+			dateTimeUpdate();
+		}
+	};
+	
+	//---------------Done for Date and Time-------------------------------------------------------------------------------//	
+	
 	/**
 	 * Initializes Activity
 	 */
@@ -95,6 +135,22 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 		View histButton = findViewById(R.id.myChart_button);
 		histButton.setOnClickListener(this);
+		
+		View setDate = findViewById(R.id.date_button);
+		setDate.setOnClickListener(this);
+		
+		View setTime = findViewById(R.id.time_button);
+		setTime.setOnClickListener(this);
+		
+        // get the current date
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+        
+        dateTimeUpdate();		
 		
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
@@ -175,6 +231,15 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		case R.id.myChart_button:
 			startActivity(new Intent(this, ChartList.class));
 			break;
+			
+		case R.id.date_button:
+			showDialog(DATE_DIALOG_ID);
+			break;
+	
+		case R.id.time_button:
+			showDialog(TIME_DIALOG_ID);
+			break;
+			
 		}
 
 		map.invalidate();
@@ -400,4 +465,28 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		
 	
 	}
+	
+	//-----------DATE AND TIME STUFF---------------------------------------------------------
+	
+    // updates the date in the TextView
+    private void dateTimeUpdate() {
+    	//throw something here to create new epoch time string
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case TIME_DIALOG_ID:
+            return new TimePickerDialog(this,
+                    timeSetListener, hour, minute, false);
+        case DATE_DIALOG_ID:
+    		return new DatePickerDialog(this,
+                    dateSetListener,
+                    year, month, day);
+        }
+        return null;
+    }
+	
+    //-----------DONE DATE AND TIME STUFF----------------------------------------------------	
+	
 }
