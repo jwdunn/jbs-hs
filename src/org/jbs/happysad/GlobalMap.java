@@ -213,7 +213,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
 		userLocationOverlay.enableMyLocation();
-		map.getOverlays().add(userLocationOverlay);
+		map.getOverlays().add(userLocationOverlay);  
+		//adds the users location overlay to the overlays being displayed
 	}
 	
 	private void goToMyLocation() {

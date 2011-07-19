@@ -150,7 +150,7 @@ public class NetHelper {
 			HttpGet request = new HttpGet();
 			request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
 			if( t.equals(Task.GETMINE)){
-				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/" + myID+".json"));
+				request.setURI(new URI("http://stark-water-134.heroku.com/users" + myID+"bottles.json"));
 			}
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
@@ -297,10 +297,30 @@ public class NetHelper {
 	 * @return ArrayList of HappyBottles we download.
 	 */
 	public ArrayList<HappyBottle> downloadLocal(int minLat, int maxLat, int minLong, int maxLong, int limit){
+		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -5);
+	}
+
+	/**
+	 * The same as downloadLocalBefore, except we have a new parameter: timebefore. Only return bottles created before time timebefore. 
+	 * It will download the most recent <limit> number of bottles, within the view defined by min/max lat/long, but only those before timebefore.
+	 * If timebefore < 0, it ignores that parameter. 
+	 * @param minLat
+	 * @param maxLat
+	 * @param minLong
+	 * @param maxLong
+	 * @param limit
+	 * @param timebefore
+	 * @return ArrayList of HappyBottles we download.
+	 */
+	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, int timebefore){
 		String page = "error";
 		try{
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +".json"));
+			if (timebefore < 0){
+				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + ".json"));
+			} else{
+			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));
+			}
 			Log.d(TAG, request.getURI().toString());
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
@@ -315,5 +335,7 @@ public class NetHelper {
 		return parse(page);	
 	}
 
+		
+	
 
 }
