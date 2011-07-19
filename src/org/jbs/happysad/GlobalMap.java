@@ -345,7 +345,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		int maxLat = centerLat+height/2; //gets the top most latitude shown
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d(TAG, "we are now using local pins with updateToView");
-		return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
+		//return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
+		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,5,epochTime);
 	}
 
 	//to sync and update bottles with mapview
