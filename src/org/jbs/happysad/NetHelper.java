@@ -312,7 +312,7 @@ public class NetHelper {
 	 * @param timebefore
 	 * @return ArrayList of HappyBottles we download.
 	 */
-	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, int timebefore){
+	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long timebefore){
 		String page = "error";
 		try{
 			HttpGet request = new HttpGet();

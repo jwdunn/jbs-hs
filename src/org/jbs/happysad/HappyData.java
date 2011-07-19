@@ -220,4 +220,8 @@ public class HappyData {
 	protected ArrayList<HappyBottle> getLocalRecent(int minLat, int maxLat, int minLong, int maxLong, int limit){
 		return net.downloadLocal(minLat, maxLat, minLong, maxLong, limit);
 	}
+	
+	protected ArrayList<HappyBottle> getLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long time){
+		return net.downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, time);
+	}
 }
