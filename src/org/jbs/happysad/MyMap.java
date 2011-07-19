@@ -54,9 +54,13 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private int day;
 	private int hour;
 	private int minute;
+	private long epochTime;
 	
 	static final int DATE_DIALOG_ID = 0;
 	static final int TIME_DIALOG_ID = 1;
+	
+	View setDate;// = findViewById(R.id.date_button);
+	View setTime;// = findViewById(R.id.time_button);
 	
 	// the callback received when the user "sets" the date in the dialog
 	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -137,10 +141,10 @@ public class MyMap extends MapActivity implements OnClickListener {
 		View chartButton = findViewById(R.id.myChart_button);
 		chartButton.setOnClickListener(this);
 		
-		View setDate = findViewById(R.id.date_button);
+		setDate = findViewById(R.id.date_button);
 		setDate.setOnClickListener(this);
 		
-		View setTime = findViewById(R.id.time_button);
+		setTime = findViewById(R.id.time_button);
 		setTime.setOnClickListener(this);
 		
         // get the current date
@@ -379,7 +383,33 @@ public class MyMap extends MapActivity implements OnClickListener {
     // updates the timeForView Time object
     private void dateTimeUpdate() {
     	timeForView.set(0,minute,hour,day,month,year);
+    	epochTime = timeForView.normalize(true);
+    	((Button) setDate).setText(new StringBuilder().append(month + 1).append(" - ").append(day).append(" - ").append(year).append(" "));
+    	((Button) setTime).setText(new StringBuilder().append(pad(convertAMPM(hour))).append(":").append(pad(minute)).append(" "+checkAMPM(hour)));
     	//Toast.makeText(getBaseContext(), "Time reference: "+timeForView.toString(), Toast.LENGTH_LONG).show();
+    }
+    
+    private static int convertAMPM (int convertedhour){
+    	if(convertedhour>12){
+    		convertedhour = convertedhour-12;
+    	}
+    	return (convertedhour);
+    }
+    
+    private static String checkAMPM (int hour){
+    	if(hour<12){
+    		return ("AM");
+    	}
+    	else{
+    		return ("PM");
+    	}
+    }
+    
+    private static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
     }
     
     @Override
