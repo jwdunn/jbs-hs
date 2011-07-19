@@ -300,6 +300,10 @@ public class NetHelper {
 		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -5);
 	}
 
+	
+	public ArrayList<HappyBottle> downloadLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, int timeafter){
+		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -1 * timeafter);
+	}
 	/**
 	 * The same as downloadLocalBefore, except we have a new parameter: timebefore. Only return bottles created before time timebefore. 
 	 * It will download the most recent <limit> number of bottles, within the view defined by min/max lat/long, but only those before timebefore.
