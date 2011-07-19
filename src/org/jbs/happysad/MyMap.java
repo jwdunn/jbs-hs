@@ -73,7 +73,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 		//Finds the history_button view
 		View histButton = findViewById(R.id.myChart_button);
 		histButton.setOnClickListener(this);
-		
+	
 		//Finds the my_map view
 		View myButton = findViewById(R.id.map);
 		((Button) myButton).setText("GlobalMap");

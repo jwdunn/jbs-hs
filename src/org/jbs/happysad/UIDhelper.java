@@ -28,13 +28,11 @@ public class UIDhelper{
 		if ( tempID >=0 ){ return tempID;}
 		final AccountManager manager = AccountManager.get(ctx);
 		final Account[] accounts = manager.getAccounts();   
-
-		if (accounts.length > 1){
+        String username = getGmail(accounts); 
+		if (!username.equals("no")){
 
 			//ok so we know there's at least one account being used. 
 			//let's use it.
-			String username = new String(accounts[0].name);
-
 			//is the username is stored in shared preferences, we know that can get the UID
 			//get the ID given the username (this way we can save multiple users
 			long uid = sp.getLong("usernameLong", -1);
@@ -55,16 +53,28 @@ public class UIDhelper{
 				return -1;
 			}
 		}
-		/*else{
+		else{
 			Context context = ctx;
-			String loginPrompt = getString(R.string.error_login_message);
+			String loginPrompt = ctx.getString(R.string.error_login_message);
 			CharSequence text = loginPrompt;
 			Toast toast = Toast.makeText(context, text, 1000);
-			toast.show()
-
-		}*/
+			toast.show();
+		}
 		return -5;
 		
+		
+	}
+	private String getGmail(Account[] accounts){
+		String username = "";
+		String gmail = "no";
+		for(int i = 0; i<accounts.length; i++){
+			username = new String(accounts[i].name);
+			username.toLowerCase();
+			if (username.contains("gmail.com")){
+				gmail = username;
+			}	
+		}
+		return gmail;
 	}
 }
 

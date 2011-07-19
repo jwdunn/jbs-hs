@@ -55,12 +55,6 @@ public class Prompt extends Activity implements OnClickListener{
 		t.start();
 	}
 
-	
-		
-		
-
-
-
 		/**
 		 * Invoked when a view is clicked
 		 */
@@ -98,19 +92,5 @@ public class Prompt extends Activity implements OnClickListener{
    		}
 			 */return id;
 		}
-		private void addUID(long servUID){
-			SharedPreferences sp = getSharedPreferences(USER_DATA,0);
-			SharedPreferences.Editor editor = sp.edit();
-			editor.putLong("usernameint", servUID);
-		}
-
-		private boolean checkUID(Long servUID){
-			SharedPreferences sp = getSharedPreferences(Prompt.USER_DATA,0);
-			if(sp.getLong( "usernameint", 0) != servUID){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
+	
 	}
