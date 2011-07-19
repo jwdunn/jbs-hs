@@ -14,8 +14,12 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
+import android.widget.Toast;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * Creates a My Map view with Google Maps API with everyone's HappyBottles
@@ -32,6 +36,7 @@ public class MyMap extends MapActivity implements OnClickListener {
 	private MapController controller;
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay; 
+	boolean enableChart;
 	
 	/**
 	 * Initializes Activity
@@ -159,7 +164,15 @@ public class MyMap extends MapActivity implements OnClickListener {
 			break;
 		
 		case R.id.myChart_button:
-			startActivity(new Intent(this, ChartList.class));
+			HappyData datahelper = new HappyData(this);
+			ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
+			chartEnable(plottables);
+			if (enableChart){
+				startActivity(new Intent(this, ChartList.class));
+			} else {
+				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts", 100);
+				toast.show();
+			}
 			break;
 		}
 		map.invalidate();
@@ -228,6 +241,28 @@ public class MyMap extends MapActivity implements OnClickListener {
 	//Required method to make the map work
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	public void chartEnable(ArrayList<HappyBottle> plottables) {
+		Iterator<HappyBottle> itr = plottables.iterator(); 
+		
+		while(itr.hasNext()) {     
+			HappyBottle element = itr.next();
+			
+			int x = new Timestamp (element.getTime()).getMonth() + 1;
+			int y = new Timestamp (element.getTime()).getYear() + 1900;
+			int z = new Timestamp (element.getTime()).getDate();
+			
+			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			int date = Calendar.getInstance().get(Calendar.DATE);
+		     
+		   	if (x == month && y == year && z == date){
+		   		this.enableChart = true;
+		   		break;
+		   	}	
+		   	this.enableChart = false;
+		}
 	}
 	
 	@Override
