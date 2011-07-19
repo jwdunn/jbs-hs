@@ -221,7 +221,7 @@ public class HappyData {
 		return net.downloadLocal(minLat, maxLat, minLong, maxLong, limit);
 	}
 	
-	protected ArrayList<HappyBottle> getLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, int timeafter){
+	protected ArrayList<HappyBottle> getLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
 		return net.downloadLocalAfter(minLat, maxLat, minLong, maxLong, limit, timeafter);
 	}
 

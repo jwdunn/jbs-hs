@@ -239,7 +239,6 @@ public class NetHelper {
 				JSONObject o = jarray.getJSONObject(i);
 				//turn the object into a bottle, using the power of newparseone
 				HappyBottle b = newparseone(o);
-				Log.d(TAG, "successfully parsed new happybottle - " + b);
 				a.add(b);
 			}  
 		} catch (JSONException e) {
@@ -301,7 +300,7 @@ public class NetHelper {
 	}
 
 	
-	public ArrayList<HappyBottle> downloadLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, int timeafter){
+	public ArrayList<HappyBottle> downloadLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
 		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -1 * timeafter);
 	}
 	/**
@@ -318,10 +317,12 @@ public class NetHelper {
 	 */
 	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long timebefore){
 		String page = "error";
+		timebefore = timebefore * -1; //to fit the syntax of the call: - = before, + = after
 		try{
 			HttpGet request = new HttpGet();
 			if (timebefore < 0){
 				request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + ".json"));
+				
 			} else{
 			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));
 			}
