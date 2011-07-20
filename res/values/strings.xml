@@ -19,10 +19,14 @@
 	<string name="setDate">Set Date</string>
 	<string name="setTime">Set Time</string>
 	
+	<string name="currentLocation">Go To My Location</string>
+	<string name="newUpdate">New Update</string>
+	
 	<string name="empty">No events!</string>
 	<string name="refresh_name">Refresh</string>
 	
 	<string name="happy_overlay">Switch Sad</string>
 	<string name="sad_overlay">Switch Happy</string>
 	<string name="switch_view">Switch View</string>
+	
 </resources>
