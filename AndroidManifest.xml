@@ -35,7 +35,7 @@
         		  android:label="@string/myHistory" 
         	      android:screenOrientation="portrait"  />
        	<activity android:name=".ChartList"
-       			  android:label="@string/myChart"
+       			  android:label="@string/myCharts"
         	      android:screenOrientation="portrait"  />
         <activity 
         		android:name=".UIDhelper" />
