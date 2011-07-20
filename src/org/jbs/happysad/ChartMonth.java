@@ -61,7 +61,7 @@ public class ChartMonth extends AbstractChart {
 	renderer.setMargins(new int[] {20, 30});
     
     return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Happy Pie", values),
-        renderer, "myChart");
+        renderer, "MyChart");
   }
   
   public double [] percentages(ArrayList<HappyBottle> plottables){
