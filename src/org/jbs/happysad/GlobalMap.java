@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -43,7 +44,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private MapView map; 
 	int checkHappy;
 	int checkSad;
-	boolean run;
+	boolean goToMyLocation;
 	boolean check;
 	int streetView;
 	MyLocationOverlay userLocationOverlay;
@@ -59,7 +60,51 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	Runnable latestThread;
 	ZoomPanListener zpl;
 	boolean enableChart;
-	//private volatile long timelatestbottle;
+	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
+	int bottlesPerView = 10;
+	
+	//---------------For Date and Time------------------------------------------------------------------------------------//
+	  
+	private Time timeForView = new Time();
+	private long epochChecker; // used to check if time changed
+	private long timeReference = 0; //used to move forward in time
+	
+	private int year;
+	private int month;
+	private int day;
+	private int hour;
+	private int minute;
+	private long epochTime;
+	
+	static final int DATE_DIALOG_ID = 0;
+	static final int TIME_DIALOG_ID = 1;
+	
+	View setDate;// = findViewById(R.id.date_button);
+	View setTime;// = findViewById(R.id.time_button);
+	
+	// the callback received when the user "sets" the date in the dialog
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+		public void onDateSet(DatePicker view, int new_year, int new_month,
+				int new_day) {
+			year = new_year;
+			month = new_month;
+			day = new_day;
+			dateTimeUpdate();
+		}
+	};
+
+	// the callback received when the user "sets" the time in the dialog
+	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+		public void onTimeSet(TimePicker view, int new_hour, int new_minute) {
+			hour = new_hour;
+			minute = new_minute;
+			dateTimeUpdate();
+		}
+	};
+	
+	//---------------Done for Date and Time-------------------------------------------------------------------------------//	
+
 	
 	/**
 	 * Initializes Activity
@@ -71,7 +116,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 
 		checkHappy = getIntent().getExtras().getInt("Happy");
 		checkSad = getIntent().getExtras().getInt("Sad");
-		run = getIntent().getExtras().getBoolean("Run");
+		goToMyLocation = getIntent().getExtras().getBoolean("GoToMyLocation");
 		streetView = getIntent().getExtras().getInt("Street");
 
 		//Defines the drawable items for the happy and sad overlays
@@ -121,7 +166,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
         ((Button) myButton).setText("MyMap");
 
 		center = new GeoPoint(-1,-1);
-		zoomLevel = -1;
+		zoomLevel = map.getZoomLevel();
 		handler = new Handler();
 	}
 
@@ -204,29 +249,33 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			
 		case R.id.date_button:
 			showDialog(DATE_DIALOG_ID);
+			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 	
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
+			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 			
 		case R.id.arrowLeft:
 			if (newBottles == null){
-				Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
 			}
 			else if (newBottles.size()==0){
-				Toast.makeText(getBaseContext(), "newBottles has size 0", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "newBottles has size 0", Toast.LENGTH_LONG).show();
 			}
 			if(newBottles != null && newBottles.size()>0){
 				epochTime = newBottles.get(newBottles.size()-1).getTime();
 				//epochTime = newBottles.get(0).getTime();
 				timeForView.set(epochTime);
 				setTimeObjectValues();
+				happyOverlay.emptyOverlay();
+				sadOverlay.emptyOverlay();
+				//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			}
 			break;	
 			
 		case R.id.arrowRight:
-			
 			int centerLat = center.getLatitudeE6(); //finds center's latitude
 			int centerLong = center.getLongitudeE6(); //finds center's longitude
 			int width = map.getLongitudeSpan(); //gets width of view in terms of longitudes shown on screen
@@ -236,17 +285,26 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			int maxLat = centerLat+height/2; //gets the top most latitude shown
 			int minLat = centerLat-height/2; //gets the bottom most latitude shown
 			HappyData newdatahelper = new HappyData(this);
-			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,10,epochTime);
-			epochTime = temp.get(newBottles.size()-1).getTime();
-			timeForView.set(epochTime+1);
-			setTimeObjectValues();
-			dateTimeUpdate();
-			
-			
+			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
+			if(temp != null && temp.size()!=0){
+				if (newBottles == null || newBottles.size() == 0){
+					epochTime = timeReference;
+				}
+				else{
+					epochTime = temp.get(temp.size()-1).getTime();
+				}
+				timeForView.set(epochTime);
+				happyOverlay.emptyOverlay();
+				sadOverlay.emptyOverlay();
+				setTimeObjectValues();
+				dateTimeUpdate();
+			}			
+			else{
+				Toast.makeText(getBaseContext(), "No future entries exist for this view.", Toast.LENGTH_LONG).show();
+			}
 			break;
 			
 		}
-
 		map.invalidate();
 	}
 
@@ -283,13 +341,11 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	private void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
 		userLocationOverlay.enableMyLocation();
-		map.getOverlays().add(userLocationOverlay);  
-		//adds the users location overlay to the overlays being displayed
+		map.getOverlays().add(userLocationOverlay);  //adds the users location overlay to the overlays being displayed
 	}
 	
 	private void goToMyLocation() {
-		if (run == true) {
-			map.getOverlays().add(userLocationOverlay);
+		if (goToMyLocation == true) {
 			userLocationOverlay.runOnFirstFix(new Runnable() {
 				public void run() {
 					// Zoom in to current location
@@ -302,14 +358,17 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	}
 
 
-	//creates an emotion overlay
-	private static synchronized void emotionOverlaySetter(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
+	
+	
 
-		if (toshow == null) {Log.d(TAG, "THIS IS A PROBLEM AND SHOULD NEVER HAPPEN"); return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
-		overlay.emptyOverlay();
+	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
+		
+		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
+		//overlay.emptyOverlay();
 		for(HappyBottle bottle : toshow) {
-
-			if (bottle.getEmo()==emotion) { //happy or sad filter
+			if( !filter.contains(bottle) && bottle.getEmo() == emotion){
+				//happy or sad filter^
+				filter.add(bottle);
 				int latitude = bottle.getLat();
 				int longitude = bottle.getLong();
 				GeoPoint point = new GeoPoint(latitude,longitude);
@@ -324,6 +383,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	 */
 	private ArrayList<HappyBottle> updateToView(){
 		//Log.w("updateToView", "ERROR in new method");
+		epochChecker = epochTime;
 		GeoPoint center = map.getMapCenter(); //gets coordinates for map view's center
 		int centerLat = center.getLatitudeE6(); //finds center's latitude
 		int centerLong = center.getLongitudeE6(); //finds center's longitude
@@ -335,7 +395,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d("Coordinates", "minLong: "+minLong+"minLat: "+minLat+"maxLong"+maxLong+"maxLat"+maxLat);
 		//return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
-		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,10,epochTime);
+		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
 	}
 
 	//to sync and update bottles with mapview
@@ -346,11 +406,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 			Log.d(TAG, "updatetoview from updater");
 			return updateToView();
 		}
-		return newBottles;
+		else{
+			//Toast.makeText(getBaseContext(), "OldBottles: ", Toast.LENGTH_LONG).show();
+			return newBottles;	
+		}
 	}
 
 	private void stablePainter(){
-		//Creates a new runnable that stabalizes the screen
+		//Creates a new runnable that stabilizes the screen
 		Runnable runnable = new Runnable(){
 			@Override
 			public void run(){
@@ -375,10 +438,14 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 								Log.d(TAG, "running the thread that updates the overlays");
 								ArrayList<HappyBottle> temp = newBottles;
 								newBottles = updater();
-								if (!(newBottles.equals(temp))){
-									emotionOverlaySetter(1,newBottles,happyOverlay);
-									emotionOverlaySetter(0,newBottles,sadOverlay);
+								if (newBottles != null && newBottles.size() != 0){
+									timeReference = newBottles.get(0).getTime();
 								}
+								if (!(newBottles.equals(temp))){
+									emotionOverlayAdder(1,newBottles,happyOverlay);
+									emotionOverlayAdder(0,newBottles,sadOverlay);
+								}
+								map.invalidate();
 							}
 						};
 						handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
@@ -416,6 +483,17 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		@Override
 		protected Void doInBackground(Void... params) {
 			while(true){
+				if(zoomLevel != map.getZoomLevel()) {
+					handler.post(new Runnable(){
+						@Override
+						public void run(){
+						happyOverlay.emptyOverlay();
+						sadOverlay.emptyOverlay();
+						zoomLevel = map.getZoomLevel();
+						filter.clear();	}
+					});
+					
+				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
 				}
@@ -459,7 +537,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.current_location:
-	    	run = true;
+	    	goToMyLocation = true;
 	        goToMyLocation();
 	        return true;
 	    case R.id.new_update:
@@ -485,7 +563,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		timeForView.setToNow();
-		timeForCheck.setToNow();
+		epochChecker = timeForView.normalize(true);
 		userLocationOverlay.enableMyLocation();
 		Random r = new Random();
 		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
@@ -556,58 +634,17 @@ public class GlobalMap extends MapActivity implements OnClickListener {
     }
     
     protected boolean isTimeChanged(){
-    	if(!(timeForCheck.equals(timeForView))){
-    		timeForCheck = timeForView;
+    	if(!(epochChecker == epochTime)){
     		return true;
     	}
-    	
-    	return false;
+    	else{
+    		return false;
+    	}
     }
 	
     //-----------DONE DATE AND TIME STUFF----------------------------------------------------	
 
     
 
-	//---------------For Date and Time------------------------------------------------------------------------------------//
-	  
-	private Time timeForView = new Time();
-	private Time timeForCheck = new Time();
 	
-	private int year;
-	private int month;
-	private int day;
-	private int hour;
-	private int minute;
-	private long epochTime;
-	
-	static final int DATE_DIALOG_ID = 0;
-	static final int TIME_DIALOG_ID = 1;
-	
-	View setDate;// = findViewById(R.id.date_button);
-	View setTime;// = findViewById(R.id.time_button);
-	
-	// the callback received when the user "sets" the date in the dialog
-	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-		public void onDateSet(DatePicker view, int new_year, int new_month,
-				int new_day) {
-			year = new_year;
-			month = new_month;
-			day = new_day;
-			dateTimeUpdate();
-		}
-	};
-
-	// the callback received when the user "sets" the time in the dialog
-	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-		public void onTimeSet(TimePicker view, int new_hour, int new_minute) {
-			hour = new_hour;
-			minute = new_minute;
-			dateTimeUpdate();
-		}
-	};
-	
-	//---------------Done for Date and Time-------------------------------------------------------------------------------//	
-
-    
 }
