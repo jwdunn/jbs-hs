@@ -127,13 +127,6 @@ public class HappyData {
 		addAvoidDupes(b);
 	}
 
-	//given the rowid of a row in the local database of a bottle, delete it.
-	private void removeByID(long rowid){
-		Log.e(TAG, "REMOVEBYID STARTED");
-		SQLiteDatabase db = h.getWritableDatabase();
-		db.delete(TABLE_NAME, "_ID==" + rowid, null );
-		db.close();
-	}
 
 	//add bottles to the database but only if they are not dupes
 	private void addAvoidDupes(ArrayList<HappyBottle> a){
@@ -216,8 +209,32 @@ public class HappyData {
 				null, ORDER_BY);
 		return cursor;
 	}
-
+	
+	protected ArrayList<HappyBottle> getMyLocalRecent(int minLat, int maxLat, int minLong, int maxLong, int limit){
+		//Bottle.where(" lat > ? and lat < ? and long > ? and long < ? ",params[:lat1],params[:lat2],params[:long1],params[:long2]).order("time DESC").limit(params[:recent])
+		SQLiteDatabase db = h.getReadableDatabase();
+		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong)};
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
+		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
+		while (cursor.moveToNext() ){
+			HappyBottle b = createBottle(cursor);
+			a.add(b);
+		}
+		cursor.close();
+		db.close();
+		return a;
+	}
+	
 	protected ArrayList<HappyBottle> getLocalRecent(int minLat, int maxLat, int minLong, int maxLong, int limit){
 		return net.downloadLocal(minLat, maxLat, minLong, maxLong, limit);
+	}
+	
+	protected ArrayList<HappyBottle> getLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
+		return net.downloadLocalAfter(minLat, maxLat, minLong, maxLong, limit, timeafter);
+	}
+
+	protected ArrayList<HappyBottle> getLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long time){
+		return net.downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, time);
+
 	}
 }

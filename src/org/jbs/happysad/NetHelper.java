@@ -49,7 +49,7 @@ public class NetHelper {
 		try {
 
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/finduser.json?email=" + name));
+			request.setURI(new URI("http://happytrack.heroku.com/finduser.json?email=" + name));
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
 			page = connectionHelper(request);
@@ -102,9 +102,9 @@ public class NetHelper {
 
 		URI url;
 		try { 
-			url = new URI("http", "stark-water-134.heroku.com", "/users.json", data, null); 
+			url = new URI("http", "happytrack.heroku.com", "/users.json", data, null); 
 			//visit this url using POST (note, will not work with GET)
-			//http://stark-water-134.heroku.com/users.json?user[email]=sayhar@gmail.com
+			//http://happytrack.heroku.com/users.json?user[email]=sayhar@gmail.com
 			request.setURI(url);
 			Log.d(TAG, "data: "+ data);
 			Log.d(TAG, "uRL: " + url);
@@ -139,9 +139,9 @@ public class NetHelper {
 		try {
 			//so we set up the get request as normal
 			HttpGet request = new HttpGet();
-			request.setURI(new URI("http://stark-water-134.heroku.com/bottles.json"));
+			request.setURI(new URI("http://happytrack.heroku.com/bottles.json"));
 			if( t.equals(Task.GETMINE)){
-				request.setURI(new URI("http://stark-water-134.heroku.com/users" + myID+"bottles.json"));
+				request.setURI(new URI("http://happytrack.heroku.com/bottles/" + myID+".json"));
 			}
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
 			request.setHeader(declareAuth);
@@ -172,7 +172,7 @@ public class NetHelper {
 
 		URI url;
 		try { 
-			url = new URI("http", "stark-water-134.heroku.com", "/bottles", data, null);
+			url = new URI("http", "happytrack.heroku.com", "/bottles", data, null);
 			//here we add the data to the url (POST) and then of course send it to connectionhelper to do all the heavy lifting 
 			request.setURI(url);
 			Log.d(TAG, "data: "+ data);
@@ -239,11 +239,11 @@ public class NetHelper {
 				JSONObject o = jarray.getJSONObject(i);
 				//turn the object into a bottle, using the power of newparseone
 				HappyBottle b = newparseone(o);
-				Log.d(TAG, "successfully parsed new happybottle - " + b);
 				a.add(b);
 			}  
 		} catch (JSONException e) {
 			Log.e(TAG,  "array error" + e.toString());
+			Log.e(TAG, "the offending thing: " + in);
 			a.add(new HappyBottle(myID , 1,  1,(short) 1, "JSONARRAYERROR",1) );
 		}
 		catch (Exception e){
@@ -300,6 +300,10 @@ public class NetHelper {
 		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -5);
 	}
 
+	
+	public ArrayList<HappyBottle> downloadLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
+		return downloadLocalBefore(minLat, maxLat, minLong, maxLong, limit, -1 * timeafter);
+	}
 	/**
 	 * The same as downloadLocalBefore, except we have a new parameter: timebefore. Only return bottles created before time timebefore. 
 	 * It will download the most recent <limit> number of bottles, within the view defined by min/max lat/long, but only those before timebefore.
@@ -312,14 +316,15 @@ public class NetHelper {
 	 * @param timebefore
 	 * @return ArrayList of HappyBottles we download.
 	 */
-	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, int timebefore){
+	public ArrayList<HappyBottle> downloadLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long timebefore){
 		String page = "error";
+		timebefore = timebefore * -1; //to fit the syntax of the call: - = before, + = after
 		try{
 			HttpGet request = new HttpGet();
 			if (timebefore < 0){
-				request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + ".json"));
+				request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + "/" + timebefore+ ".json"));
 			} else{
-			request.setURI(new URI("http://stark-water-134.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));
+			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));
 			}
 			Log.d(TAG, request.getURI().toString());
 			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
