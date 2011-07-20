@@ -51,14 +51,14 @@ public class ChartWeek extends AbstractChart {
 	
 	double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
-    int[] colors = new int[] { Color.YELLOW, Color.BLUE };
+    int[] colors = new int[] { Color.YELLOW, Color.CYAN };
     
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
     renderer.setZoomEnabled(true);
     //renderer.setChartTitleTextSize(20);
     
-    renderer.setChartTitle(y);
+    renderer.setChartTitle("THIS WEEK");
     
     renderer.setChartTitleTextSize(50);
 	renderer.setLabelsTextSize(20);
@@ -77,10 +77,16 @@ public class ChartWeek extends AbstractChart {
 		double sad = 0;
 		double [] values = new double[2];
 		boolean greek_salad = true;
+		boolean breaker = false;
 		int x = 0;
+		int y = 0;
+		int z = 0;
+		int w = 0;
 	
 		HappyBottle element = itr.next();
 		int main = new Timestamp (element.getTime()).getDay();
+		//*
+		//int main2 = new Timestamp (element.getTime()).getDate();
 		
 		if (element.getEmo() == 1){
 	    	happy += 1; 
@@ -96,6 +102,48 @@ public class ChartWeek extends AbstractChart {
 					
 					element = itr.next();
 					x = new Timestamp (element.getTime()).getDay();
+					//*
+					y = new Timestamp (element.getTime()).getMonth() + 1;
+					z = new Timestamp (element.getTime()).getDate();
+				}
+				
+				//*
+				if (y == 4 || y == 6 || y == 9 || y == 11){
+					
+					w = 25;
+					
+				} else if (y == 2){
+					
+					w = 23;
+				
+				} else {
+					
+					w = 26;
+				}
+				
+				int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+				int date = Calendar.getInstance().get(Calendar.DATE);
+				
+				//*
+				if (y == month){
+					
+					if (!(z == date || z == date - 1 || z == date - 2 || z == date - 3 || z == date - 4 || z == date - 5 || z == date - 6)){
+						
+						breaker = true;
+						break;
+					}
+					
+				} else if (y == (month - 1)){
+					
+					if (z < w){
+						
+						breaker = true;
+						break;
+					}
+					
+				} else {
+					
+					break;
 				}
 	
 				if (i == x){
@@ -112,6 +160,11 @@ public class ChartWeek extends AbstractChart {
 					greek_salad = false;
 					break;
 				}		
+			}
+			
+			if (breaker){
+				
+				break;
 			}
 		}
 		 

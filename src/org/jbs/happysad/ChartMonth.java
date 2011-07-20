@@ -51,14 +51,14 @@ public class ChartMonth extends AbstractChart {
 	
 	double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
-    int[] colors = new int[] { Color.YELLOW, Color.BLUE };
+    int[] colors = new int[] { Color.YELLOW, Color.CYAN };
     
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
     renderer.setZoomEnabled(true);
     //renderer.setChartTitleTextSize(20);
     
-    renderer.setChartTitle("PIE CHART!");
+    renderer.setChartTitle("THIS MONTH");
     
     renderer.setChartTitleTextSize(50);
 	renderer.setLabelsTextSize(20);

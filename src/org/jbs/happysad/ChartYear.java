@@ -54,7 +54,7 @@ public class ChartYear extends AbstractChart {
     renderer.setZoomEnabled(true);
     //renderer.setChartTitleTextSize(20);
     
-    renderer.setChartTitle("PIE CHART!");
+    renderer.setChartTitle("THIS YEAR");
     
     renderer.setChartTitleTextSize(50);
 	renderer.setLabelsTextSize(20);
