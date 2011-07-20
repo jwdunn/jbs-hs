@@ -1,19 +1,14 @@
 package org.jbs.happysad;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
 import android.widget.Button;
 import android.widget.Toast;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
 
 
 
@@ -49,8 +44,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 	 */
 	private static final String TAG = "MyMap";
 	ZoomPanListener zpl;
-
-
+	Runnable running;
+	int bottlestoview = 5;
 
 	/**
 	 * Initializes Activity
@@ -80,14 +75,14 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		setDate.setOnClickListener(this);
 		setTime = findViewById(R.id.time_button);
 		setTime.setOnClickListener(this);
-		
+
 		//various setters of values
 		initbuttons();
 		initDateStuff();
-		
+
 		dateTimeUpdate();		
 
-	
+
 		center = new GeoPoint(-1,-1);
 		zoomLevel = map.getZoomLevel();
 	}
@@ -99,17 +94,20 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		View switchButton = findViewById(R.id.switchView);
 		View histButton = findViewById(R.id.myTrack_button);
 		View chartButton = findViewById(R.id.myChart_button);
-		
+		View backButton = findViewById(R.id.arrowLeft);
+		View forwardButton = findViewById(R.id.arrowRight);
+		View myButton = findViewById(R.id.map);
+
 		sadButton.setOnClickListener(this);
 		happyButton.setOnClickListener(this); 
 		switchButton.setOnClickListener(this); 
-		histButton.setOnClickListener(this);  	
-		chartButton.setOnClickListener(this);
-		
-		//Finds the my_map view
-		View myButton = findViewById(R.id.map);
-		((Button) myButton).setText("GlobalMap");
+		chartButton.setOnClickListener(this);  	
+		histButton.setOnClickListener(this);
+		backButton.setOnClickListener(this);
+		forwardButton.setOnClickListener(this);
 		myButton.setOnClickListener(this);
+
+		((Button) myButton).setText("GlobalMap");
 	}
 
 	/**
@@ -195,7 +193,53 @@ public class MyMap extends AbstractMap implements OnClickListener {
 
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
-			break;		
+			break;	
+		case R.id.arrowLeft:
+			if (newBottles == null || newBottles.size() == 0) {
+				//the reason we are using threads and handlers for this is the following:
+				//we want to prevent the situation where a person keeeps jamming on the left button, so that 
+				//the tooast stays up for minutes. Here, there can only be one (maybe two) toasts queued up 
+				//ever.
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT).show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);
+
+
+			} if(newBottles != null && newBottles.size()>0){
+				mapClear();
+				epochTime = newBottles.get(newBottles.size()-1).getTime();
+				timeForView.set(epochTime);
+				setTimeObjectValues();
+			}
+			break;	
+
+		case R.id.arrowRight:
+			ArrayList<HappyBottle> temp = updateViewAfter();
+
+			if(temp != null && temp.size()>1){
+				epochTime = temp.get(temp.size()-1).getTime();
+				timeForView.set(epochTime);
+				mapClear();
+				setTimeObjectValues();
+				dateTimeUpdate();
+			} else {
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT).show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);
+			}
+			break;
 		}
 		map.invalidate();
 
@@ -212,10 +256,9 @@ public class MyMap extends AbstractMap implements OnClickListener {
 					handler.post(new Runnable(){
 						@Override
 						public void run(){
-							happyOverlay.emptyOverlay();
-							sadOverlay.emptyOverlay();
-							zoomLevel = map.getZoomLevel();
-							filter.clear();	}
+							mapClear();
+							zoomLevel = map.getZoomLevel();}
+								
 					});	}
 				if(isMoved() || isTimeChanged()){
 					drawRecentLocal();
@@ -270,10 +313,21 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		int maxLat = centerLat+height/2; //gets the top most latitude shown
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d("Coordinates", "minLong: "+minLong+"minLat: "+minLat+"maxLong"+maxLong+"maxLat"+maxLat);
-		return datahelper.getMyLocalRecent(minLat,maxLat,minLong,maxLong,5);
+		return datahelper.getMyLocalBefore(minLat,maxLat,minLong,maxLong,bottlestoview,epochTime);
 	}
-
-
+	private ArrayList<HappyBottle> updateViewAfter(){
+		int centerLat = center.getLatitudeE6(); //finds center's latitude
+		int centerLong = center.getLongitudeE6(); //finds center's longitude
+		int width = map.getLongitudeSpan(); //gets width of view in terms of longitudes shown on screen
+		int height = map.getLatitudeSpan(); //gets height of view in terms of latitudes shown on screen
+		int minLong = centerLong-width/2; //gets the left most longitude shown
+		int maxLong = centerLong+width/2; //gets the right most longitude shown
+		int maxLat = centerLat+height/2; //gets the top most latitude shown
+		int minLat = centerLat-height/2; //gets the bottom most latitude shown
+		datahelper = new HappyData(this);
+		ArrayList<HappyBottle> temp = datahelper.getMyLocalAfter(minLat,maxLat,minLong,maxLong,bottlestoview,epochTime);
+		return temp;
+	}
 	//Disables MyLocation
 	@Override
 	protected void onPause() {

@@ -4,7 +4,6 @@ package org.jbs.happysad;
 
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,17 +11,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.OverlayItem;
 
 import android.widget.Button;
 import android.widget.Toast;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -43,13 +35,13 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	ItemizedEmotionOverlay sadOverlay; 
 	boolean enableChart;
 	 */
-	
+
 	Runnable running;
 	private static final String TAG = "GlobalMap";
 	boolean check;
 	ZoomPanListener zpl;
 	int bottlesPerView = 10;
-	
+
 
 
 	/**
@@ -61,7 +53,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		setContentView(R.layout.map);
 
 		readIntents();
-		
+
 		initOverlayStuff();
 		//initialize and display map view and user location
 		initMapView();
@@ -71,23 +63,21 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		setDate.setOnClickListener(this);
 		setTime = findViewById(R.id.time_button);
 		setTime.setOnClickListener(this);
-		
+
 		initbuttons();
 		initDateStuff();
 
 		dateTimeUpdate();		
 		//Finds the my_map view
-		
+
 
 		center = new GeoPoint(-1,-1);
 		zoomLevel = map.getZoomLevel();
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
 	protected void initbuttons(){
 		View sadButton = findViewById(R.id.showSad);
 		View happyButton = findViewById(R.id.showHappy);
@@ -97,7 +87,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		View backButton = findViewById(R.id.arrowLeft);
 		View forwardButton = findViewById(R.id.arrowRight);
 		View myButton = findViewById(R.id.map);
-		
+
 
 		sadButton.setOnClickListener(this);
 		happyButton.setOnClickListener(this); 
@@ -107,7 +97,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		backButton.setOnClickListener(this);
 		forwardButton.setOnClickListener(this);
 		myButton.setOnClickListener(this);
-		
+
 		((Button) myButton).setText("MyMap");
 	}
 	/**
@@ -128,10 +118,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				streetView = 0;
 				map.setSatellite(true);
 			}
-		map.invalidate();
-		break;
+			map.invalidate();
+			break;
 
-		//used to show/hide the happy faces
+			//used to show/hide the happy faces
 		case R.id.showHappy:
 			if (checkHappy==0){ 
 				map.getOverlays().add(happyOverlay); //adds happy face overlay to visible overlays 
@@ -146,7 +136,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			invalidateOverlay(); //method call
 			break;
 
-		//used to show/hide the sad faces
+			//used to show/hide the sad faces
 		case R.id.showSad:		
 			if (checkSad == 0){
 				map.getOverlays().add(sadOverlay); //adds sad face overlay to visible overlays
@@ -198,12 +188,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				};
 				running = runnable;
 				handler.postDelayed(runnable, 1000);
-				
-				
+
+
 			} if(newBottles != null && newBottles.size()>0){
-				happyOverlay.emptyOverlay();
-				sadOverlay.emptyOverlay();
-				filter.clear();
+				mapClear();
 				epochTime = newBottles.get(newBottles.size()-1).getTime();
 				timeForView.set(epochTime);
 				setTimeObjectValues();
@@ -211,24 +199,11 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			break;	
 
 		case R.id.arrowRight:
-			int centerLat = center.getLatitudeE6(); //finds center's latitude
-			int centerLong = center.getLongitudeE6(); //finds center's longitude
-			int width = map.getLongitudeSpan(); //gets width of view in terms of longitudes shown on screen
-			int height = map.getLatitudeSpan(); //gets height of view in terms of latitudes shown on screen
-			int minLong = centerLong-width/2; //gets the left most longitude shown
-			int maxLong = centerLong+width/2; //gets the right most longitude shown
-			int maxLat = centerLat+height/2; //gets the top most latitude shown
-			int minLat = centerLat-height/2; //gets the bottom most latitude shown
-			HappyData newdatahelper = new HappyData(this);
-			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
+			ArrayList<HappyBottle> temp = updateViewAfter();
 			if(temp != null && temp.size()>1){
-
-					epochTime = temp.get(temp.size()-1).getTime();
-				
+				epochTime = temp.get(temp.size()-1).getTime();
 				timeForView.set(epochTime);
-				happyOverlay.emptyOverlay();
-				sadOverlay.emptyOverlay();
-				filter.clear();
+				mapClear();
 				setTimeObjectValues();
 				dateTimeUpdate();
 			} else {
@@ -246,7 +221,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		}
 	}
 
-	
+
 
 	/**
 	 * This method updates the overlays for only the current the current view
@@ -334,10 +309,9 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					handler.post(new Runnable(){
 						@Override
 						public void run(){
-							happyOverlay.emptyOverlay();
-							sadOverlay.emptyOverlay();
+							mapClear();
 							zoomLevel = map.getZoomLevel();
-							filter.clear();	}
+						}
 					});	}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
@@ -348,10 +322,19 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					e.printStackTrace();
 				}}}}
 
-
-	
-
-
+	protected ArrayList<HappyBottle> updateViewAfter(){
+		int centerLat = center.getLatitudeE6(); //finds center's latitude
+		int centerLong = center.getLongitudeE6(); //finds center's longitude
+		int width = map.getLongitudeSpan(); //gets width of view in terms of longitudes shown on screen
+		int height = map.getLatitudeSpan(); //gets height of view in terms of latitudes shown on screen
+		int minLong = centerLong-width/2; //gets the left most longitude shown
+		int maxLong = centerLong+width/2; //gets the right most longitude shown
+		int maxLat = centerLat+height/2; //gets the top most latitude shown
+		int minLat = centerLat-height/2; //gets the bottom most latitude shown
+		HappyData newdatahelper = new HappyData(this);
+		ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
+		return temp;
+	}
 	//Disables MyLocation
 	@Override
 	protected void onPause() {

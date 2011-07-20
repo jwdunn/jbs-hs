@@ -182,7 +182,7 @@ public abstract class AbstractMap extends MapActivity  {
 		}
 	};
 	
-	public boolean isMoved() {
+	protected boolean isMoved() {
 		GeoPoint trueCenter =map.getMapCenter();
 		int trueZoom = map.getZoomLevel();
 		if(!((trueCenter.equals(center)) && (trueZoom == zoomLevel))){	
@@ -192,6 +192,11 @@ public abstract class AbstractMap extends MapActivity  {
 			return false;
 		}}
 
+	protected void mapClear(){
+		happyOverlay.emptyOverlay();
+		sadOverlay.emptyOverlay();
+		filter.clear();
+	}
 	
 	protected void goToMyLocation() {
 		if (goToMyLocation == true) {

@@ -38,7 +38,6 @@ public class HappyData {
 	public HappyData(Context ctx){
 		h = new HappyDB(ctx);
 		//mainThread = new Handler();
-
 		myID = UIDh.getUID();
 	}
 
@@ -224,6 +223,36 @@ public class HappyData {
 		db.close();
 		return a;
 	}
+	
+	protected ArrayList<HappyBottle> getMyLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
+		SQLiteDatabase db = h.getReadableDatabase();
+		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(timeafter)};
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and time > ?" , args, null, null, TIME + " ASC", Integer.toString(limit));
+		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
+		while (cursor.moveToNext() ){
+			HappyBottle b = createBottle(cursor);
+			a.add(b);
+		}
+		cursor.close();
+		db.close();
+		return a;
+	}
+	
+	protected ArrayList<HappyBottle> getMyLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long timebefore){
+		SQLiteDatabase db = h.getReadableDatabase();
+		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(timebefore)};
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and time < ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
+		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
+		while (cursor.moveToNext() ){
+			HappyBottle b = createBottle(cursor);
+			a.add(b);
+		}
+		cursor.close();
+		db.close();
+		return a;
+	}
+	
+	
 	
 	protected ArrayList<HappyBottle> getLocalRecent(int minLat, int maxLat, int minLong, int maxLong, int limit){
 		return net.downloadLocal(minLat, maxLat, minLong, maxLong, limit);
