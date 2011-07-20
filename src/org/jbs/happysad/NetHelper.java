@@ -243,6 +243,7 @@ public class NetHelper {
 			}  
 		} catch (JSONException e) {
 			Log.e(TAG,  "array error" + e.toString());
+			Log.e(TAG, "the offending thing: " + in);
 			a.add(new HappyBottle(myID , 1,  1,(short) 1, "JSONARRAYERROR",1) );
 		}
 		catch (Exception e){
@@ -321,7 +322,7 @@ public class NetHelper {
 		try{
 			HttpGet request = new HttpGet();
 			if (timebefore < 0){
-				request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit + ".json"));
+				request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/"+ timebefore + ".json"));
 				
 			} else{
 			request.setURI(new URI("http://happytrack.heroku.com/bottles/local/" +minLat +"/" + maxLat + "/" + minLong + "/" + maxLong + "/" + limit +"/" + timebefore+".json"));

@@ -60,47 +60,6 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	ZoomPanListener zpl;
 	boolean enableChart;
 	//private volatile long timelatestbottle;
-
-	//---------------For Date and Time------------------------------------------------------------------------------------//
-	  
-	private Time timeForView = new Time();
-	private Time timeForCheck = new Time();
-	
-	private int year;
-	private int month;
-	private int day;
-	private int hour;
-	private int minute;
-	private long epochTime;
-	
-	static final int DATE_DIALOG_ID = 0;
-	static final int TIME_DIALOG_ID = 1;
-	
-	View setDate;// = findViewById(R.id.date_button);
-	View setTime;// = findViewById(R.id.time_button);
-	
-	// the callback received when the user "sets" the date in the dialog
-	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-		public void onDateSet(DatePicker view, int new_year, int new_month,
-				int new_day) {
-			year = new_year;
-			month = new_month;
-			day = new_day;
-			dateTimeUpdate();
-		}
-	};
-
-	// the callback received when the user "sets" the time in the dialog
-	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-		public void onTimeSet(TimePicker view, int new_hour, int new_minute) {
-			hour = new_hour;
-			minute = new_minute;
-			dateTimeUpdate();
-		}
-	};
-	
-	//---------------Done for Date and Time-------------------------------------------------------------------------------//	
 	
 	/**
 	 * Initializes Activity
@@ -126,36 +85,26 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 		initMapView();
 		initMyLocation();	
 
-		
-
-		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
-		sadButton.setOnClickListener(this);
-
-		//Finds the show_happy view
 		View happyButton = findViewById(R.id.showHappy);
-		happyButton.setOnClickListener(this); 
-
-		//Finds the switch_view
 		View switchButton = findViewById(R.id.switchView);
-		switchButton.setOnClickListener(this); 
-
-		//Finds the chart_button view
 		View chartButton = findViewById(R.id.myTrack_button);
-		chartButton.setOnClickListener(this);  	
-		
 		View histButton = findViewById(R.id.myChart_button);
-		histButton.setOnClickListener(this);
-		
 		View backButton = findViewById(R.id.arrowLeft);
-		backButton.setOnClickListener(this);
-		
 		View forwardButton = findViewById(R.id.arrowRight);
+		View myButton = findViewById(R.id.map);
+		
+		sadButton.setOnClickListener(this);
+		happyButton.setOnClickListener(this); 
+		switchButton.setOnClickListener(this); 
+		chartButton.setOnClickListener(this);  	
+		histButton.setOnClickListener(this);
+		backButton.setOnClickListener(this);
 		forwardButton.setOnClickListener(this);
+		myButton.setOnClickListener(this);
 		
 		setDate = findViewById(R.id.date_button);
 		setDate.setOnClickListener(this);
-		
 		setTime = findViewById(R.id.time_button);
 		setTime.setOnClickListener(this);
 		
@@ -168,16 +117,12 @@ public class GlobalMap extends MapActivity implements OnClickListener {
         minute = c.get(Calendar.MINUTE);
         
         dateTimeUpdate();		
-		
 		//Finds the my_map view
-		View myButton = findViewById(R.id.map);
-		((Button) myButton).setText("MyMap");
-		myButton.setOnClickListener(this);
+        ((Button) myButton).setText("MyMap");
 
 		center = new GeoPoint(-1,-1);
 		zoomLevel = -1;
 		handler = new Handler();
-
 	}
 
 	/**
@@ -360,7 +305,7 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 	//creates an emotion overlay
 	private static synchronized void emotionOverlaySetter(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
 
-		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
+		if (toshow == null) {Log.d(TAG, "THIS IS A PROBLEM AND SHOULD NEVER HAPPEN"); return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
 		overlay.emptyOverlay();
 		for(HappyBottle bottle : toshow) {
 
@@ -620,5 +565,49 @@ public class GlobalMap extends MapActivity implements OnClickListener {
     }
 	
     //-----------DONE DATE AND TIME STUFF----------------------------------------------------	
+
+    
+
+	//---------------For Date and Time------------------------------------------------------------------------------------//
+	  
+	private Time timeForView = new Time();
+	private Time timeForCheck = new Time();
 	
+	private int year;
+	private int month;
+	private int day;
+	private int hour;
+	private int minute;
+	private long epochTime;
+	
+	static final int DATE_DIALOG_ID = 0;
+	static final int TIME_DIALOG_ID = 1;
+	
+	View setDate;// = findViewById(R.id.date_button);
+	View setTime;// = findViewById(R.id.time_button);
+	
+	// the callback received when the user "sets" the date in the dialog
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+		public void onDateSet(DatePicker view, int new_year, int new_month,
+				int new_day) {
+			year = new_year;
+			month = new_month;
+			day = new_day;
+			dateTimeUpdate();
+		}
+	};
+
+	// the callback received when the user "sets" the time in the dialog
+	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+		public void onTimeSet(TimePicker view, int new_hour, int new_minute) {
+			hour = new_hour;
+			minute = new_minute;
+			dateTimeUpdate();
+		}
+	};
+	
+	//---------------Done for Date and Time-------------------------------------------------------------------------------//	
+
+    
 }
