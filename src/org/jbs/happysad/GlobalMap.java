@@ -1,4 +1,4 @@
-//my failed java part 2 (sunday)
+//FYI Sahar is a sexy beast.
 
 package org.jbs.happysad;
 
@@ -8,14 +8,10 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
@@ -24,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -32,6 +27,18 @@ import java.util.Random;
  * @author HappyTrack
  */
 public class GlobalMap extends AbstractMap implements OnClickListener {
+	//Note that you have access to the following variables:
+	/*	protected MapView map; 
+	int checkHappy;
+	int checkSad;
+	boolean goToMyLocation;
+	int streetView;
+	MyLocationOverlay userLocationOverlay;
+	protected MapController controller;
+	ItemizedEmotionOverlay happyOverlay; 
+	ItemizedEmotionOverlay sadOverlay; 
+	boolean enableChart;
+	 */
 	
 	
 	//fields
@@ -253,13 +260,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	}
 
 
-
-	//Starts tracking the users position on the map. 
-	private void initMyLocation() {
-		userLocationOverlay = new MyLocationOverlay(this, map);
-		userLocationOverlay.enableMyLocation();
-		map.getOverlays().add(userLocationOverlay);  //adds the users location overlay to the overlays being displayed
-	}
+	
 	
 	
 	
@@ -359,8 +360,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 
 	}
 	
-	
-
 	private class ZoomPanListener extends AsyncTask<Void, Void, Void>{
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -373,9 +372,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 						sadOverlay.emptyOverlay();
 						zoomLevel = map.getZoomLevel();
 						filter.clear();	}
-					});
-					
-				}
+					});	}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
 				}
@@ -385,25 +382,16 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					e.printStackTrace();
 				}}}}
 
-	
-
 
 	public boolean isMoved() {
 		GeoPoint trueCenter =map.getMapCenter();
 		int trueZoom = map.getZoomLevel();
-
-		if(!((trueCenter.equals(center)) && (trueZoom == zoomLevel))){
-			
+		if(!((trueCenter.equals(center)) && (trueZoom == zoomLevel))){	
 			Log.d(TAG, "You moved!:" + center.toString() + " zoom: " + zoomLevel);
 			return true;
-		}
-		else{
+		}else{
 			return false;
-		}
-	}
-
-
-	
+	}}
 	
 	
 

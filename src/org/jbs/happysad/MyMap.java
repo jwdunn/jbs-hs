@@ -1,30 +1,16 @@
 package org.jbs.happysad;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.format.Time;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
 import android.widget.Toast;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 
 
 /**
@@ -32,11 +18,20 @@ import java.util.Iterator;
  * @author HappyTrack
  */
 public class MyMap extends AbstractMap implements OnClickListener {
-	//fields
+	//Note that you have access to the following variables:
+	/*	protected MapView map; 
+	int checkHappy;
+	int checkSad;
+	boolean goToMyLocation;
+	int streetView;
+	MyLocationOverlay userLocationOverlay;
+	protected MapController controller;
+	ItemizedEmotionOverlay happyOverlay; 
+	ItemizedEmotionOverlay sadOverlay; 
+	boolean enableChart;
+	 */
 	
 
-	
-	
 	
 	
 	/**
@@ -71,7 +66,10 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		
 		//initialize and display map view and user location
 		initMapView();
+		initMyLocation();
 		goToMyLocation();
+		
+		
 		
 		//Finds the show_sad view
 		View sadButton = findViewById(R.id.showSad);
@@ -115,6 +113,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		((Button) myButton).setText("GlobalMap");
 		myButton.setOnClickListener(this);
 	}
+	
+	
 
 	/**
 	 * Invoked when a view is clicked
@@ -199,8 +199,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 	
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
-			break;	
-			
+			break;		
 		}
 		map.invalidate();
 

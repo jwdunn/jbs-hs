@@ -127,13 +127,6 @@ public class HappyData {
 		addAvoidDupes(b);
 	}
 
-	//given the rowid of a row in the local database of a bottle, delete it.
-	private void removeByID(long rowid){
-		Log.e(TAG, "REMOVEBYID STARTED");
-		SQLiteDatabase db = h.getWritableDatabase();
-		db.delete(TABLE_NAME, "_ID==" + rowid, null );
-		db.close();
-	}
 
 	//add bottles to the database but only if they are not dupes
 	private void addAvoidDupes(ArrayList<HappyBottle> a){

@@ -35,24 +35,22 @@ public abstract class AbstractMap extends MapActivity  {
 	ItemizedEmotionOverlay sadOverlay; 
 	boolean enableChart;
 
+	//Starts tracking the users position on the map. 
+	protected void initMyLocation() {
+		userLocationOverlay = new MyLocationOverlay(this, map);
+		userLocationOverlay.enableMyLocation();
+		map.getOverlays().add(userLocationOverlay);  //adds the users location overlay to the overlays being displayed
+	}
 	
 	//helper method for showHappy and showSad onClick cases
 	protected void invalidateOverlay() {
 		map.getOverlays().add(userLocationOverlay);
 	}
 
-	protected void goToMyLocation() {
-		if (goToMyLocation == true) {
-			userLocationOverlay.runOnFirstFix(new Runnable() {
-				public void run() {
-					// Zoom in to current location
-					controller.animateTo(userLocationOverlay.getMyLocation());
-					controller.setZoom(15); //sets the map zoom level to 15
-				}
-			});
-		}
-		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
-	}
+	
+	
+	
+	
 
 	
 	//Required method to make the map work
@@ -143,7 +141,18 @@ public abstract class AbstractMap extends MapActivity  {
 		}
 	};
 	
-    
+	protected void goToMyLocation() {
+		if (goToMyLocation == true) {
+			userLocationOverlay.runOnFirstFix(new Runnable() {
+				public void run() {
+					// Zoom in to current location
+					controller.animateTo(userLocationOverlay.getMyLocation());
+					controller.setZoom(15); //sets the map zoom level to 15
+				}
+			});
+		}
+		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
+	}
     
     
     @Override
