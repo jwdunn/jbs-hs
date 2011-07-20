@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
@@ -28,7 +30,8 @@ import java.util.Random;
  */
 public class GlobalMap extends AbstractMap implements OnClickListener {
 	//Note that you have access to the following variables:
-	/*	protected MapView map; 
+	/*	
+	protected MapView map; 
 	int checkHappy;
 	int checkSad;
 	boolean goToMyLocation;
@@ -38,26 +41,26 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay; 
 	boolean enableChart;
+	private final String TAG = "AbstractMap";
+	
+	int zoomLevel;
+	GeoPoint center;
+	Runnable latestThread;
+	ArrayList<HappyBottle> newBottles;
+	protected Handler handler = new Handler();
+	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
+	HappyData datahelper = new HappyData(this);
 	 */
-	
-	
+
+
 	//fields
 	private static final String TAG = "GlobalMap";
 	boolean check;
-	HappyData datahelper = new HappyData(this);
-	//	private volatile ArrayList<HappyBottle>  plottables;
-	ArrayList<HappyBottle> newBottles;
-	int zoomLevel;
-	GeoPoint center;
-	private Handler handler;
-	Runnable latestThread;
 	ZoomPanListener zpl;
-	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
 	int bottlesPerView = 10;
-	private long timeReference = 0; //used to move forward in time
-	
+	HappyData datahelper = new HappyData(this);
 
-	
+
 	/**
 	 * Initializes Activity
 	 */
@@ -90,7 +93,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		View backButton = findViewById(R.id.arrowLeft);
 		View forwardButton = findViewById(R.id.arrowRight);
 		View myButton = findViewById(R.id.map);
-		
+
 		sadButton.setOnClickListener(this);
 		happyButton.setOnClickListener(this); 
 		switchButton.setOnClickListener(this); 
@@ -99,27 +102,27 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		backButton.setOnClickListener(this);
 		forwardButton.setOnClickListener(this);
 		myButton.setOnClickListener(this);
-		
+
 		setDate = findViewById(R.id.date_button);
 		setDate.setOnClickListener(this);
 		setTime = findViewById(R.id.time_button);
 		setTime.setOnClickListener(this);
-		
-        // get the current date
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
-        
-        dateTimeUpdate();		
+
+		// get the current date
+		final Calendar c = Calendar.getInstance();
+		year = c.get(Calendar.YEAR);
+		month = c.get(Calendar.MONTH);
+		day = c.get(Calendar.DAY_OF_MONTH);
+		hour = c.get(Calendar.HOUR_OF_DAY);
+		minute = c.get(Calendar.MINUTE);
+
+		dateTimeUpdate();		
 		//Finds the my_map view
-        ((Button) myButton).setText("MyMap");
+		((Button) myButton).setText("MyMap");
 
 		center = new GeoPoint(-1,-1);
 		zoomLevel = map.getZoomLevel();
-		handler = new Handler();
+		
 	}
 
 	/**
@@ -186,7 +189,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		case R.id.myTrack_button:
 			startActivity(new Intent(this, History.class));
 			break;
-		
+
 		case R.id.myChart_button:
 			HappyData datahelper = new HappyData(this);
 			ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
@@ -198,17 +201,17 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				toast.show();
 			}
 			break;
-			
+
 		case R.id.date_button:
 			showDialog(DATE_DIALOG_ID);
 			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
-	
+
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
 			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
-			
+
 		case R.id.arrowLeft:
 			if (newBottles == null){
 				//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
@@ -226,7 +229,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			}
 			break;	
-			
+
 		case R.id.arrowRight:
 			int centerLat = center.getLatitudeE6(); //finds center's latitude
 			int centerLong = center.getLongitudeE6(); //finds center's longitude
@@ -259,11 +262,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		map.invalidate();
 	}
 
-
-	
-	
-	
-	
 
 	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
 		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
@@ -330,8 +328,8 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 						}catch (InterruptedException ex){
 							ex.printStackTrace();
 						}
-				//map is stabilized and if we get height and width will have be real values. 
-				} else {
+						//map is stabilized and if we get height and width will have be real values. 
+					} else {
 						//remove other tasks if queued for the handler
 						handler.removeCallbacks(latestThread); 
 						//new Runnable that updates the overlay
@@ -359,7 +357,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					new Thread(runnable).start();
 
 	}
-	
+
 	private class ZoomPanListener extends AsyncTask<Void, Void, Void>{
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -368,10 +366,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					handler.post(new Runnable(){
 						@Override
 						public void run(){
-						happyOverlay.emptyOverlay();
-						sadOverlay.emptyOverlay();
-						zoomLevel = map.getZoomLevel();
-						filter.clear();	}
+							happyOverlay.emptyOverlay();
+							sadOverlay.emptyOverlay();
+							zoomLevel = map.getZoomLevel();
+							filter.clear();	}
 					});	}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
@@ -391,9 +389,9 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			return true;
 		}else{
 			return false;
-	}}
-	
-	
+		}}
+
+
 
 	//Disables MyLocation
 	@Override
@@ -415,13 +413,13 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
 		zpl = new ZoomPanListener();
 		zpl.execute(null);
-		
-		stablePainter();
-		
-	
-	}
-	
-	
 
-	
+		stablePainter();
+
+
+	}
+
+
+
+
 }

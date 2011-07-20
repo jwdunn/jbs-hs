@@ -214,7 +214,7 @@ public class HappyData {
 		//Bottle.where(" lat > ? and lat < ? and long > ? and long < ? ",params[:lat1],params[:lat2],params[:long1],params[:long2]).order("time DESC").limit(params[:recent])
 		SQLiteDatabase db = h.getReadableDatabase();
 		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong)};
-		Cursor cursor = db.query(TABLE_NAME, null, "lat > %s and lat < %s and long > %s and long < %s" , args, null, null, TIME + "DESC", Integer.toString(limit));
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
 			HappyBottle b = createBottle(cursor);

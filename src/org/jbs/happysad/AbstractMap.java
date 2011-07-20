@@ -3,8 +3,10 @@ package org.jbs.happysad;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -14,6 +16,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +37,16 @@ public abstract class AbstractMap extends MapActivity  {
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay; 
 	boolean enableChart;
+	private final String TAG = "AbstractMap";
+	
+	int zoomLevel;
+	GeoPoint center;
+	Runnable latestThread;
+	ArrayList<HappyBottle> newBottles;
+	protected Handler handler = new Handler();
+	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
+	HappyData datahelper = new HappyData(this);
+	protected long timeReference = 0; //used to move forward in time
 
 	//Starts tracking the users position on the map. 
 	protected void initMyLocation() {
