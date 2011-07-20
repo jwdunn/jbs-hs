@@ -206,20 +206,18 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				Runnable runnable = new Runnable(){
 					@Override
 					public void run(){
-						Toast toast = Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT);
-						toast.show();
+						Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT).show();
 					}
 				};
 				running = runnable;
-				handler.postDelayed(runnable, 1000);//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
+				handler.postDelayed(runnable, 1000);
+				
 			} if(newBottles != null && newBottles.size()>0){
-				epochTime = newBottles.get(newBottles.size()-1).getTime();
-				//epochTime = newBottles.get(0).getTime();
-				timeForView.set(epochTime);
-				setTimeObjectValues();
 				happyOverlay.emptyOverlay();
 				sadOverlay.emptyOverlay();
-				//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
+				epochTime = newBottles.get(newBottles.size()-1).getTime();
+				timeForView.set(epochTime);
+				setTimeObjectValues();
 			}
 			break;	
 			
@@ -234,33 +232,30 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			int minLat = centerLat-height/2; //gets the bottom most latitude shown
 			HappyData newdatahelper = new HappyData(this);
 			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
-			if(temp != null && temp.size()!=0){
-				if (newBottles == null || newBottles.size() == 0){
-					epochTime = timeReference;
-				}
-				else{
+			if(temp != null && temp.size()>1){
+
 					epochTime = temp.get(temp.size()-1).getTime();
-				}
+				
 				timeForView.set(epochTime);
 				happyOverlay.emptyOverlay();
 				sadOverlay.emptyOverlay();
 				setTimeObjectValues();
 				dateTimeUpdate();
-			}			
-			else{
-				Toast.makeText(getBaseContext(), "Sorry, There is Nothing More Show", Toast.LENGTH_LONG).show();
+			} else {
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT).show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);
 			}
 			break;
 		}
-		map.invalidate();
 	}
-
-
 	
-	
-	
-	
-
 	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
 		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
 		//overlay.emptyOverlay();
@@ -293,7 +288,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		int maxLat = centerLat+height/2; //gets the top most latitude shown
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d("Coordinates", "minLong: "+minLong+"minLat: "+minLat+"maxLong"+maxLong+"maxLat"+maxLat);
-		//return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
 		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
 	}
 
