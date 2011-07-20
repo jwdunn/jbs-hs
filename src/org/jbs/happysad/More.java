@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -34,6 +35,8 @@ public class More extends Activity implements OnClickListener {
 	private long myID;
 	private Syncer s;
 	private Thread t;
+	Handler handler = new Handler();
+	Runnable running;
 	/**
 	 * Initializes activity
 	 */
@@ -70,20 +73,28 @@ public class More extends Activity implements OnClickListener {
 		case R.id.more_to_map:
 			String shareString = ((TextView) findViewById(R.id.more_textbox)).getText().toString();
 			if (!shareString.equals("")) {
-			Intent j = new Intent(this, MyMap.class);
-			j.putExtra("GoToMyLocation", true);
-			j.putExtra("Run", true);
-			j.putExtra("Happy", 1);
-			j.putExtra("Sad", 1);
-			saveUpdate(shareString); 
-			s = new Syncer( this); //here we are starting a new "Syncer" thread. All syncer does is upload your recent update(s) and calls getMyHistory
-			t = new Thread(s);
-			t.start();
-			startActivity(j);
-			finish();
+				Intent j = new Intent(this, MyMap.class);
+				j.putExtra("GoToMyLocation", true);
+				j.putExtra("Run", true);
+				j.putExtra("Happy", 1);
+				j.putExtra("Sad", 1);
+				saveUpdate(shareString); 
+				s = new Syncer( this); //here we are starting a new "Syncer" thread. All syncer does is upload your recent update(s) and calls getMyHistory
+				t = new Thread(s);
+				t.start();
+				startActivity(j);
+				finish();
 			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", 100);
-				toast.show();
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);
 			}
 			break;
 		}
