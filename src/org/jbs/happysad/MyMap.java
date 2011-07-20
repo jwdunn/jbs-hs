@@ -146,15 +146,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 			break;
 
 		case R.id.myChart_button:
-			HappyData datahelper = new HappyData(this);
-			ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
-			chartEnable(plottables);
-			if (enableChart){
-				startActivity(new Intent(this, ChartList.class));
-			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts.", 100);
-				toast.show();
-			}
+			startActivity(new Intent(this, ChartList.class));
 			break;
 
 		case R.id.date_button:
