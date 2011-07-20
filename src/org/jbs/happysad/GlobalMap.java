@@ -40,6 +40,8 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	boolean enableChart;
 	 */
 	
+	Runnable running;
+	
 	
 	//fields
 	private static final String TAG = "GlobalMap";
@@ -210,13 +212,18 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			break;
 			
 		case R.id.arrowLeft:
-			if (newBottles == null){
-				//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
-			}
-			else if (newBottles.size()==0){
-				//Toast.makeText(getBaseContext(), "newBottles has size 0", Toast.LENGTH_LONG).show();
-			}
-			if(newBottles != null && newBottles.size()>0){
+			if (newBottles == null || newBottles.size() == 0) {
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
+			} if(newBottles != null && newBottles.size()>0){
 				epochTime = newBottles.get(newBottles.size()-1).getTime();
 				//epochTime = newBottles.get(0).getTime();
 				timeForView.set(epochTime);
