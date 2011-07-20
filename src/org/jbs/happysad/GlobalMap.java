@@ -163,6 +163,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				};
 				running = runnable;
 				handler.postDelayed(runnable, 1000);
+				
 
 
 			} if(newBottles != null && newBottles.size()>0){
@@ -194,6 +195,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			}
 			break;
 		}
+		map.invalidate();
 	}
 
 	/**
@@ -286,7 +288,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 							mapClear();
 							zoomLevel = map.getZoomLevel();
 						}
-					});	
+
+					});	}
+				if(isTimeChanged()){
+					mapClear();
 				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
