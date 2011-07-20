@@ -21,7 +21,8 @@ public class Prompt extends Activity implements OnClickListener{
 	private long myID;
 	public static final String USER_DATA = "userdata";
 	private UIDhelper UIDh;
-	HappyData h = new HappyData(this);
+	HappyData h;
+	
 	/**
 	 * Initializes activity
 	 */
@@ -45,6 +46,7 @@ public class Prompt extends Activity implements OnClickListener{
 		UIDh = new UIDhelper();
 		
 		myID = UIDh.getSetUID(getSharedPreferences(USER_DATA,-3), this); 
+		h = new HappyData(this);
 		//TODO
 		//we need a checker to see if it returns user=-1
 		//if so, how are we going to deal with it?
