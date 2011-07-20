@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -112,4 +115,29 @@ public class Prompt extends Activity implements OnClickListener{
 			 */return id;
 		}
 	
-	}
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu) {
+		    MenuInflater inflater = getMenuInflater();
+		    inflater.inflate(R.menu.promptmenu, menu);
+		    return true;
+		}
+		
+		@Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    // Handle item selection
+		    switch (item.getItemId()) {
+		    case R.id.skip_to_map:
+		    	Intent j = new Intent(this, MyMap.class);
+				j.putExtra("Street", 1);
+				j.putExtra("GoToMyLocation", true);
+				j.putExtra("Happy", 1);
+				j.putExtra("Sad", 1);
+				makeDownloadThread();
+				startActivity(j);
+		        return true;
+		    default:
+		        return super.onOptionsItemSelected(item);
+		    }
+		}
+	
+}
