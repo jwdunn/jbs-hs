@@ -10,7 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 
 import android.widget.Button;
@@ -38,24 +42,14 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	ItemizedEmotionOverlay happyOverlay; 
 	ItemizedEmotionOverlay sadOverlay; 
 	boolean enableChart;
-	private final String TAG = "AbstractMap";
-	
-	int zoomLevel;
-	GeoPoint center;
-	Runnable latestThread;
-	ArrayList<HappyBottle> newBottles;
-	protected Handler handler = new Handler();
-	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
-	HappyData datahelper = new HappyData(this);
 	 */
-
-
-	//fields
+	
+	Runnable running;
 	private static final String TAG = "GlobalMap";
 	boolean check;
 	ZoomPanListener zpl;
 	int bottlesPerView = 10;
-	HappyData datahelper = new HappyData(this);
+	
 
 
 	/**
@@ -140,10 +134,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				streetView = 0;
 				map.setSatellite(true);
 			}
-			map.invalidate();
-			break;
+		map.invalidate();
+		break;
 
-			//used to show/hide the happy faces
+		//used to show/hide the happy faces
 		case R.id.showHappy:
 			if (checkHappy==0){ 
 				map.getOverlays().add(happyOverlay); //adds happy face overlay to visible overlays 
@@ -158,7 +152,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			invalidateOverlay(); //method call
 			break;
 
-			//used to show/hide the sad faces
+		//used to show/hide the sad faces
 		case R.id.showSad:		
 			if (checkSad == 0){
 				map.getOverlays().add(sadOverlay); //adds sad face overlay to visible overlays
@@ -188,42 +182,35 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			break;
 
 		case R.id.myChart_button:
-			HappyData datahelper = new HappyData(this);
-			ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
-			chartEnable(plottables);
-			if (enableChart){
-				startActivity(new Intent(this, ChartList.class));
-			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts.", 100);
-				toast.show();
-			}
+			startActivity(new Intent(this, ChartList.class));
 			break;
 
 		case R.id.date_button:
 			showDialog(DATE_DIALOG_ID);
-			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
-			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 
 		case R.id.arrowLeft:
-			if (newBottles == null){
-				//Toast.makeText(getBaseContext(), "newBottles is null", Toast.LENGTH_LONG).show();
-			}
-			else if (newBottles.size()==0){
-				//Toast.makeText(getBaseContext(), "newBottles has size 0", Toast.LENGTH_LONG).show();
-			}
-			if(newBottles != null && newBottles.size()>0){
-				epochTime = newBottles.get(newBottles.size()-1).getTime();
-				//epochTime = newBottles.get(0).getTime();
-				timeForView.set(epochTime);
-				setTimeObjectValues();
+			if (newBottles == null || newBottles.size() == 0) {
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT).show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);
+				
+			} if(newBottles != null && newBottles.size()>0){
 				happyOverlay.emptyOverlay();
 				sadOverlay.emptyOverlay();
-				//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
+				epochTime = newBottles.get(newBottles.size()-1).getTime();
+				timeForView.set(epochTime);
+				setTimeObjectValues();
 			}
 			break;	
 
@@ -238,27 +225,29 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			int minLat = centerLat-height/2; //gets the bottom most latitude shown
 			HappyData newdatahelper = new HappyData(this);
 			ArrayList<HappyBottle> temp = newdatahelper.getLocalAfter(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
-			if(temp != null && temp.size()!=0){
-				if (newBottles == null || newBottles.size() == 0){
-					epochTime = timeReference;
-				}
-				else{
+			if(temp != null && temp.size()>1){
+
 					epochTime = temp.get(temp.size()-1).getTime();
-				}
+				
 				timeForView.set(epochTime);
 				happyOverlay.emptyOverlay();
 				sadOverlay.emptyOverlay();
 				setTimeObjectValues();
 				dateTimeUpdate();
-			}			
-			else{
-				Toast.makeText(getBaseContext(), "No future entries exist for this view.", Toast.LENGTH_LONG).show();
+			} else {
+				handler.removeCallbacks(running);
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT).show();
+					}
+				};
+				running = runnable;
+				handler.postDelayed(runnable, 1000);
 			}
 			break;
 		}
-		map.invalidate();
 	}
-
 
 	
 
@@ -278,7 +267,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		int maxLat = centerLat+height/2; //gets the top most latitude shown
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d("Coordinates", "minLong: "+minLong+"minLat: "+minLat+"maxLong"+maxLong+"maxLat"+maxLat);
-		//return datahelper.getLocalRecent(minLat,maxLat,minLong,maxLong,100);
 		return datahelper.getLocalBefore(minLat,maxLat,minLong,maxLong,bottlesPerView,epochTime);
 	}
 
