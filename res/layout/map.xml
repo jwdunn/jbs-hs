@@ -34,14 +34,14 @@
             	android:text=" Bck " />
 			<Button
 				android:id="@+id/date_button" 
-				android:text="@string/setDate_name"
+				android:text="@string/setDate"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 
 				android:textSize="12sp" />
 			<Button
 				android:id="@+id/time_button"
-				android:text="@string/setTime_name"
+				android:text="@string/setTime"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 
