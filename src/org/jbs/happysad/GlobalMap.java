@@ -308,6 +308,8 @@ public class GlobalMap extends MapActivity implements OnClickListener {
 					epochTime = temp.get(temp.size()-1).getTime();
 				}
 				timeForView.set(epochTime);
+				happyOverlay.emptyOverlay();
+				sadOverlay.emptyOverlay();
 				setTimeObjectValues();
 				dateTimeUpdate();
 			}			
