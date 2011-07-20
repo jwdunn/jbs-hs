@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
 import android.widget.Toast;
@@ -142,10 +141,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				streetView = 0;
 				map.setSatellite(true);
 			}
-			map.invalidate();
-			break;
+		map.invalidate();
+		break;
 
-			//used to show/hide the happy faces
+		//used to show/hide the happy faces
 		case R.id.showHappy:
 			if (checkHappy==0){ 
 				map.getOverlays().add(happyOverlay); //adds happy face overlay to visible overlays 
@@ -160,7 +159,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			invalidateOverlay(); //method call
 			break;
 
-			//used to show/hide the sad faces
+		//used to show/hide the sad faces
 		case R.id.showSad:		
 			if (checkSad == 0){
 				map.getOverlays().add(sadOverlay); //adds sad face overlay to visible overlays
@@ -190,25 +189,15 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			break;
 		
 		case R.id.myChart_button:
-			HappyData datahelper = new HappyData(this);
-			ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
-			chartEnable(plottables);
-			if (enableChart){
-				startActivity(new Intent(this, ChartList.class));
-			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), "Please update your status before viewing the charts.", 100);
-				toast.show();
-			}
+			startActivity(new Intent(this, ChartList.class));
 			break;
 			
 		case R.id.date_button:
 			showDialog(DATE_DIALOG_ID);
-			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 	
 		case R.id.time_button:
 			showDialog(TIME_DIALOG_ID);
-			//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 			break;
 			
 		case R.id.arrowLeft:
@@ -217,7 +206,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				Runnable runnable = new Runnable(){
 					@Override
 					public void run(){
-						Toast toast = Toast.makeText(getApplicationContext(), "Please Enter a Reason", Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(), "Sorry, There is Nothing More to Show", Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				};
@@ -259,7 +248,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				dateTimeUpdate();
 			}			
 			else{
-				Toast.makeText(getBaseContext(), "No future entries exist for this view.", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "Sorry, There is Nothing More Show", Toast.LENGTH_LONG).show();
 			}
 			break;
 		}
