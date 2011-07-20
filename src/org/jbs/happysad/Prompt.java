@@ -42,10 +42,6 @@ public class Prompt extends Activity implements OnClickListener{
 		View sadButton = findViewById(R.id.sad_button);
 		sadButton.setOnClickListener(this);
 
-		//Finds the submit_button view
-		View submitButton = findViewById(R.id.more_to_map);
-		submitButton.setOnClickListener(this);
-
 		UIDh = new UIDhelper();
 		
 		myID = UIDh.getSetUID(getSharedPreferences(USER_DATA,-3), this); 
@@ -74,15 +70,6 @@ public class Prompt extends Activity implements OnClickListener{
 				i.putExtra("Clicked", "Sad");
 				i.putExtra("Emotion", 0);
 				startActivity(i);
-				break;
-			case R.id.more_to_map:
-				Intent j = new Intent(this, MyMap.class);
-				j.putExtra("Street", 1);
-				j.putExtra("GoToMyLocation", true);
-				j.putExtra("Happy", 1);
-				j.putExtra("Sad", 1);
-				makeDownloadThread();
-				startActivity(j);
 				break;
 			}
 		}
