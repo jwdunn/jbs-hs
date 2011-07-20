@@ -9,40 +9,11 @@ import com.google.android.maps.GeoPoint;
 import android.widget.Button;
 import android.widget.Toast;
 import java.util.ArrayList;
-
-
-
-
-
-
 /**
  * Creates a My Map view with Google Maps API with everyone's HappyBottles
  * @author HappyTrack
  */
 public class MyMap extends AbstractMap implements OnClickListener {
-	//Note that you have access to the following variables:
-	/*	
-	protected MapView map; 
-	int checkHappy;
-	int checkSad;
-	boolean goToMyLocation;
-	int streetView;
-	MyLocationOverlay userLocationOverlay;
-	protected MapController controller;
-	ItemizedEmotionOverlay happyOverlay; 
-	ItemizedEmotionOverlay sadOverlay; 
-	boolean enableChart;
-	private final String TAG = "AbstractMap";
-
-	int zoomLevel;
-	GeoPoint center;
-	Runnable latestThread;
-	ArrayList<HappyBottle> newBottles;
-	protected Handler handler = new Handler();
-	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
-	HappyData datahelper = new HappyData(this);
-	 */
-	private static final String TAG = "MyMap";
 	ZoomPanListener zpl;
 	Runnable running;
 	int bottlestoview = 5;
@@ -81,7 +52,6 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		initDateStuff();
 
 		dateTimeUpdate();		
-
 
 		center = new GeoPoint(-1,-1);
 		zoomLevel = map.getZoomLevel();
@@ -291,7 +261,6 @@ public class MyMap extends AbstractMap implements OnClickListener {
 				public void run(){
 					emotionOverlayAdder(1,newBottles,happyOverlay);
 					emotionOverlayAdder(0,newBottles,sadOverlay);
-					//TODO change to emotionoverlayadder later
 					map.invalidate();
 				}};
 				handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
