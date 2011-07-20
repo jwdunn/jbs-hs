@@ -1,17 +1,11 @@
-//FYI Sahar is a sexy beast.
-
 package org.jbs.happysad;
-
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import com.google.android.maps.GeoPoint;
-
 import android.widget.Button;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -22,27 +16,11 @@ import java.util.Random;
  * @author HappyTrack
  */
 public class GlobalMap extends AbstractMap implements OnClickListener {
-	//Note that you have access to the following variables:
-	/*	
-	protected MapView map; 
-	int checkHappy;
-	int checkSad;
-	boolean goToMyLocation;
-	int streetView;
-	MyLocationOverlay userLocationOverlay;
-	protected MapController controller;
-	ItemizedEmotionOverlay happyOverlay; 
-	ItemizedEmotionOverlay sadOverlay; 
-	boolean enableChart;
-	 */
-
 	Runnable running;
 	private static final String TAG = "GlobalMap";
 	boolean check;
 	ZoomPanListener zpl;
 	int bottlesPerView = 10;
-
-
 
 	/**
 	 * Initializes Activity
@@ -68,15 +46,13 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		initDateStuff();
 
 		dateTimeUpdate();		
-		//Finds the my_map view
 
+		//Finds the my_map view
 
 		center = new GeoPoint(-1,-1);
 		zoomLevel = map.getZoomLevel();
 
 	}
-
-
 
 	protected void initbuttons(){
 		View sadButton = findViewById(R.id.showSad);
@@ -87,7 +63,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		View backButton = findViewById(R.id.arrowLeft);
 		View forwardButton = findViewById(R.id.arrowRight);
 		View myButton = findViewById(R.id.map);
-
 
 		sadButton.setOnClickListener(this);
 		happyButton.setOnClickListener(this); 
@@ -221,8 +196,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		}
 	}
 
-
-
 	/**
 	 * This method updates the overlays for only the current the current view
 	 */
@@ -295,10 +268,11 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 						handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
 						maxcount = 0; //exit internal loop
 						return;
-					}	};}};
-
-					new Thread(runnable).start();
-
+					}	
+				};
+			}
+		};
+		new Thread(runnable).start();
 	}
 
 	private class ZoomPanListener extends AsyncTask<Void, Void, Void>{
@@ -312,7 +286,8 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 							mapClear();
 							zoomLevel = map.getZoomLevel();
 						}
-					});	}
+					});	
+				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
 				}
@@ -320,7 +295,10 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}}}}
+				}
+			}
+		}
+	}
 
 	protected ArrayList<HappyBottle> updateViewAfter(){
 		int centerLat = center.getLatitudeE6(); //finds center's latitude
@@ -355,13 +333,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
 		zpl = new ZoomPanListener();
 		zpl.execute(null);
-
 		stablePainter();
-
-
 	}
-
-
-
-
 }
