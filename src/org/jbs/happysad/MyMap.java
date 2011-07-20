@@ -343,6 +343,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		timeForView.setToNow();
+		epochChecker = timeForView.normalize(true);
 		userLocationOverlay.enableMyLocation();
 		zpl = new ZoomPanListener();
 		zpl.execute(null);

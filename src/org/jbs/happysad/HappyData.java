@@ -212,8 +212,8 @@ public class HappyData {
 	protected ArrayList<HappyBottle> getMyLocalRecent(int minLat, int maxLat, int minLong, int maxLong, int limit){
 		//Bottle.where(" lat > ? and lat < ? and long > ? and long < ? ",params[:lat1],params[:lat2],params[:long1],params[:long2]).order("time DESC").limit(params[:recent])
 		SQLiteDatabase db = h.getReadableDatabase();
-		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong)};
-		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
+		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(myID)};
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and " + UID +"= ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
 			HappyBottle b = createBottle(cursor);
@@ -226,8 +226,8 @@ public class HappyData {
 	
 	protected ArrayList<HappyBottle> getMyLocalAfter(int minLat, int maxLat, int minLong, int maxLong, int limit, long timeafter){
 		SQLiteDatabase db = h.getReadableDatabase();
-		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(timeafter)};
-		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and time > ?" , args, null, null, TIME + " ASC", Integer.toString(limit));
+		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(timeafter), Long.toString(myID)};
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and time > ? and " + UID +"= ?" , args, null, null, TIME + " ASC", Integer.toString(limit));
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
 			HappyBottle b = createBottle(cursor);
@@ -240,8 +240,8 @@ public class HappyData {
 	
 	protected ArrayList<HappyBottle> getMyLocalBefore(int minLat, int maxLat, int minLong, int maxLong, int limit, long timebefore){
 		SQLiteDatabase db = h.getReadableDatabase();
-		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(timebefore)};
-		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and time < ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
+		String[] args = {Integer.toString(minLat), Integer.toString(maxLat), Integer.toString(minLong), Integer.toString(maxLong), Long.toString(timebefore), Long.toString(myID)};
+		Cursor cursor = db.query(TABLE_NAME, null, "lat > ? and lat < ? and long > ? and long < ? and time < ? and " + UID +"= ?" , args, null, null, TIME + " DESC", Integer.toString(limit));
 		ArrayList<HappyBottle> a = new ArrayList<HappyBottle>();
 		while (cursor.moveToNext() ){
 			HappyBottle b = createBottle(cursor);

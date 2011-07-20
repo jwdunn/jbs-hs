@@ -188,6 +188,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 				};
 				running = runnable;
 				handler.postDelayed(runnable, 1000);
+				
 
 
 			} if(newBottles != null && newBottles.size()>0){
@@ -219,6 +220,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 			}
 			break;
 		}
+		map.invalidate();
 	}
 
 
@@ -355,13 +357,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		center = new GeoPoint(-10, r.nextInt()); //fake a move so that updater thinks we've moved and populates the initial screen.
 		zpl = new ZoomPanListener();
 		zpl.execute(null);
-
 		stablePainter();
-
-
 	}
-
-
-
-
 }
