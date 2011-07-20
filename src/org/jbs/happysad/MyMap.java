@@ -260,6 +260,9 @@ public class MyMap extends AbstractMap implements OnClickListener {
 							zoomLevel = map.getZoomLevel();}
 								
 					});	}
+				if(isTimeChanged()){
+					mapClear();
+				}
 				if(isMoved() || isTimeChanged()){
 					drawRecentLocal();
 				}

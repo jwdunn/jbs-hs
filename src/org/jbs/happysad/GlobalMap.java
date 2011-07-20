@@ -315,6 +315,9 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 							zoomLevel = map.getZoomLevel();
 						}
 					});	}
+				if(isTimeChanged()){
+					mapClear();
+				}
 				if(isMoved() || isTimeChanged()){
 					stablePainter();
 				}
