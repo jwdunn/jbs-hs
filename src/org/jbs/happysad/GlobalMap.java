@@ -252,33 +252,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		map.invalidate();
 	}
 
-	//helper method for showHappy and showSad onClick cases
-	private void invalidateOverlay() {
-		map.getOverlays().add(userLocationOverlay);
-	}
 
-	//Finds and initializes the map view.
-	private void initMapView() {
-		map = (MapView) findViewById(R.id.themap);
-		controller = map.getController();	
-		//checks streetView
-		if (streetView == 1) {
-			map.setStreetView(true);
-			map.setSatellite(false);
-		} else {
-			map.setStreetView(false);
-			map.setSatellite(true);	
-		}
-		map.invalidate();	
-
-		//adds the sad and happy overlays to the map
-		if (checkSad == 1)
-			map.getOverlays().add(sadOverlay);
-		if (checkHappy == 1) 
-			map.getOverlays().add(happyOverlay);
-		map.setBuiltInZoomControls(false); //hides the default map zoom buttons so they don't interfere with the app buttons
-
-	}
 
 	//Starts tracking the users position on the map. 
 	private void initMyLocation() {
@@ -287,18 +261,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 		map.getOverlays().add(userLocationOverlay);  //adds the users location overlay to the overlays being displayed
 	}
 	
-	private void goToMyLocation() {
-		if (goToMyLocation == true) {
-			userLocationOverlay.runOnFirstFix(new Runnable() {
-				public void run() {
-					// Zoom in to current location
-					controller.animateTo(userLocationOverlay.getMyLocation());
-					controller.setZoom(15); //sets the map zoom level to 15
-				}
-			});
-		}
-		map.getOverlays().add(userLocationOverlay); //adds the users location overlay to the overlays being displayed
-	}
+	
 	
 
 	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
@@ -396,27 +359,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 
 	}
 	
-	public void chartEnable(ArrayList<HappyBottle> plottables) {
-		Iterator<HappyBottle> itr = plottables.iterator(); 
-		
-		while(itr.hasNext()) {     
-			HappyBottle element = itr.next();
-			
-			int x = new Timestamp (element.getTime()).getMonth() + 1;
-			int y = new Timestamp (element.getTime()).getYear() + 1900;
-			int z = new Timestamp (element.getTime()).getDate();
-			
-			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-			int date = Calendar.getInstance().get(Calendar.DATE);
-		     
-		   	if (x == month && y == year && z == date){
-		   		this.enableChart = true;
-		   		break;
-		   	}	
-		   	this.enableChart = false;
-		}
-	}
+	
 
 	private class ZoomPanListener extends AsyncTask<Void, Void, Void>{
 		@Override
@@ -442,10 +385,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 					e.printStackTrace();
 				}}}}
 
-	//Required method to make the map work
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
+	
 
 
 	public boolean isMoved() {
@@ -464,28 +404,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 
 
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu, menu);
-	    return true;
-	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	    case R.id.current_location:
-	    	goToMyLocation = true;
-	        goToMyLocation();
-	        return true;
-	    case R.id.new_update:
-	    	startActivity(new Intent(this, Prompt.class));
-	        
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	}
 	
 
 	//Disables MyLocation
