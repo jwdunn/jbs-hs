@@ -3,7 +3,7 @@ package org.jbs.happysad;
 public enum UIDtoken {
 
     INSTANCE;
-    private Long UID = (long) -7;
+    private long UID = (long) -6;
 
 
     public void setUID(long myID){

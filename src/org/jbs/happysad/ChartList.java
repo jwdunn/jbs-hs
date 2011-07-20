@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class ChartList extends ListActivity {
-	private ChartInterface[] mCharts = new ChartInterface[] { new ChartOverall(), new ChartYear(), new ChartMonth(), new ChartDay() };
+	private ChartInterface[] mCharts = new ChartInterface[] { new ChartOverall(), new ChartYear(), new ChartMonth(), new ChartWeek(), new ChartDay() };
 	private String[] mMenuText;
 	private String[] mMenuSummary;
 	protected ArrayList<Integer> chartline;
@@ -24,8 +24,8 @@ public class ChartList extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//int length = mCharts.length;
-		mMenuText = new String[4];
-		mMenuSummary = new String[4];
+		mMenuText = new String[5];
+		mMenuSummary = new String[5];
 		
   	  mMenuText[0] = "Overall";
   	  mMenuSummary[0] = "Click here to see your overall happiness %!";
@@ -36,8 +36,11 @@ public class ChartList extends ListActivity {
 	  mMenuText[2] = "Month";
   	  mMenuSummary[2] = "Click here to see your happiness % for this month!";
   	  
-  	  mMenuText[3] = "Day";
-	  mMenuSummary[3] = "Click here to see your happiness % for today!";
+  	  mMenuText[3] = "Week";
+	  mMenuSummary[3] = "Click here to see your happiness % for this week!";
+  	  
+  	  mMenuText[4] = "Day";
+	  mMenuSummary[4] = "Click here to see your happiness % for today!";
 	  
   	  setListAdapter(new SimpleAdapter(this, getListValues(), android.R.layout.simple_list_item_2,
   			  new String[] { ChartInterface.NAME, ChartInterface.DESC }, new int[] { android.R.id.text1,

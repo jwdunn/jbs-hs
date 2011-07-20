@@ -141,10 +141,9 @@ public class NetHelper {
 			HttpGet request = new HttpGet();
 			request.setURI(new URI("http://happytrack.heroku.com/bottles.json"));
 			if( t.equals(Task.GETMINE)){
-				request.setURI(new URI("http://happytrack.heroku.com/bottles/" + myID+".json"));
+				request.setURI(new URI("http://happytrack.heroku.com/users/" + myID+"/bottles.json"));
 			}
-			BasicHeader declareAuth = new BasicHeader("Authorization", "Basic " + Base64.encodeToString("dhh:secret".getBytes(), Base64.DEFAULT) + "==");
-			request.setHeader(declareAuth);
+			Log.d(TAG, "calling: " + request.getURI().toString());
 			//then let connectionHelper do the heavy lifting for us
 			page = connectionHelper(request);
 		}
@@ -244,7 +243,10 @@ public class NetHelper {
 		} catch (JSONException e) {
 			Log.e(TAG,  "array error" + e.toString());
 			Log.e(TAG, "the offending thing: " + in);
-			a.add(new HappyBottle(myID , 1,  1,(short) 1, "JSONARRAYERROR",1) );
+			//a.add(new HappyBottle(myID , 1,  1,(short) 1, "JSONARRAYERROR",1) );
+			Log.e(TAG, "pay attention! This gave me an error");
+			Log.e(TAG, in);
+			e.printStackTrace();
 		}
 		catch (Exception e){
 			Log.e(TAG + "mysterious other error", e.toString());

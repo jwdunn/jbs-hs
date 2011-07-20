@@ -15,7 +15,7 @@ import android.graphics.Color;
 /**
  * Budget demo pie chart.
  */
-public class ChartMonth extends AbstractChart {
+public class ChartWeek extends AbstractChart {
   /**
    * Returns the chart name.
    * 
@@ -45,9 +45,9 @@ public class ChartMonth extends AbstractChart {
 	HappyData datahelper = new HappyData(context);
 	ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 	
-    //Testers.
+	//Testers.
 	int x = test(plottables);
-    String y = Integer.toString(x); 
+    String y = Integer.toString(x);
 	
 	double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
@@ -58,7 +58,7 @@ public class ChartMonth extends AbstractChart {
     renderer.setZoomEnabled(true);
     //renderer.setChartTitleTextSize(20);
     
-    renderer.setChartTitle("THIS MONTH");
+    renderer.setChartTitle("THIS WEEK");
     
     renderer.setChartTitleTextSize(50);
 	renderer.setLabelsTextSize(20);
@@ -72,32 +72,102 @@ public class ChartMonth extends AbstractChart {
   public double [] percentages(ArrayList<HappyBottle> plottables){
 		
 	  	Iterator<HappyBottle> itr = plottables.iterator(); 
-		double happy = 0;
+		
+	  	double happy = 0;
 		double sad = 0;
 		double [] values = new double[2];
+		boolean greek_salad = true;
+		boolean breaker = false;
+		int x = 0;
+		int y = 0;
+		int z = 0;
+		int w = 0;
 	
-		while(itr.hasNext()) {     
-		   	
-			HappyBottle element = itr.next();
-			
-			int x = new Timestamp (element.getTime()).getMonth() + 1;
-			
-			int y = new Timestamp (element.getTime()).getYear() + 1900;
-			
-			int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-			
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-		     
-		   	if (y == year && x == month){
-		   		
-		   		if (element.getEmo() == 1){
-			    	happy += 1; 
-			     } else {
-			    	sad += 1; 
-			     }					
-		   	}	
-		} 
+		HappyBottle element = itr.next();
+		int main = new Timestamp (element.getTime()).getDay();
+		//*
+		//int main2 = new Timestamp (element.getTime()).getDate();
 		
+		if (element.getEmo() == 1){
+	    	happy += 1; 
+	     } else {
+	    	sad += 1; 
+	     }	
+		
+		for (int i = main; i >= 0; i--){
+			
+			while(itr.hasNext()) {     
+			   	
+				if (greek_salad){
+					
+					element = itr.next();
+					x = new Timestamp (element.getTime()).getDay();
+					//*
+					y = new Timestamp (element.getTime()).getMonth() + 1;
+					z = new Timestamp (element.getTime()).getDate();
+				}
+				
+				//*
+				if (y == 4 || y == 6 || y == 9 || y == 11){
+					
+					w = 25;
+					
+				} else if (y == 2){
+					
+					w = 23;
+				
+				} else {
+					
+					w = 26;
+				}
+				
+				int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+				int date = Calendar.getInstance().get(Calendar.DATE);
+				
+				//*
+				if (y == month){
+					
+					if (!(z == date || z == date - 1 || z == date - 2 || z == date - 3 || z == date - 4 || z == date - 5 || z == date - 6)){
+						
+						breaker = true;
+						break;
+					}
+					
+				} else if (y == (month - 1)){
+					
+					if (z < w){
+						
+						breaker = true;
+						break;
+					}
+					
+				} else {
+					
+					break;
+				}
+	
+				if (i == x){
+			   		
+			   		if (element.getEmo() == 1){
+				    	happy += 1; 
+				     } else {
+				    	sad += 1; 
+				     }	
+			   		greek_salad = true;
+			   	
+				} else {
+					
+					greek_salad = false;
+					break;
+				}		
+			}
+			
+			if (breaker){
+				
+				break;
+			}
+		}
+		 
 		double happyprctg = (happy * 100) / (happy + sad);
 		double sadprctg = 100 - happyprctg;
 		
@@ -120,8 +190,8 @@ public class ChartMonth extends AbstractChart {
    
 	  HappyBottle element = itr.next();
 			
-	  int x = new Timestamp (element.getTime()).getYear();
+	  int x = new Timestamp (element.getTime()).getDate();
 	  
 	  return x;
   }
-}	
+}

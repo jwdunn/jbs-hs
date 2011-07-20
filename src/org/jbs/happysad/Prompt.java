@@ -21,6 +21,8 @@ public class Prompt extends Activity implements OnClickListener{
 	private long myID;
 	public static final String USER_DATA = "userdata";
 	private UIDhelper UIDh;
+	HappyData h;
+	
 	/**
 	 * Initializes activity
 	 */
@@ -44,6 +46,7 @@ public class Prompt extends Activity implements OnClickListener{
 		UIDh = new UIDhelper();
 		
 		myID = UIDh.getSetUID(getSharedPreferences(USER_DATA,-3), this); 
+		h = new HappyData(this);
 		//TODO
 		//we need a checker to see if it returns user=-1
 		//if so, how are we going to deal with it?
@@ -75,11 +78,25 @@ public class Prompt extends Activity implements OnClickListener{
 				j.putExtra("GoToMyLocation", true);
 				j.putExtra("Happy", 1);
 				j.putExtra("Sad", 1);
+				makeDownloadThread();
 				startActivity(j);
 				break;
 			}
 		}
 
+		
+		//this makes sure you download your own bottles, even if you don't go through the More screen.
+		private void makeDownloadThread(){
+			Runnable r = new Runnable(){
+				@Override
+				public void run(){
+					h.syncMyDown();
+				}
+			};
+			new Thread(r).start();
+		}
+		
+		
 		//Safes 
 		@Override
 		public void onDestroy(){
