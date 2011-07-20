@@ -3,14 +3,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+
 
 
 
@@ -55,7 +52,6 @@ public class MyMap extends AbstractMap implements OnClickListener {
 
 	
 	
-	
 	/**
 	 * Initializes Activity
 	 */
@@ -83,8 +79,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 
 		//adds items to overlays
-		emotionOverlayFiller(1,plottables,happyOverlay);
-		emotionOverlayFiller(0,plottables,sadOverlay);
+		emotionOverlayAdder(1,plottables,happyOverlay);
+		emotionOverlayAdder(0,plottables,sadOverlay);
 
 		//initialize and display map view and user location
 		initMapView();
@@ -231,22 +227,6 @@ public class MyMap extends AbstractMap implements OnClickListener {
 
 
 
-	//creates an emotion overlay
-	private void emotionOverlayFiller(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
-		
-		for(HappyBottle bottle : toshow) {
-			if( !filter.contains(bottle) && bottle.getEmo() == emotion){
-				filter.add(bottle);
-				int latitude =  bottle.getLat();
-				int longitude = bottle.getLong();
-				GeoPoint point = new GeoPoint(latitude,longitude);
-				String S = (String) new Timestamp(bottle.getTime()).toLocaleString();
-				overlay.addToOverlay(new OverlayItem(point, S+emotion, bottle.getMsg()));
-			}
-		}
-	}
-
-
 	public boolean isMoved() {
 		GeoPoint trueCenter =map.getMapCenter();
 		int trueZoom = map.getZoomLevel();
@@ -283,14 +263,14 @@ public class MyMap extends AbstractMap implements OnClickListener {
 
 	private void drawRecentLocal(){
 		if (!(isMoved() || isTimeChanged())){return;}
-
+		//so if we are here, we've moved, or time has changed.
 		center = map.getMapCenter();
 		zoomLevel = map.getZoomLevel();
 		ArrayList<HappyBottle> temp = newBottles;
 		newBottles = updateToView();
-		if (newBottles != null && newBottles.size() != 0){
+		/*if (newBottles != null && newBottles.size() != 0){
 			timeReference = newBottles.get(0).getTime();
-		}
+		}*/ //don't need this yet.
 		if (!(newBottles.equals(temp))){
 
 			handler.removeCallbacks(latestThread); 
@@ -298,8 +278,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 			latestThread = new Runnable(){
 				@Override
 				public void run(){
-					emotionOverlayFiller(1,newBottles,happyOverlay);
-					emotionOverlayFiller(0,newBottles,sadOverlay);
+					emotionOverlayAdder(1,newBottles,happyOverlay);
+					emotionOverlayAdder(0,newBottles,sadOverlay);
 					//TODO change to emotionoverlayadder later
 					map.invalidate();
 				}};
@@ -325,7 +305,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		int maxLat = centerLat+height/2; //gets the top most latitude shown
 		int minLat = centerLat-height/2; //gets the bottom most latitude shown
 		Log.d("Coordinates", "minLong: "+minLong+"minLat: "+minLat+"maxLong"+maxLong+"maxLat"+maxLat);
-		return datahelper.getMyLocalRecent(minLat,maxLat,minLong,maxLong,100);
+		return datahelper.getMyLocalRecent(minLat,maxLat,minLong,maxLong,5);
 	}
 
 

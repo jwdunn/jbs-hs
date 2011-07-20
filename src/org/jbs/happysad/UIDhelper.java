@@ -41,10 +41,10 @@ public class UIDhelper{
 			UIDtoken.INSTANCE.setUID(uid);
 			if (uid < 0){	
 				NetHelper NH = new NetHelper();
-				long UID = NH.getID(username);
-				if(UID < 0){return UID;}//this way we don't set the UID to <0 in the shared preferences.
+				uid = NH.getID(username);
+				if(uid < 0){return uid;}//this way we don't set the UID to <0 in the shared preferences.
 				SharedPreferences.Editor editor = sp.edit();
-				editor.putLong("usernameLong", UID);
+				editor.putLong("usernameLong", uid);
 				editor.putString("usernameString", username); 
 				editor.commit();
 				//then we call nethelper methods set the id from the returned thing return
@@ -52,11 +52,11 @@ public class UIDhelper{
 			
 			else{
 				//myID =  sp.getLong( "usernameLong", -1);
-				
+			}
 				UIDtoken.INSTANCE.setUID(uid);
 				return uid;
 			
-			}
+			
 		}
 		else{
 			Context context = ctx;

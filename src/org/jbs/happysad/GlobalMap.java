@@ -7,15 +7,12 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
+
 import android.widget.Button;
 import android.widget.Toast;
 import java.sql.Timestamp;
@@ -263,21 +260,7 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	}
 
 
-	private synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
-		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
-		//overlay.emptyOverlay();
-		for(HappyBottle bottle : toshow) {
-			if( !filter.contains(bottle) && bottle.getEmo() == emotion){
-				//happy or sad filter^
-				filter.add(bottle);
-				int latitude = bottle.getLat();
-				int longitude = bottle.getLong();
-				GeoPoint point = new GeoPoint(latitude,longitude);
-				String S = (String) new Timestamp(bottle.getTime()).toLocaleString();
-				overlay.addToOverlay(new OverlayItem(point, S+emotion, bottle.getMsg()));
-			}
-		}
-	}
+	
 
 	/**
 	 * This method updates the overlays for only the current the current view

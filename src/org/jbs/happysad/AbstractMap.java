@@ -11,6 +11,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.OverlayItem;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -18,6 +19,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,10 +46,35 @@ public abstract class AbstractMap extends MapActivity  {
 	Runnable latestThread;
 	ArrayList<HappyBottle> newBottles;
 	protected Handler handler = new Handler();
-	HashSet<HappyBottle> filter = new HashSet<HappyBottle>();
+	HashSet<String> filter = new HashSet<String>();
 	HappyData datahelper = new HappyData(this);
 	protected long timeReference = 0; //used to move forward in time
 
+	
+	
+	
+	protected synchronized void emotionOverlayAdder(int emotion, ArrayList<HappyBottle> toshow, ItemizedEmotionOverlay overlay){ 
+		if (toshow == null) {return; }///THIS IS A PROBLEM AND SHOULD NEVER HAPPEN
+		//overlay.emptyOverlay();
+		for(HappyBottle bottle : toshow) {
+			//filter works for objects. However, bottles that have the exact same contents count as different bottles. 
+			//This is a problem. Therefore we have a workaround:
+			String bottleObject = bottle.getMsg()+bottle.getTime()+bottle.getUID(); 
+			if( !filter.contains(bottleObject) && bottle.getEmo() == emotion){
+				filter.add(bottleObject);
+				Log.d(TAG, "filter size: " + filter.size());
+				int latitude = bottle.getLat();
+				int longitude = bottle.getLong();
+				GeoPoint point = new GeoPoint(latitude,longitude);
+				String S = (String) new Timestamp(bottle.getTime()).toLocaleString();
+				overlay.addToOverlay(new OverlayItem(point, S+emotion, bottle.getMsg()));
+			}
+		}
+	}
+	
+	
+	
+	
 	//Starts tracking the users position on the map. 
 	protected void initMyLocation() {
 		userLocationOverlay = new MyLocationOverlay(this, map);
