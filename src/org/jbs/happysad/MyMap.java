@@ -38,7 +38,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 	ItemizedEmotionOverlay sadOverlay; 
 	boolean enableChart;
 	private final String TAG = "AbstractMap";
-	
+
 	int zoomLevel;
 	GeoPoint center;
 	Runnable latestThread;
@@ -50,8 +50,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 	private static final String TAG = "MyMap";
 	ZoomPanListener zpl;
 
-	
-	
+
+
 	/**
 	 * Initializes Activity
 	 */
@@ -60,19 +60,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
 
-		checkHappy = getIntent().getExtras().getInt("Happy");
-		checkSad = getIntent().getExtras().getInt("Sad");
-		goToMyLocation = getIntent().getExtras().getBoolean("GoToMyLocation");
-		streetView = getIntent().getExtras().getInt("Street");
-
-
-		//Defines the drawable items for the happy and sad overlays
-		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
-		Drawable sadface = this.getResources().getDrawable(R.drawable.pinsad);
-
-		//initializes the happy and sad overlays
-		happyOverlay = new ItemizedEmotionOverlay(happyface, this);	
-		sadOverlay = new ItemizedEmotionOverlay(sadface, this);
+		readIntents();
+		initOverlayStuff();
 
 		//instantiates HappyData and creates an arraylist of all the bottles
 		HappyData datahelper = new HappyData(this);
@@ -87,54 +76,41 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		initMyLocation();
 		goToMyLocation();
 
-
-
-		//Finds the show_sad view
-		View sadButton = findViewById(R.id.showSad);
-		sadButton.setOnClickListener(this);
-
-		//Finds the show_happy view
-		View happyButton = findViewById(R.id.showHappy);
-		happyButton.setOnClickListener(this); 
-
-		//Finds the switch_view
-		View switchButton = findViewById(R.id.switchView);
-		switchButton.setOnClickListener(this); 
-
-		//Finds the history_button view
-		View histButton = findViewById(R.id.myTrack_button);
-		histButton.setOnClickListener(this);  	
-
-		//Finds the history_button view
-
-		View chartButton = findViewById(R.id.myChart_button);
-		chartButton.setOnClickListener(this);
-
 		setDate = findViewById(R.id.date_button);
 		setDate.setOnClickListener(this);
-
 		setTime = findViewById(R.id.time_button);
 		setTime.setOnClickListener(this);
-
-		// get the current date
-		final Calendar c = Calendar.getInstance();
-		year = c.get(Calendar.YEAR);
-		month = c.get(Calendar.MONTH);
-		day = c.get(Calendar.DAY_OF_MONTH);
-		hour = c.get(Calendar.HOUR_OF_DAY);
-		minute = c.get(Calendar.MINUTE);
-
+		
+		//various setters of values
+		initbuttons();
+		initDateStuff();
+		
 		dateTimeUpdate();		
 
-		//Finds the my_map view
-		View myButton = findViewById(R.id.map);
-		((Button) myButton).setText("GlobalMap");
-		myButton.setOnClickListener(this);
+	
 		center = new GeoPoint(-1,-1);
 		zoomLevel = map.getZoomLevel();
 	}
 
-
+	protected void initbuttons(){
+		//Finds the show_sad view
+		View sadButton = findViewById(R.id.showSad);
+		View happyButton = findViewById(R.id.showHappy);
+		View switchButton = findViewById(R.id.switchView);
+		View histButton = findViewById(R.id.myTrack_button);
+		View chartButton = findViewById(R.id.myChart_button);
+		
+		sadButton.setOnClickListener(this);
+		happyButton.setOnClickListener(this); 
+		switchButton.setOnClickListener(this); 
+		histButton.setOnClickListener(this);  	
+		chartButton.setOnClickListener(this);
+		
+		//Finds the my_map view
+		View myButton = findViewById(R.id.map);
+		((Button) myButton).setText("GlobalMap");
+		myButton.setOnClickListener(this);
+	}
 
 	/**
 	 * Invoked when a view is clicked
@@ -227,18 +203,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 
 
 
-	public boolean isMoved() {
-		GeoPoint trueCenter =map.getMapCenter();
-		int trueZoom = map.getZoomLevel();
-		if(!((trueCenter.equals(center)) && (trueZoom == zoomLevel))){	
-			Log.d(TAG, "You moved!:" + center.toString() + " zoom: " + zoomLevel);
-			return true;
-		}else{
-			return false;
-		}}
-
-
-	//Our vesion of a listener - checks to see if the user moved.
+	//Our version of a listener - checks to see if the user moved.
 	private class ZoomPanListener extends AsyncTask<Void, Void, Void>{
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -283,8 +248,8 @@ public class MyMap extends AbstractMap implements OnClickListener {
 					//TODO change to emotionoverlayadder later
 					map.invalidate();
 				}};
-			handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
-			return;
+				handler.postDelayed(latestThread, 10); //delay the posting of the new pins by a tiny fraction of a  second, because that way it will let you invalidate if you keep moving.
+				return;
 		}
 
 

@@ -17,6 +17,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
@@ -181,6 +182,17 @@ public abstract class AbstractMap extends MapActivity  {
 		}
 	};
 	
+	public boolean isMoved() {
+		GeoPoint trueCenter =map.getMapCenter();
+		int trueZoom = map.getZoomLevel();
+		if(!((trueCenter.equals(center)) && (trueZoom == zoomLevel))){	
+			Log.d(TAG, "You moved!:" + center.toString() + " zoom: " + zoomLevel);
+			return true;
+		}else{
+			return false;
+		}}
+
+	
 	protected void goToMyLocation() {
 		if (goToMyLocation == true) {
 			userLocationOverlay.runOnFirstFix(new Runnable() {
@@ -215,6 +227,7 @@ public abstract class AbstractMap extends MapActivity  {
     protected void dateTimeUpdate() {
     	timeForView.set(0,minute,hour,day,month,year);
     	epochTime = timeForView.normalize(true);
+    	
     	((Button) setDate).setText(new StringBuilder().append(month + 1).append(" - ").append(day).append(" - ").append(year).append(" "));
     	((Button) setTime).setText(new StringBuilder().append(pad(convertAMPM(hour))).append(":").append(pad(minute)).append(" "+checkAMPM(hour)));
     	//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
@@ -290,6 +303,31 @@ public abstract class AbstractMap extends MapActivity  {
 	    }
 	}
 	
+	protected void readIntents(){
+		checkHappy = getIntent().getExtras().getInt("Happy");
+		checkSad = getIntent().getExtras().getInt("Sad");
+		goToMyLocation = getIntent().getExtras().getBoolean("GoToMyLocation");
+		streetView = getIntent().getExtras().getInt("Street");
+
+	}
+	protected void initDateStuff(){
+		// get the current date
+		final Calendar c = Calendar.getInstance();
+		year = c.get(Calendar.YEAR);
+		month = c.get(Calendar.MONTH);
+		day = c.get(Calendar.DAY_OF_MONTH);
+		hour = c.get(Calendar.HOUR_OF_DAY);
+		minute = c.get(Calendar.MINUTE);
+	}
 	
+	protected void initOverlayStuff(){
+		//Defines the drawable items for the happy and sad overlays
+		Drawable happyface = this.getResources().getDrawable(R.drawable.pinhappy);
+		Drawable sadface = this.getResources().getDrawable(R.drawable.pinsad);
+
+		//initializes the happy and sad overlays
+		happyOverlay = new ItemizedEmotionOverlay(happyface, this);	
+		sadOverlay = new ItemizedEmotionOverlay(sadface, this);	
+	}
     
 }
