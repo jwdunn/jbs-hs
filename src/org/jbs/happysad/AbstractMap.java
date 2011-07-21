@@ -214,6 +214,7 @@ public abstract class AbstractMap extends MapActivity  {
 	}
 
 
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -227,7 +228,7 @@ public abstract class AbstractMap extends MapActivity  {
 		}
 		return null;
 	}
-
+	
 
 
 	// updates the date in the TextView

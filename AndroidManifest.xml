@@ -11,46 +11,35 @@
 
 
 	<application android:icon="@drawable/logo"
-		android:label="@string/app_name"
-		android:theme="@android:style/Theme.NoTitleBar" >
+		android:label="@string/app_name" >
 
 		<uses-library android:name="com.google.android.maps" />
         <activity android:name=".Prompt"
+       			  android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="portrait" >
            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyMap"
-        	      android:screenOrientation="portrait" >
-        </activity>
         <activity android:name=".More"
+        		  android:theme="@android:style/Theme.NoTitleBar"
            		  android:screenOrientation="portrait" 	/>
-        <activity android:name=".MyMap"   
+        <activity android:name=".MyMap" 
+        		  android:label="@string/myMap" 
       	          android:screenOrientation="portrait" />
         <activity android:name=".GlobalMap"
+        		  android:label="@string/globalMap" 
         	      android:screenOrientation="portrait" />
         <activity android:name=".History"
+        		  android:label="@string/myHistory" 
         	      android:screenOrientation="portrait"  />
        	<activity android:name=".ChartList"
+       			  android:label="@string/myCharts"
         	      android:screenOrientation="portrait"  />
         <activity 
         		android:name=".UIDhelper" />
         <activity 
-        		android:name="org.achartengine.GraphicalActivity"
-       	      android:screenOrientation="portrait" />
-        <activity android:name=".History"
-        	      android:screenOrientation="portrait" >
-        </activity>
-        <activity android:name=".GlobalMap"
-        	      android:screenOrientation="portrait" >
-        </activity>
-		<activity android:name=".ChartList"
-                  android:screenOrientation="portrait" >
-        </activity>
-
-		<activity android:name=".GeneratedChartDemo" />
-	</application>
-
+        		android:name="org.achartengine.GraphicalActivity" />
+       	</application>
 </manifest>

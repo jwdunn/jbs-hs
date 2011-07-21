@@ -23,7 +23,6 @@ public class ChartList extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//int length = mCharts.length;
 		mMenuText = new String[5];
 		mMenuSummary = new String[5];
 		
@@ -64,8 +63,6 @@ public class ChartList extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		Intent intent = null;
 		intent = mCharts[position].execute(this);
-		//intent = mCharts[position - 1].execute(this);
-		//intent = mCharts[0].execute(this);
 		startActivity(intent);
 	}
 }

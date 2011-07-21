@@ -45,10 +45,6 @@ public class ChartMonth extends AbstractChart {
 	HappyData datahelper = new HappyData(context);
 	ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 	
-    //Testers.
-	int x = test(plottables);
-    String y = Integer.toString(x); 
-	
 	double[] values = percentages(plottables);
     	//new double[] { 12, 14, 11, 10, 19 };
     int[] colors = new int[] { Color.YELLOW, Color.CYAN };
@@ -56,7 +52,6 @@ public class ChartMonth extends AbstractChart {
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
     renderer.setZoomEnabled(true);
-    //renderer.setChartTitleTextSize(20);
     
     renderer.setChartTitle("THIS MONTH");
     
@@ -66,7 +61,7 @@ public class ChartMonth extends AbstractChart {
 	renderer.setMargins(new int[] {20, 30});
     
     return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Happy Pie", values),
-        renderer, "Chart");
+        renderer, "MyChart");
   }
   
   public double [] percentages(ArrayList<HappyBottle> plottables){

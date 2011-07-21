@@ -2,25 +2,25 @@
 <resources>
 	<string name="app_name">HappyTrack</string>
 	
-	<string name="happysad_name">How Are You?</string>
+	<string name="happysad_name">How Are You Feeling?</string>
 	<string name="login_message">User Account: </string>
 	<string name="login_message_title">Your Logged In!</string>
 	<string name="error_login_message">We seemed to have a problem logging you in. go into settings, accounts and log into your Gmail account</string>
-	<string name="skip">Skip</string>
 	
 	<string name="more">Why?</string>
 	<string name="whyHappy">why are you happy?</string>
 	<string name="whySad">why are you sad?</string>
-	<string name="share">Share</string>
-	<string name="submit_to_dash">Submit</string>
 	
 	<string name="globalMap">GlobalMap</string>
 	<string name="myMap">MyMap</string>
-	<string name="update_name">Update</string>
-	<string name="myTrack_name">MyTrack</string>
-	<string name="myChart_name">MyChart</string>
-	<string name="setDate_name">Set Date</string>
-	<string name="setTime_name">Set Time</string>
+	<string name="update">Update</string>
+	<string name="myHistory">MyHistory</string>
+	<string name="myCharts">MyCharts</string>
+	<string name="setDate">Set Date</string>
+	<string name="setTime">Set Time</string>
+	
+	<string name="currentLocation">Go To My Location</string>
+	<string name="newUpdate">New Update</string>
 	
 	<string name="empty">No events!</string>
 	<string name="refresh_name">Refresh</string>
@@ -28,4 +28,5 @@
 	<string name="happy_overlay">Switch Sad</string>
 	<string name="sad_overlay">Switch Happy</string>
 	<string name="switch_view">Switch View</string>
+	
 </resources>
