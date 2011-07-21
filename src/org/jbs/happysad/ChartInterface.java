@@ -8,7 +8,5 @@ import android.content.Intent;
 public interface ChartInterface {
   public String NAME = "name";
   public String DESC = "desc";
-  public String getName();
-  public String getDesc();
   public Intent execute(Context context);
 }

@@ -37,11 +37,12 @@ public class MyMap extends AbstractMap implements OnClickListener {
 		emotionOverlayAdder(1,plottables,happyOverlay);
 		emotionOverlayAdder(0,plottables,sadOverlay);
 
+	
 		//initialize and display map view and user location
 		initMapView();
 		initMyLocation();
 		goToMyLocation();
-
+		initLatestUpdateOverlay(justUpdated);//sahar edit.
 		setDate = findViewById(R.id.date_button);
 		setDate.setOnClickListener(this);
 		setTime = findViewById(R.id.time_button);
@@ -92,6 +93,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 				checkHappy = 1; 
 			} else{ 
 				map.getOverlays().clear(); //clears all overlays
+				map.getOverlays().add(recentOverlay);
 				if (checkSad == 1){
 					map.getOverlays().add(sadOverlay);  //if sad faces should be visible, it adds them back
 				}
@@ -107,6 +109,7 @@ public class MyMap extends AbstractMap implements OnClickListener {
 				checkSad = 1; 
 			} else{
 				map.getOverlays().clear(); //clears all overlays
+				map.getOverlays().add(recentOverlay);
 				if (checkHappy==1) {
 					map.getOverlays().add(happyOverlay); //if happy faces should be visible, it adds them back
 				}
@@ -121,6 +124,13 @@ public class MyMap extends AbstractMap implements OnClickListener {
 			j.putExtra("Run", false);
 			j.putExtra("Happy", checkHappy);
 			j.putExtra("Sad", checkSad);
+			HappyBottle b = justUpdated;
+			j.putExtra("BottleLat", b.getLat());
+			j.putExtra("BottleLong", b.getLong());
+			j.putExtra("BottleMsg", b.getMsg());
+			j.putExtra("BottleEmo", b.getEmo());
+			j.putExtra("BottleTime", b.getTime());
+			j.putExtra("id", b.getUID());
 			startActivity(j);
 			finish();
 			break;

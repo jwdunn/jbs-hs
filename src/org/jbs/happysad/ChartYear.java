@@ -17,24 +17,6 @@ import android.graphics.Color;
  */
 public class ChartYear extends AbstractChart {
   /**
-   * Returns the chart name.
-   * 
-   * @return the chart name
-   */
-  public String getName() {
-    return "Happy Pie-Chart";
-  }
-
-  /**
-   * Returns the chart description.
-   * 
-   * @return the chart description
-   */
-  public String getDesc() {
-    return "This chart shows the percentages of your happiness in a pie chart format.";
-  }
-
-  /**
    * Executes the chart demo.
    * 
    * @param context the context
@@ -104,28 +86,4 @@ public class ChartYear extends AbstractChart {
 		
 		return values;
 	}
-  
-  /*
-  public ArrayList<Integer> getYears(ArrayList<HappyBottle> plottables){
-		Iterator<HappyBottle> itr = plottables.iterator(); 
-		ArrayList<Integer> year = new ArrayList<Integer>();
-		while(itr.hasNext()) {     
-		   	HappyBottle element = itr.next();
-		   	
-		   	String date = new Timestamp (element.getTime()).toString();
-		   	
-		   	String a = date.substring(0, 4);
-		   	
-		   	int x = Integer.parseInt(a);
-		   	
-		   	int w = new Timestamp (element.getTime()).getYear();
-		   	
-		   	year.add(w);
-		     
-		} 
-		
-		return year;
-	}
-	*/
-  
 }	

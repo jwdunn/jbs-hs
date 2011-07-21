@@ -3,7 +3,6 @@ package org.jbs.happysad;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -78,7 +77,15 @@ public class More extends Activity implements OnClickListener {
 				j.putExtra("Run", true);
 				j.putExtra("Happy", 1);
 				j.putExtra("Sad", 1);
-				saveUpdate(shareString); 
+				
+				HappyBottle b = saveUpdate(shareString);
+				j.putExtra("BottleLat", b.getLat());
+				j.putExtra("BottleLong", b.getLong());
+				j.putExtra("BottleMsg", b.getMsg());
+				j.putExtra("BottleEmo", b.getEmo());
+				j.putExtra("BottleTime", b.getTime());
+				j.putExtra("id", myID);
+				
 				s = new Syncer( this); //here we are starting a new "Syncer" thread. All syncer does is upload your recent update(s) and calls getMyHistory
 				t = new Thread(s);
 				t.start();
@@ -187,7 +194,7 @@ public class More extends Activity implements OnClickListener {
 	 * Saves the update as a bottle and adds the bottle to the DB
 	 * @param msg
 	 */
-	private void saveUpdate(String msg){
+	private HappyBottle saveUpdate(String msg){
 		if (GPS_longitude == 0 && GPS_latitude == 0){
 			GPS_longitude = Network_longitude;
 			GPS_latitude = Network_latitude;
@@ -216,6 +223,7 @@ public class More extends Activity implements OnClickListener {
 		HappyBottle b = new HappyBottle(myID, GPS_latitude, GPS_longitude, emotion, msg, System.currentTimeMillis());
 		dataHelper = new HappyData(this);
 		dataHelper.addBottle(b);
+		return b;
 	}
 
 	//Disables GPS Managers and Listeners

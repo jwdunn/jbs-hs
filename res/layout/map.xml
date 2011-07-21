@@ -8,10 +8,12 @@
 
 <!-- Sahar's API key: 0_9Pks7VkRuhX3CGkkeQsPHyWtt26wWT8sI_Sig
 	Todd's API Key: 0daBwQHl-_TXlY02LntDucoHZUZ3ER3mjky_jWQ
-	Taha's: 0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ  -->
+	Taha's: 0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ 
+	Jared's Key :0YF0O5dU7GKwEfDoDETrh-nv_oakxs0PcgV1Maw -->
    <view android:id="@+id/themap"
         class="com.google.android.maps.MapView"
-  		android:apiKey="0YF0O5dU7GKwEfDoDETrh-nv_oakxs0PcgV1Maw" 
+  		android:apiKey="0_9Pks7VkRuhX3CGkkeQsPHyWtt26wWT8sI_Sig" 
+
   		android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
   		 android:enabled="true"
