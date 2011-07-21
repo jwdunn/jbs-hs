@@ -236,7 +236,7 @@ public abstract class AbstractMap extends MapActivity  {
 		timeForView.set(0,minute,hour,day,month,year);
 		epochTime = timeForView.normalize(true);
 
-		((Button) setDate).setText(new StringBuilder().append(month + 1).append(" - ").append(day).append(" - ").append(year).append(" "));
+		((Button) setDate).setText("  " + new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" "));
 		((Button) setTime).setText(new StringBuilder().append(pad(convertAMPM(hour))).append(":").append(pad(minute)).append(" "+checkAMPM(hour)));
 		//Toast.makeText(getBaseContext(), "Time reference: "+epochTime, Toast.LENGTH_LONG).show();
 	}
@@ -247,7 +247,7 @@ public abstract class AbstractMap extends MapActivity  {
 		day = timeForView.monthDay;
 		hour = timeForView.hour;
 		minute = timeForView.minute;
-		((Button) setDate).setText(new StringBuilder().append(month + 1).append(" - ").append(day).append(" - ").append(year).append(" "));
+		((Button) setDate).setText("  " + new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" "));
 		((Button) setTime).setText(new StringBuilder().append(pad(convertAMPM(hour))).append(":").append(pad(minute)).append(" "+checkAMPM(hour)));
 	}
 

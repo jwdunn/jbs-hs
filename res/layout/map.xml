@@ -35,7 +35,6 @@
             	android:layout_height="wrap_content"
             	android:layout_weight="1.0"
             	android:textSize="12sp" 
-            	android:text=" Bck " 
             	android:background="@drawable/arrowb"
             	/>
 			<Button
@@ -43,21 +42,21 @@
 				android:text="@string/setDate"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1.0" 
-				android:textSize="12sp" />
+				android:layout_weight="1.0"  
+				android:textSize="9sp"
+				android:background="@drawable/timebuttonleft" />
 			<Button
 				android:id="@+id/time_button"
 				android:text="@string/setTime"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0" 
-				android:textSize="12sp" /> 
+				android:textSize="9sp" 
+				android:background="@drawable/timebuttonright"/> 
 			<Button android:id="@+id/arrowRight"
             	android:layout_width="fill_parent"
             	android:layout_height="wrap_content"
             	android:layout_weight="1.0"
-            	android:textSize="12sp" 
-            	android:text=" Fwd "
             	android:background="@drawable/arrowf" /> 
 		</TableRow>
 	</TableLayout>
