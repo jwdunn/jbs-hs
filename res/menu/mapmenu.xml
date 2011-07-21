@@ -4,4 +4,6 @@
           android:title="@string/currentLocation" />
 	<item android:id="@+id/new_update"
           android:title="@string/newUpdate" />
+    <item android:id="@+id/map_switch"
+          android:title="@string/switch_view" />
 </menu>

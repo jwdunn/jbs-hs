@@ -43,9 +43,17 @@ public class Prompt extends Activity implements OnClickListener{
 		sadButton.setOnClickListener(this);
 
 		UIDh = new UIDhelper();
-		
-		myID = UIDh.getSetUID(getSharedPreferences(USER_DATA,-3), this); 
+		SharedPreferences sp = getSharedPreferences(USER_DATA,-3);
+		myID = UIDh.getSetUID(sp, this); 
 		h = new HappyData(this);
+		
+		if(sp.getString( "usernameString", "").contains("gmail")){
+		  Context context = getApplicationContext();
+    	  String loginPrompt = getString(R.string.login_message);
+          CharSequence loggedin = (loginPrompt +" " + sp.getString( "usernameString", ""));
+    	  Toast toast = Toast.makeText(context, loggedin, 1000);
+    	  toast.show();
+		}
 		//TODO
 		//we need a checker to see if it returns user=-1
 		//if so, how are we going to deal with it?

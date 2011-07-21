@@ -57,7 +57,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	protected void initbuttons(){
 		View sadButton = findViewById(R.id.showSad);
 		View happyButton = findViewById(R.id.showHappy);
-		View switchButton = findViewById(R.id.switchView);
 		View chartButton = findViewById(R.id.myTrack_button);
 		View histButton = findViewById(R.id.myChart_button);
 		View backButton = findViewById(R.id.arrowLeft);
@@ -66,14 +65,13 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 
 		sadButton.setOnClickListener(this);
 		happyButton.setOnClickListener(this); 
-		switchButton.setOnClickListener(this); 
 		chartButton.setOnClickListener(this);  	
 		histButton.setOnClickListener(this);
 		backButton.setOnClickListener(this);
 		forwardButton.setOnClickListener(this);
 		myButton.setOnClickListener(this);
 
-		((Button) myButton).setText("MyMap");
+		
 	}
 	/**
 	 * Invoked when a view is clicked
@@ -81,21 +79,6 @@ public class GlobalMap extends AbstractMap implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
-
-		//checks what current view is, then switches it off and starts the alternate view
-		case R.id.switchView:
-			if (streetView==0) {
-				map.setStreetView(true);
-				streetView = 1;
-				map.setSatellite(false);  
-			} else{
-				map.setStreetView(false);
-				streetView = 0;
-				map.setSatellite(true);
-			}
-			map.invalidate();
-			break;
-
 			//used to show/hide the happy faces
 		case R.id.showHappy:
 			if (checkHappy==0){ 

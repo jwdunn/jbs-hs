@@ -11,7 +11,7 @@
 	Taha's: 0oKYXZr4yoiGga7otiOE84jlnR8qNagY4ZCY2nQ  -->
    <view android:id="@+id/themap"
         class="com.google.android.maps.MapView"
-  		android:apiKey="0daBwQHl-_TXlY02LntDucoHZUZ3ER3mjky_jWQ" 
+  		android:apiKey="0YF0O5dU7GKwEfDoDETrh-nv_oakxs0PcgV1Maw" 
   		android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
   		 android:enabled="true"
@@ -67,51 +67,43 @@
 		android:layout_gravity="bottom" 
 		android:layout_height="65dp" 
 		android:layout_width="wrap_content" 
-		android:background="@drawable/toolbarbottom" > 
+		android:background="@drawable/toolbarbottom" 
+		> 
 		<TableRow> 
 		  	<Button
 				android:id="@+id/map"
-				android:text=""
-				android:layout_width="fill_parent"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_weight="1.0" 
-				android:textSize="12sp" /> 
-            
-          <Button android:id="@+id/switchView"
-                  android:layout_width="wrap_content"
-           		  android:layout_height="wrap_content"
-          		  android:background="@drawable/mapswtch"
-                  android:textSize="12sp" />
-                  
+				android:background="@drawable/mapswtch"
+				android:layout_marginRight="10dp"
+				android:layout_marginLeft="5dp" /> 
+                 
           <Button
 				android:id="@+id/myChart_button"
 				android:background="@drawable/pichart"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-		        android:textSize="12sp" />      
+		        android:layout_marginRight="10dp" />        
                   
-                  
-                  
-			<Button
+		 <Button
 				   android:id="@+id/myTrack_button" 
 				   android:background="@drawable/historybook"
 				   android:layout_width="wrap_content"
 				   android:layout_height="wrap_content"
-		           android:textSize="12sp" />
+		           android:layout_marginRight="10dp" />
 	
 		    	
 			<Button android:id="@+id/showHappy"
             		android:layout_width="wrap_content"
             		android:layout_height="wrap_content"
-            		android:textSize="12sp" 
            		    android:background="@drawable/happytoggle"
-           		    />
+           		    android:layout_marginRight="10dp" />
 
         	<Button android:id="@+id/showSad"
            		    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/sadtoggle"
-                    android:textSize="12sp"/>
+                    android:layout_marginRight="10dp" />
 		</TableRow>  
 	</TableLayout>
 </FrameLayout>

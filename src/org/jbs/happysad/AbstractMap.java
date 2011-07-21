@@ -291,7 +291,7 @@ public abstract class AbstractMap extends MapActivity  {
 	    inflater.inflate(R.menu.mapmenu, menu);
 	    return true;
 	}
-	
+   
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
@@ -302,7 +302,18 @@ public abstract class AbstractMap extends MapActivity  {
 	        return true;
 	    case R.id.new_update:
 	    	startActivity(new Intent(this, Prompt.class));
-	        
+	    	//checks what current view is, then switches it off and starts the alternate view
+		case R.id.map_switch:
+			if (streetView==0) {
+				map.setStreetView(true);
+				streetView = 1;
+				map.setSatellite(false);  
+			} else{
+				map.setStreetView(false);
+				streetView = 0;
+				map.setSatellite(true);
+			}
+			map.invalidate();	
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }

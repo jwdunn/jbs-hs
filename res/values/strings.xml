@@ -27,6 +27,6 @@
 	
 	<string name="happy_overlay">Switch Sad</string>
 	<string name="sad_overlay">Switch Happy</string>
-	<string name="switch_view">Switch View</string>
+	<string name="switch_view">Switch Map View</string>
 	
 </resources>
