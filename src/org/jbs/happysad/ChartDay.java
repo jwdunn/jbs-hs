@@ -17,24 +17,6 @@ import android.graphics.Color;
  */
 public class ChartDay extends AbstractChart {
   /**
-   * Returns the chart name.
-   * 
-   * @return the chart name
-   */
-  public String getName() {
-    return "Happy Pie-Chart";
-  }
-
-  /**
-   * Returns the chart description.
-   * 
-   * @return the chart description
-   */
-  public String getDesc() {
-    return "This chart shows the percentages of your happiness in a pie chart format.";
-  }
-
-  /**
    * Executes the chart demo.
    * 
    * @param context the context
@@ -46,16 +28,12 @@ public class ChartDay extends AbstractChart {
 	ArrayList<HappyBottle> plottables = datahelper.getMyHistory();
 	
     double[] values = percentages(plottables);
-    	//new double[] { 12, 14, 11, 10, 19 };
     int[] colors = new int[] { Color.YELLOW, Color.CYAN };
     
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
-    renderer.setZoomEnabled(true);
-    //renderer.setChartTitleTextSize(20);
-    
+    renderer.setZoomEnabled(true);    
     renderer.setChartTitle("TODAY");
-    
     renderer.setChartTitleTextSize(50);
 	renderer.setLabelsTextSize(20);
 	renderer.setLegendTextSize(40);

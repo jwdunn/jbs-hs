@@ -15,26 +15,7 @@ import android.graphics.Color;
  */
 public class ChartOverall extends AbstractChart {
   /**
-   * Returns the chart name.
-   * 
-   * @return the chart name
-   */
-  public String getName() {
-    return "Happy Pie-Chart";
-  }
-
-  /**
-   * Returns the chart description.
-   * 
-   * @return the chart description
-   */
-  public String getDesc() {
-    return "This chart shows the percentages of your happiness in a pie chart format.";
-  }
-
-  /**
    * Executes the chart demo.
-   * 
    * @param context the context
    * @return the built intent
    */
@@ -50,7 +31,6 @@ public class ChartOverall extends AbstractChart {
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
     renderer.setZoomEnabled(true);
-    //renderer.setChartTitleTextSize(20);
     
     renderer.setChartTitle("OVERALL");
     

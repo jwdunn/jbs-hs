@@ -17,24 +17,6 @@ import android.graphics.Color;
  */
 public class ChartMonth extends AbstractChart {
   /**
-   * Returns the chart name.
-   * 
-   * @return the chart name
-   */
-  public String getName() {
-    return "Happy Pie-Chart";
-  }
-
-  /**
-   * Returns the chart description.
-   * 
-   * @return the chart description
-   */
-  public String getDesc() {
-    return "This chart shows the percentages of your happiness in a pie chart format.";
-  }
-
-  /**
    * Executes the chart demo.
    * 
    * @param context the context
