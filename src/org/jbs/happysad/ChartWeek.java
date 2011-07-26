@@ -55,6 +55,7 @@ public class ChartWeek extends AbstractChart {
 		double [] values = new double[2];
 		boolean greek_salad = true;
 		boolean breaker = false;
+		boolean weekinit = true;
 		int x = 0;
 		int y = 0;
 		int z = 0;
@@ -63,88 +64,129 @@ public class ChartWeek extends AbstractChart {
 		HappyBottle element = itr.next();
 		int main = new Timestamp (element.getTime()).getDay();
 		//*
-		//int main2 = new Timestamp (element.getTime()).getDate();
+		int main2 = new Timestamp (element.getTime()).getDate();
+		int main3 = new Timestamp (element.getTime()).getMonth() + 1;
 		
-		if (element.getEmo() == 1){
-	    	happy += 1; 
-	     } else {
-	    	sad += 1; 
-	     }	
-		
-		for (int i = main; i >= 0; i--){
+		//*
+		if (main3 == 4 || main3 == 6 || main3 == 9 || main3 == 11){
 			
-			while(itr.hasNext()) {     
-			   	
-				if (greek_salad){
-					
-					element = itr.next();
-					x = new Timestamp (element.getTime()).getDay();
-					//*
-					y = new Timestamp (element.getTime()).getMonth() + 1;
-					z = new Timestamp (element.getTime()).getDate();
-				}
+			w = 25;
+			
+		} else if (main3 == 2){
+			
+			w = 23;
+		
+		} else {
+			
+			w = 26;
+		}
+		
+		int main_month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		int main_date = Calendar.getInstance().get(Calendar.DATE);
+		
+		//*
+		if (main3 == main_month){
+			
+			if (!(main2 == main_date || main2 == main_date - 1 || main2 == main_date - 2 || main2 == main_date - 3 || main2 == main_date - 4 || main2 == main_date - 5 || main2 == main_date - 6)){
 				
-				//*
-				if (y == 4 || y == 6 || y == 9 || y == 11){
-					
-					w = 25;
-					
-				} else if (y == 2){
-					
-					w = 23;
-				
-				} else {
-					
-					w = 26;
-				}
-				
-				int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-				int date = Calendar.getInstance().get(Calendar.DATE);
-				
-				//*
-				if (y == month){
-					
-					if (!(z == date || z == date - 1 || z == date - 2 || z == date - 3 || z == date - 4 || z == date - 5 || z == date - 6)){
-						
-						breaker = true;
-						break;
-					}
-					
-				} else if (y == (month - 1)){
-					
-					if (z < w){
-						
-						breaker = true;
-						break;
-					}
-					
-				} else {
-					
-					break;
-				}
-	
-				if (i == x){
-			   		
-			   		if (element.getEmo() == 1){
-				    	happy += 1; 
-				     } else {
-				    	sad += 1; 
-				     }	
-			   		greek_salad = true;
-			   	
-				} else {
-					
-					greek_salad = false;
-					break;
-				}		
+				weekinit = false;
 			}
 			
-			if (breaker){
+		} else if (main3 == (main_month - 1)){
+			
+			if (main2 < w){
 				
-				break;
+				weekinit = false;
+			}
+			
+		} else {
+			
+			weekinit = false;
+		}
+		
+		if (weekinit){
+			
+			if (element.getEmo() == 1){
+		    	happy += 1; 
+		     } else {
+		    	sad += 1; 
+		     }
+			
+			for (int i = main; i >= 0; i--){
+				
+				while(itr.hasNext()) {     
+				   	
+					if (greek_salad){
+						
+						element = itr.next();
+						x = new Timestamp (element.getTime()).getDay();
+						//*
+						y = new Timestamp (element.getTime()).getMonth() + 1;
+						z = new Timestamp (element.getTime()).getDate();
+					}
+					
+					//*
+					if (y == 4 || y == 6 || y == 9 || y == 11){
+						
+						w = 25;
+						
+					} else if (y == 2){
+						
+						w = 23;
+					
+					} else {
+						
+						w = 26;
+					}
+					
+					int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+					int date = Calendar.getInstance().get(Calendar.DATE);
+					
+					//*
+					if (y == month){
+						
+						if (!(z == date || z == date - 1 || z == date - 2 || z == date - 3 || z == date - 4 || z == date - 5 || z == date - 6)){
+							
+							breaker = true;
+							break;
+						}
+						
+					} else if (y == (month - 1)){
+						
+						if (z < w){
+							
+							breaker = true;
+							break;
+						}
+						
+					} else {
+						
+						break;
+					}
+		
+					if (i == x){
+				   		
+				   		if (element.getEmo() == 1){
+					    	happy += 1; 
+					     } else {
+					    	sad += 1; 
+					     }	
+				   		greek_salad = true;
+				   	
+					} else {
+						
+						greek_salad = false;
+						break;
+					}		
+				}
+				
+				if (breaker){
+					
+					break;
+				}
 			}
 		}
-		 
+
 		double happyprctg = (happy * 100) / (happy + sad);
 		double sadprctg = 100 - happyprctg;
 		
