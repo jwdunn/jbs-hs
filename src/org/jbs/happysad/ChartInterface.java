@@ -2,7 +2,8 @@ package org.jbs.happysad;
 
 import android.content.Context;
 import android.content.Intent;
-/*
+
+/**
  * Charts Interface.
  */
 public interface ChartInterface {

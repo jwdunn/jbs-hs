@@ -14,19 +14,22 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class ChartList extends ListActivity {
+	//Arrays for chart list and descriptions.
 	private ChartInterface[] mCharts = new ChartInterface[] { new ChartOverall(), new ChartYear(), new ChartMonth(), new ChartWeek(), new ChartDay() };
 	private String[] mMenuText;
 	private String[] mMenuSummary;
-	protected ArrayList<Integer> chartline;
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mMenuText = new String[5];
-		mMenuSummary = new String[5];
+	  super.onCreate(savedInstanceState);
+	  
+	  //Set sizes.
+	  mMenuText = new String[5];
+	  mMenuSummary = new String[5];
 		
-  	  mMenuText[0] = "Overall";
+  	  //Fill with titles and descriptions.
+	  mMenuText[0] = "Overall";
   	  mMenuSummary[0] = "Click here to see your overall happiness %!";
   	  
   	  mMenuText[1] = "Year";
@@ -46,6 +49,9 @@ public class ChartList extends ListActivity {
             android.R.id.text2 }));
 	}
 
+	/**
+	 * Builds list.
+	 */
 	private List<Map<String, String>> getListValues() {
 		List<Map<String, String>> values = new ArrayList<Map<String, String>>();
 	    int length = mMenuText.length;
@@ -58,6 +64,9 @@ public class ChartList extends ListActivity {
 	    return values;
 	}
 
+	/**
+	 * Sets each list item to its corresponding intent.
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
